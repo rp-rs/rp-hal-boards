@@ -1,19 +1,17 @@
 <!-- PROJECT LOGO -->
 <br />
 <p align="center">
-  <a href="https://github.com/rp-rs/rp-hal">
+  <a href="https://github.com/rp-rs/rp-hal-boards">
     <img src="https://www.svgrepo.com/show/281119/microchip.svg" alt="Logo" width="140" height="140">
   </a>
 
-   <h3 align="center">rp-hal</h3>
+   <h3 align="center">rp-hal-boards</h3>
 
   <p align="center">
-    Rust support for the "Raspberry Silicon" family of microcontrollers
-    <br />
-    <a href="https://docs.rs/rp2040-hal"><strong>Explore the API docs »</strong></a>
+    Rust support for boards based on the "Raspberry Silicon" family of microcontrollers
     <br />
     <br />
-    <a href="https://github.com/rp-rs/rp-hal/tree/main/boards/rp-pico/examples">View Demos</a>
+    <a href="https://github.com/rp-rs/rp-hal/">rp2040-hal</a>
     ·
     <a href="https://github.com/rp-rs/rp-hal/issues">Report a Bug</a>
     ·
@@ -43,16 +41,14 @@
 So, you want to program your new Raspberry Silicon microcontroller, using the
 Rust programming language. You've come to the right place!
 
-This repository is `rp-hal` - a collection of high-level drivers for the
-Raspberry Silicon RP2040 microcontroller and various associated boards, like
-the Raspberry Pi Pico and the Adafruit Feather RP2040.
+These board support packages are based on
+[`rp-hal`](https://github.com/rp-rs/rp-hal) - a collection of high-level
+drivers for the Raspberry Silicon RP2040 microcontroller and various
+associated boards, like the Raspberry Pi Pico and the Adafruit Feather
+RP2040.
 
 If you want to write an application for Raspberry Silicon, check out our
 [RP2040 Project Template](https://github.com/rp-rs/rp2040-project-template).
-
-If you want to write code that uses the Raspberry Silicon PIO State Machines,
-check out [pio-rs](https://github.com/rp-rs/pio-rs). You can even compile PIO
-programs at run-time, on the RP2040 itself!
 
 If you want to try out some examples on one of our supported boards, check out
 the list of *Board Support Packages* below, and click through to see the various
@@ -80,40 +76,18 @@ cargo install probe-run
 
 This git repository is organised as a [Cargo Workspace].
 
-There is a _Hardware Abstraction Layer_ (or HAL) crate for the RP2040 chip,
-and _Board Support Package_ crates for a number of RP2040 based PCBs. If you
-are writing code that should run on any microcontroller, consider using the
-generic Rust Embedded Working Group's [Embedded HAL].
-
-If you are writing code that should work on any RP2040 device, use the _HAL_
-crate. If you are running code on a specific board, use the appropriate _BSP_
-crate (which will include the _HAL_ crate for you). Please note, you cannot
-depend on multiple _BSP_ crates; you have to pick one, or use [Cargo Features]
-to select one at build time.
+If you are writing code that should work on any RP2040 device, use
+the [HAL crate]. If you are running code on a specific board, use
+the appropriate _BSP_ crate (which will include the _HAL_ crate for
+you). Please note, you cannot depend on multiple _BSP_ crates; you have
+to pick one, or use [Cargo Features] to select one at build time.
 
 Each BSP includes some examples to show off the features of that particular board.
 
+[HAL crate]: https://github.com/rp-rs/rp-hal
 [Cargo Workspace]: https://doc.rust-lang.org/cargo/reference/workspaces.html
 [Embedded HAL]: https://github.com/rust-embedded/embedded-hal
 [Cargo Features]: https://doc.rust-lang.org/cargo/reference/features.html
-
-### [rp2040-hal] - The HAL for the [Raspberry Silicon RP2040]
-
-You should include this crate in your project if you want to write a driver or
-library that runs on the [Raspberry Silicon RP2040], or if you are writing a Board
-Support Package (see later on).
-
-The crate provides high-level drivers for the RP2040's internal peripherals,
-such as the SPI Controller and the I²C Controller. It doesn't know anything
-about how your particular board is wired up (such as what each IO pin of the
-RP2040 is connected to).
-
-There are examples in this crate to show how to use various peripherals
-(GPIO, I²C, SPI, UART, etc) but note that the pin-outs may not match any
-particular board.
-
-[rp2040-hal]: https://github.com/rp-rs/rp-hal/tree/main/rp2040-hal
-[Raspberry Silicon RP2040]: https://www.raspberrypi.org/products/rp2040/
 
 ### [rp-pico] - Board Support for the [Raspberry Pi Pico]
 
@@ -124,7 +98,7 @@ This crate includes the [rp2040-hal], but also configures each pin of the
 RP2040 chip according to how it is connected up on the Pico.
 
 [Raspberry Pi Pico]: https://www.raspberrypi.org/products/raspberry-pi-pico/
-[rp-pico]: https://github.com/rp-rs/rp-hal/tree/main/boards/rp-pico
+[rp-pico]: https://github.com/rp-rs/rp-hal-boards/tree/main/boards/rp-pico
 
 ### [adafruit-feather-rp2040] - Board Support for the [Adafruit Feather RP2040]
 
@@ -135,7 +109,7 @@ This crate includes the [rp2040-hal], but also configures each pin of the
 RP2040 chip according to how it is connected up on the Feather RP2040.
 
 [Adafruit Feather RP2040]: https://www.adafruit.com/product/4884
-[adafruit-feather-rp2040]: https://github.com/rp-rs/rp-hal/tree/main/boards/adafruit-feather-rp2040
+[adafruit-feather-rp2040]: https://github.com/rp-rs/rp-hal-boards/tree/main/boards/adafruit-feather-rp2040
 
 ### [adafruit-itsy-bitsy-rp2040] - Board Support for the [Adafruit ItsyBitsy RP2040]
 
@@ -146,7 +120,7 @@ This crate includes the [rp2040-hal], but also configures each pin of the
 RP2040 chip according to how it is connected up on the ItsyBitsy RP2040.
 
 [Adafruit ItsyBitsy RP2040]: https://www.adafruit.com/product/4888
-[adafruit-itsy-bitsy-rp2040]: https://github.com/rp-rs/rp-hal/tree/main/boards/adafruit-itsy-bitsy-rp2040
+[adafruit-itsy-bitsy-rp2040]: https://github.com/rp-rs/rp-hal-boards/tree/main/boards/adafruit-itsy-bitsy-rp2040
 
 ### [adafruit-kb2040] - Board Support for the [Adafruit KB2040]
 
@@ -157,7 +131,7 @@ This crate includes the [rp2040-hal], but also configures each pin of the
 RP2040 chip according to how it is connected up on the KB2040.
 
 [Adafruit KB2040]: https://www.adafruit.com/product/5302
-[adafruit-kb2040]: https://github.com/rp-rs/rp-hal/tree/main/boards/adafruit-kb2040
+[adafruit-kb2040]: https://github.com/rp-rs/rp-hal-boards/tree/main/boards/adafruit-kb2040
 
 ### [adafruit-macropad] - Board Support for the [Adafruit Macropad]
 
@@ -167,7 +141,7 @@ an [Adafruit Macropad] - a 3x4 keyboard and OLED combo board from Adafruit.
 This crate includes the [rp2040-hal], but also configures each pin of the
 RP2040 chip according to how it is connected up on the Macropad.
 
-[adafruit-macropad]: https://github.com/rp-rs/rp-hal/tree/main/boards/adafruit-macropad
+[adafruit-macropad]: https://github.com/rp-rs/rp-hal-boards/tree/main/boards/adafruit-macropad
 [Adafruit Macropad]: https://www.adafruit.com/product/5128
 
 ### [adafruit-qt-py-rp2040] - Board Support for the [Adafruit QT Py RP2040]
@@ -179,7 +153,7 @@ This crate includes the [rp2040-hal], but also configures each pin of the
 RP2040 chip according to how it is connected up on the Feather RP2040.
 
 [Adafruit QT Py RP2040]: https://www.adafruit.com/product/4900
-[adafruit-qt-py-rp2040]: https://github.com/rp-rs/rp-hal/tree/main/boards/adafruit-qt-py-rp2040
+[adafruit-qt-py-rp2040]: https://github.com/rp-rs/rp-hal-boards/tree/main/boards/adafruit-qt-py-rp2040
 
 ### [adafruit-trinkey-qt2040] - Board Support for the [Adafruit Trinkey QT2040]
 
@@ -189,7 +163,7 @@ an [Adafruit Trinkey QT2040] - a 3x4 keyboard and OLED combo board from Adafruit
 This crate includes the [rp2040-hal], but also configures each pin of the
 RP2040 chip according to how it is connected up on the Trinkey.
 
-[Adafruit-Trinkey-QT2040]: https://github.com/rp-rs/rp-hal/tree/main/boards/adafruit-trinkey-qt2040
+[Adafruit-Trinkey-QT2040]: https://github.com/rp-rs/rp-hal-boards/tree/main/boards/adafruit-trinkey-qt2040
 [adafruit trinkey qt2040]: https://www.adafruit.com/product/5056
 
 ### [pimoroni-badger2040] - Board Support for the [Pimoroni Badger2040]
@@ -202,7 +176,7 @@ This crate includes the [rp2040-hal], but also configures each pin of the
 RP2040 chip according to how it is connected up on the Badger2040.
 
 [Pimoroni Badger2040]: https://shop.pimoroni.com/products/badger-2040
-[pimoroni-badger2040]: https://github.com/rp-rs/rp-hal/tree/main/boards/pimoroni-badger2040
+[pimoroni-badger2040]: https://github.com/rp-rs/rp-hal-boards/tree/main/boards/pimoroni-badger2040
 
 ### [pimoroni-pico-explorer] - Board Support for the [Pimoroni Pico Explorer]
 
@@ -214,7 +188,7 @@ This crate includes the [rp2040-hal], but also configures each pin of the
 RP2040 chip according to how it is connected up on the Pico Explorer.
 
 [Pimoroni Pico Explorer]: https://shop.pimoroni.com/products/pimoroni-pico-explorer-base
-[pimoroni-pico-explorer]: https://github.com/rp-rs/rp-hal/tree/main/boards/pimoroni-pico-explorer
+[pimoroni-pico-explorer]: https://github.com/rp-rs/rp-hal-boards/tree/main/boards/pimoroni-pico-explorer
 
 ### [pimoroni-pico-lipo-16mb] - Board Support for the [Pimoroni Pico Lipo 16MB]
 
@@ -229,7 +203,7 @@ Note that if you use this crate the compiler will expect the full 16MB flash
 space, and so it may not work if you only have the 4MB variant.
 
 [Pimoroni Pico Lipo 16MB]: https://shop.pimoroni.com/products/pimoroni-pico-lipo?variant=39335427080275
-[pimoroni-pico-lipo-16mb]: https://github.com/rp-rs/rp-hal/tree/main/boards/pimoroni-pico-lipo-16mb
+[pimoroni-pico-lipo-16mb]: https://github.com/rp-rs/rp-hal-boards/tree/main/boards/pimoroni-pico-lipo-16mb
 
 ### [pimoroni-plasma-2040] - Board Support for the [Pimoroni Plasma 2040]
 
@@ -241,7 +215,7 @@ This crate includes the [rp2040-hal], but also configures each pin of the
 RP2040 chip according to how it is connected up on the Pimoroni Plasma 2040.
 
 [Pimoroni Plasma 2040]: https://shop.pimoroni.com/products/plasma-2040
-[pimoroni-plasma-2040]: https://github.com/rp-rs/rp-hal/tree/main/boards/pimoroni-plasma-2040
+[pimoroni-plasma-2040]: https://github.com/rp-rs/rp-hal-boards/tree/main/boards/pimoroni-plasma-2040
 
 ### [pimoroni-servo2040] - Board Support for the [Pimoroni Servo2040]
 
@@ -253,7 +227,7 @@ This crate includes the [rp2040-hal], but also configures each pin of the
 RP2040 chip according to how it is connected up on the Servo2040.
 
 [Pimoroni Servo2040]: https://shop.pimoroni.com/products/servo-2040
-[pimoroni-servo2040]: https://github.com/rp-rs/rp-hal/tree/main/boards/pimoroni-servo2040
+[pimoroni-servo2040]: https://github.com/rp-rs/rp-hal-boards/tree/main/boards/pimoroni-servo2040
 
 ### [pimoroni-tiny2040] - Board Support for the [Pimoroni Tiny2040]
 
@@ -264,7 +238,7 @@ This crate includes the [rp2040-hal], but also configures each pin of the
 RP2040 chip according to how it is connected up on the Tiny2040.
 
 [Pimoroni Tiny2040]: https://shop.pimoroni.com/products/tiny-2040
-[pimoroni-tiny2040]: https://github.com/rp-rs/rp-hal/tree/main/boards/pimoroni-tiny2040
+[pimoroni-tiny2040]: https://github.com/rp-rs/rp-hal-boards/tree/main/boards/pimoroni-tiny2040
 
 ### [solderparty-rp2040-stamp] - Board Support for the [SolderParty RP2040 Stamp]
 
@@ -275,7 +249,7 @@ This crate includes the [rp2040-hal], but also configures each pin of the
 RP2040 chip according to how it is connected up on the Stamp.
 
 [SolderParty RP2040 Stamp]: https://www.solder.party/docs/rp2040-stamp/
-[solderparty-rp2040-stamp]: https://github.com/rp-rs/rp-hal/tree/main/boards/solderparty-rp2040-stamp
+[solderparty-rp2040-stamp]: https://github.com/rp-rs/rp-hal-boards/tree/main/boards/solderparty-rp2040-stamp
 
 ### [sparkfun-pro-micro-rp2040] - Board Support for the [Sparkfun Pro Micro RP2040]
 
@@ -286,7 +260,7 @@ This crate includes the [rp2040-hal], but also configures each pin of the
 RP2040 chip according to how it is connected up on the Pro Micro RP2040.
 
 [Sparkfun Pro Micro RP2040]: https://www.sparkfun.com/products/18288
-[sparkfun-pro-micro-rp2040]: https://github.com/rp-rs/rp-hal/tree/main/boards/sparkfun-pro-micro-rp2040
+[sparkfun-pro-micro-rp2040]: https://github.com/rp-rs/rp-hal-boards/tree/main/boards/sparkfun-pro-micro-rp2040
 
 ### [sparkfun-thing-plus-rp2040] - Board Support for the [Sparkfun Thing Plus RP2040]
 
@@ -297,7 +271,7 @@ This crate includes the [rp2040-hal], but also configures each pin of the
 RP2040 chip according to how it is connected up on the Thing Plus RP2040.
 
 [Sparkfun Thing Plus RP2040]: https://www.sparkfun.com/products/17745
-[sparkfun-thing-plus-rp2040]: https://github.com/rp-rs/rp-hal/tree/main/boards/sparkfun-thing-plus-rp2040
+[sparkfun-thing-plus-rp2040]: https://github.com/rp-rs/rp-hal-boards/tree/main/boards/sparkfun-thing-plus-rp2040
 
 ### [arduino_nano_connect] - Board Support for the [Arduino Nano RP2040 Connect]
 
@@ -308,7 +282,7 @@ This crate includes the [rp2040-hal], but also configures each pin of the
 RP2040 chip according to how it is connected up on the nano connect.
 
 [Arduino Nano RP2040 Connect]: https://store-usa.arduino.cc/collections/boards/products/arduino-nano-rp2040-connect
-[arduino_nano_connect]: https://github.com/rp-rs/rp-hal/tree/main/boards/arduino_nano_connect
+[arduino_nano_connect]: https://github.com/rp-rs/rp-hal-boards/tree/main/boards/arduino_nano_connect
 
 ### [seeeduino-xiao-rp2040] - Board Support for the [Seeeduino XIAO RP2040]
 
@@ -320,7 +294,7 @@ This crate includes the [rp2040-hal], but also configures each pin of the
 RP2040 chip according to how it is connected up on the XIAO RP2040.
 
 [Seeeduino XIAO RP2040]: https://www.seeedstudio.com/XIAO-RP2040-v1-0-p-5026.html
-[seeeduino-xiao-rp2040]: https://github.com/rp-rs/rp-hal/tree/main/boards/seeeduino-xiao-rp2040
+[seeeduino-xiao-rp2040]: https://github.com/rp-rs/rp-hal-boards/tree/main/boards/seeeduino-xiao-rp2040
 
 ### [vcc-gnd-yd-rp2040] - Board Support for the [VCC-GND Studio YD-RP2040]
 
@@ -331,7 +305,7 @@ This crate includes the [rp2040-hal], but also configures each pin of the
 RP2040 chip according to how it is connected up on the YD-RP2040.
 
 [VCC-GND Studio YD-RP2040]: http://152.32.187.208:8080/yd-data/YD-RP2040/
-[vcc-gnd-yd-rp2040]: https://github.com/rp-rs/rp-hal/tree/main/boards/vcc-gnd-yd-rp2040
+[vcc-gnd-yd-rp2040]: https://github.com/rp-rs/rp-hal-boards/tree/main/boards/vcc-gnd-yd-rp2040
 
 ### [waveshare-rp2040-zero] - Board Support for the [Waveshare RP2040 Zero]
 
@@ -342,7 +316,7 @@ This crate includes the [rp2040-hal], but also configures each pin of the
 RP2040 chip according to how it is connected up on the Feather.
 
 [Waveshare RP2040 Zero]: https://www.waveshare.com/wiki/RP2040-Zero
-[waveshare-rp2040-zero]: https://github.com/rp-rs/rp-hal/tree/main/boards/waveshare-rp2040-zero
+[waveshare-rp2040-zero]: https://github.com/rp-rs/rp-hal-boards/tree/main/boards/waveshare-rp2040-zero
 
 ### [waveshare-rp2040-lcd-0_96] - Board Support for the [Waveshare RP2040 LCD 0.96"]
 
@@ -354,7 +328,7 @@ This crate includes the [rp2040-hal], but also configures each pin of the
 RP2040 chip according to how it is connected up on the Feather.
 
 [Waveshare RP2040 LCD 0.96"]: https://www.waveshare.com/wiki/RP2040-LCD-0.96
-[waveshare-rp2040-lcd-0_96]: https://github.com/rp-rs/rp-hal/tree/main/boards/waveshare-rp2040-lcd-0_96
+[waveshare-rp2040-lcd-0_96]: https://github.com/rp-rs/rp-hal-boards/tree/main/boards/waveshare-rp2040-lcd-0_96
 
 <!-- PROGRAMMING -->
 ## Programming
@@ -488,7 +462,7 @@ The steps are:
 3. Make some changes to the code or documentation.
 4. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
 5. Push to the Feature Branch (`git push origin feature/AmazingFeature`)
-6. Create a [New Pull Request](https://github.com/rp-rs/rp-hal/pulls)
+6. Create a [New Pull Request](https://github.com/rp-rs/rp-hal-boards/pulls)
 7. An admin will review the Pull Request and discuss any changes that may be required.
 8. Once everyone is happy, the Pull Request can be merged by an admin, and your work is part of our project!
 
@@ -516,7 +490,7 @@ under these terms.
 <!-- CONTACT -->
 ## Contact
 
-Raise an issue: [https://github.com/rp-rs/rp-hal/issues](https://github.com/rp-rs/rp-hal/issues)
+Raise an issue: [https://github.com/rp-rs/rp-hal-boards/issues](https://github.com/rp-rs/rp-hal-boards/issues)
 Chat to us on Matrix: [#rp-rs:matrix.org](https://matrix.to/#/#rp-rs:matrix.org)
 
 <!-- ACKNOWLEDGEMENTS -->
