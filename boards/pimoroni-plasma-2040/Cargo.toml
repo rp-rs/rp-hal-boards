@@ -13,15 +13,15 @@ repository = "https://github.com/rp-rs/rp-hal-boards.git"
 [dependencies]
 cortex-m = "0.7.2"
 rp2040-boot2 = { version = "0.2.0", optional = true }
-rp2040-hal = { version = "0.6.0" }
+rp2040-hal = { version = "0.7.0" }
 cortex-m-rt = { version = "0.7", optional = true }
 
 [dev-dependencies]
-rp2040-hal = { version = "0.6.0", features = [ "defmt" ] }
+rp2040-hal = { version = "0.7.0", features = [ "defmt" ] }
 panic-halt= "0.2.0"
 embedded-hal ="0.2.5"
 smart-leds = "0.3.0"
-ws2812-pio = "0.4.0"
+ws2812-pio = "0.5.0"
 fugit = "0.3.5"
 
 defmt = "0.3.0"
