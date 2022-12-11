@@ -7,7 +7,7 @@ This crate includes the [rp2040-hal], but also configures each pin of the
 RP2040 chip according to how it is connected up on the nano connect.
 
 [Arduino Nano RP2040 Connect]: https://store-usa.arduino.cc/collections/boards/products/arduino-nano-rp2040-connect
-[arduino_nano_connect]: https://github.com/rp-rs/rp-hal/tree/main/boards/arduino_nano_connect
+[arduino_nano_connect]: https://github.com/rp-rs/rp-hal-boards/tree/main/boards/arduino_nano_connect
 [rp2040-hal]: https://github.com/rp-rs/rp-hal/tree/main/rp2040-hal
 [Raspberry Silicon RP2040]: https://www.raspberrypi.org/products/rp2040/
 

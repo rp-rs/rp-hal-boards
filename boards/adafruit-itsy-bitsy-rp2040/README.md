@@ -7,7 +7,7 @@ This crate includes the [rp2040-hal], but also configures each pin of the
 RP2040 chip according to how it is connected up on the ItsyBitsy RP2040.
 
 [Adafruit ItsyBitsy RP2040]: https://www.adafruit.com/product/4888
-[adafruit-itsy-bitsy-rp2040]: https://github.com/rp-rs/rp-hal/tree/main/boards/adafruit-itsy-bitsy-rp2040
+[adafruit-itsy-bitsy-rp2040]: https://github.com/rp-rs/rp-hal-boards/tree/main/boards/adafruit-itsy-bitsy-rp2040
 [rp2040-hal]: https://github.com/rp-rs/rp-hal/tree/main/rp2040-hal
 [Raspberry Silicon RP2040]: https://www.raspberrypi.org/products/rp2040/
 

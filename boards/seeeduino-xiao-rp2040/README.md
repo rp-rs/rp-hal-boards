@@ -8,7 +8,7 @@ This crate includes the [rp2040-hal], but also configures each pin of the
 RP2040 chip according to how it is connected up on the XIAO RP2040.
 
 [Seeeduino XIAO RP2040]: https://www.seeedstudio.com/XIAO-RP2040-v1-0-p-5026.html
-[seeeduino-xiao-rp2040]: https://github.com/rp-rs/rp-hal/tree/main/boards/seeeduino-xiao-rp2040
+[seeeduino-xiao-rp2040]: https://github.com/rp-rs/rp-hal-boards/tree/main/boards/seeeduino-xiao-rp2040
 [rp2040-hal]: https://github.com/rp-rs/rp-hal/tree/main/rp2040-hal
 
 ## Using
