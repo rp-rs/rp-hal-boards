@@ -328,7 +328,7 @@ This crate includes the [rp2040-hal], but also configures each pin of the
 RP2040 chip according to how it is connected up on the Feather.
 
 [Waveshare RP2040 LCD 0.96"]: https://www.waveshare.com/wiki/RP2040-LCD-0.96
-[waveshare-rp2040-lcd-0_96]: https://github.com/rp-rs/rp-hal-boards/tree/main/boards/waveshare-rp2040-lcd-0_96
+[waveshare-rp2040-lcd-0_96]: https://github.com/rp-rs/rp-hal-boards/tree/main/boards/waveshare-rp2040-lcd-0-96
 
 <!-- PROGRAMMING -->
 ## Programming
