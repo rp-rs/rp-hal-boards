@@ -8,7 +8,7 @@ This crate includes the [rp2040-hal], but also configures each pin of the
 RP2040 chip according to how it is connected up on the Thing Plus RP2040.
 
 [Sparkfun Thing Plus RP2040]: https://www.sparkfun.com/products/17745
-[sparkfun-thing-plus-rp2040]: https://github.com/rp-rs/rp-hal/tree/main/boards/sparkfun-thing-plus-rp2040
+[sparkfun-thing-plus-rp2040]: https://github.com/rp-rs/rp-hal-boards/tree/main/boards/sparkfun-thing-plus-rp2040
 [rp2040-hal]: https://github.com/rp-rs/rp-hal/tree/main/rp2040-hal
 [Raspberry Silicon RP2040]: https://www.raspberrypi.org/products/rp2040/
 

@@ -7,7 +7,7 @@ This crate includes the [rp2040-hal], but also configures each pin of the
 RP2040 chip according to how it is connected up on the Stamp
 
 [Solder Party RP2040 Stamp]: https://www.solder.party/docs/rp2040-stamp/
-[solderparty-rp2040-stamp]: https://github.com/rp-rs/rp-hal/tree/main/boards/solderparty-rp2040-stamp
+[solderparty-rp2040-stamp]: https://github.com/rp-rs/rp-hal-boards/tree/main/boards/solderparty-rp2040-stamp
 [rp2040-hal]: https://github.com/rp-rs/rp-hal/tree/main/rp2040-hal
 [Raspberry Silicon RP2040]: https://www.raspberrypi.org/products/rp2040/
 

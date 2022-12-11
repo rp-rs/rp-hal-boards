@@ -6,7 +6,7 @@ an [Adafruit Trinkey QT2040] - a 3x4 keyboard and OLED combo board from Adafruit
 This crate includes the [rp2040-hal], but also configures each pin of the
 RP2040 chip according to how it is connected up on the Trinkey.
 
-[adafruit-trinkey-qt2040]: https://github.com/rp-rs/rp-hal/tree/main/boards/adafruit-trinkey-qt2040
+[adafruit-trinkey-qt2040]: https://github.com/rp-rs/rp-hal-boards/tree/main/boards/adafruit-trinkey-qt2040
 [adafruit trinkey qt2040]: https://www.adafruit.com/product/5056
 [rp2040-hal]: https://github.com/rp-rs/rp-hal/tree/main/rp2040-hal
 

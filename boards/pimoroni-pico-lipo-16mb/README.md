@@ -11,7 +11,7 @@ Note that if you use this crate the compiler will expect the full 16MB flash
 space, and so it may not work if you only have the 4MB variant. 
 
 [Pimoroni Pico Lipo 16MB]: https://shop.pimoroni.com/products/pimoroni-pico-lipo?variant=39335427080275
-[pimoroni-pico-lipo-16mb]: https://github.com/rp-rs/rp-hal/tree/main/boards/pimoroni-pico-lipo-16mb
+[pimoroni-pico-lipo-16mb]: https://github.com/rp-rs/rp-hal-boards/tree/main/boards/pimoroni-pico-lipo-16mb
 
 ## Using
 

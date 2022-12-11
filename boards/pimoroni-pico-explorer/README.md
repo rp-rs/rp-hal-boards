@@ -8,7 +8,7 @@ This crate includes the [rp2040-hal], but also configures each pin of the
 RP2040 chip according to how it is connected up on the Pico Explorer.
 
 [Pimoroni Pico Explorer]: https://shop.pimoroni.com/products/pimoroni-pico-explorer-base
-[pimoroni-pico-explorer]: https://github.com/rp-rs/rp-hal/tree/main/boards/pimoroni-pico-explorer
+[pimoroni-pico-explorer]: https://github.com/rp-rs/rp-hal-boards/tree/main/boards/pimoroni-pico-explorer
 [rp2040-hal]: https://github.com/rp-rs/rp-hal/tree/main/rp2040-hal
 [Raspberry Silicon RP2040]: https://www.raspberrypi.org/products/rp2040/
 
