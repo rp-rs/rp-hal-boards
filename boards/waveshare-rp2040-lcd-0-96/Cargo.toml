@@ -6,7 +6,7 @@ edition = "2018"
 homepage = "https://github.com/rp-rs/rp-hal-boards/tree/main/boards/waveshare-rp2040-lcd-0_96"
 description = "Board Support Package for the Waveshare RP2040 LCD 0.96 inch"
 license = "MIT OR Apache-2.0"
-repository = "https://github.com/rp-rs/rp-hal.git"
+repository = "https://github.com/rp-rs/rp-hal-boards.git"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
