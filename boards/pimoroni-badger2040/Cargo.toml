@@ -1,6 +1,6 @@
 [package]
 name = "pimoroni_badger2040"
-version = "0.2.0"
+version = "0.3.0"
 authors = ["9names", "The rp-rs Developers"]
 edition = "2018"
 homepage = "https://github.com/rp-rs/rp-hal-boards/tree/main/boards/pimoroni-badger2040"
