@@ -11,7 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- Update to rp2040-hal 0.6.0
+- Update to rp2040-hal 0.7.0
 - Update to ws2812-pio 0.5.0
 
 ## 0.1.0 - 2022-09-06
