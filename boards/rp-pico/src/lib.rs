@@ -1,9 +1,61 @@
 #![no_std]
 
+//! A Hardware Abstraction Layer for the Raspberry Pi Pico.
+//! 
+//! This crate serves as a HAL (Hardware Abstraction Layer) for the Raspberry Pi Pico. Since the Raspberry Pi Pico
+//! is based on the RP2040 chip, it re-exports the [rp2040_hal] crate which contains the tooling to work with the 
+//! rp2040 chip.
+//! 
+//! # Examples:
+//! 
+//! The following example turns on the onboard LED. Note that most of the logic works through the [rp2040_hal] crate.
+//! ```
+//! #![no_main]
+//! use rp_pico::entry;
+//! use panic_halt as _;
+//! use embedded_hal::digital::v2::OutputPin;
+//! use rp_pico::hal::pac;
+//! use rp_pico::hal;
+
+//! #[entry]
+//! fn does_not_have_to_be_main() -> ! {
+//!   let mut pac = pac::Peripherals::take().unwrap();
+//!   let sio = hal::Sio::new(pac.SIO);
+//!   let pins = rp_pico::Pins::new(
+//!        pac.IO_BANK0,
+//!        pac.PADS_BANK0,
+//!        sio.gpio_bank0,
+//!        &mut pac.RESETS,
+//!   );
+//!   let mut led_pin = pins.led.into_push_pull_output();
+//!   led_pin.set_high().unwrap();
+//!   loop {
+//!   }
+//! }
+//! ```
+
+
 pub extern crate rp2040_hal as hal;
 
 #[cfg(feature = "rt")]
 extern crate cortex_m_rt;
+
+/// The `entry` macro declares the starting function to the linker. 
+/// This is similar to the `main` function in console applications.
+/// 
+/// It is based on the [cortex_m_rt](https://docs.rs/cortex-m-rt/latest/cortex_m_rt/attr.entry.html) crate.
+/// 
+/// # Examples 
+/// ```
+/// #![no_std]
+/// #![no_main]
+/// use rp_pico::entry;
+/// #[entry]
+/// fn you_can_use_a_custom_main_name_here() -> ! {
+///   loop {}
+/// }
+/// ```
+
 #[cfg(feature = "rt")]
 pub use hal::entry;
 
