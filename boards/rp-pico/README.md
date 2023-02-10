@@ -54,6 +54,32 @@ $ cargo install elf2uf2-rs
 ```
 then try repeating the `cargo run` command above.
 
+### From Scratch
+
+To start a basic project from scratch, create a project using `cargo new project-name`. Within the
+project directory, run `cargo add rp-pico`, `cargo add cortex-m-rt`, and `cargo add panic-halt`. The
+first command will this HAL (Hardware Abstraction Layer), the second is required for the `#[entry]` macro, and _panic-halt_ creates a simple panic function, which just halts.
+
+You'll also need to copy the cargo config file from the [repo](https://github.com/rp-rs/rp-hal-boards/blob/main/.cargo/config). It specifies the target and optimizing flags to the linker. You'll also need to copy [_memory.x_](https://github.com/rp-rs/rp-hal-boards/blob/main/memory.x) to your project root. This file tells the linker the flash and RAM layout, so it won't clobber the bootloader or write to an out of bounds memory address. 
+
+The simplest working example, which does nothing except loop forever, is:
+
+```ignore
+#![no_std]
+#![no_main]
+use rp_pico::entry;
+use panic_halt as _;
+#[entry]
+fn see_doesnt_have_to_be_called_main() -> ! {
+  loop {}
+}
+```
+
+It can be placed in _/src/main.rs_. 
+
+You can use `cargo run` to compile and install it. 
+**Note**: You won't see any activity since this program does nothing. You can use the examples provided
+to add more functionality. 
 ### [pico_blinky](./examples/pico_blinky.rs)
 
 Flashes the Pico's on-board LED on and off.
