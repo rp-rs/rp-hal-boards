@@ -64,7 +64,7 @@ You'll also need to copy the cargo config file from the [repo](https://github.co
 
 The simplest working example, which does nothing except loop forever, is:
 
-```rust
+```ignore
 #![no_std]
 #![no_main]
 use rp_pico::entry;

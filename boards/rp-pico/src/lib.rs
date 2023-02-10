@@ -9,7 +9,7 @@
 //! # Examples:
 //!
 //! The following example turns on the onboard LED. Note that most of the logic works through the [rp2040_hal] crate.
-//! ```
+//! ```ignore
 //! #![no_main]
 //! use rp_pico::entry;
 //! use panic_halt as _;
@@ -45,7 +45,7 @@ extern crate cortex_m_rt;
 /// It is based on the [cortex_m_rt](https://docs.rs/cortex-m-rt/latest/cortex_m_rt/attr.entry.html) crate.
 ///
 /// # Examples
-/// ```
+/// ```ignore
 /// #![no_std]
 /// #![no_main]
 /// use rp_pico::entry;
