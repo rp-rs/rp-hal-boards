@@ -12,15 +12,15 @@ pub use rp2040_hal::entry;
 /// the board should contain a AT25SF128A flash chip. But
 /// there are [reports] of board with different flash chips,
 /// where the boot loader BOOT_LOADER_AT25SF128A does not
-/// work. 
+/// work.
 ///
 /// Therefore, the generic boot loader is used by default. For a specific
 /// board, the flash performance can be increased by switching to the
 /// matching boot loader.
-/// 
+///
 /// [the Arduino store]: https://store.arduino.cc/products/arduino-nano-rp2040-connect
 /// [reports]: https://github.com/rp-rs/rp-hal/issues/503
-/// 
+///
 #[cfg(feature = "boot2")]
 #[link_section = ".boot2"]
 #[no_mangle]
