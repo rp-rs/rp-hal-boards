@@ -123,7 +123,8 @@ fn main() -> ! {
     choose_led(5, simple_blend2(&mut sio.interp0));
     choose_led(6, simple_blend3(&mut sio.interp0));
     choose_led(7, clamp(&mut sio.interp1));
-    choose_led(8, texture_mapping(&mut sio.interp0));
+    choose_led(8, linear_interpolation(&mut sio.interp0));
+    choose_led(9, texture_mapping(&mut sio.interp0));
 
     // turn the on board led on to indicate testing is done
     system_led_pin.set_high().unwrap();
@@ -386,6 +387,89 @@ fn clamp(interp: &mut Interp1) -> bool {
             return false;
         }
     }
+    true
+}
+
+fn linear_interpolation(interp: &mut Interp0) -> bool {
+    let samples: [i16; 5] = [0, 10, -20, -1000, 500];
+    let uv_fractional_bits: u8 = 12;
+    // step is 1/4 in our fractional representation
+    let step: u32 = (1 << uv_fractional_bits) / 4;
+
+    // for lane 0
+    // shift and mask XXXX XXXX XXXX XXXX XXXX FFFF FFFF FFFF (accum 0)
+    // to 0000 0000 000X XXXX XXXX XXXX XXXX XXX0
+    // i.e. non fractional part times 2 (for uint16_t)
+    let config0 = LaneCtrl {
+        shift: uv_fractional_bits - 1,
+        mask_lsb: 1,
+        mask_msb: 32 - uv_fractional_bits,
+        add_raw: true,
+        blend: true,
+        ..LaneCtrl::new()
+    };
+    interp.get_lane0().set_ctrl(config0.encode());
+
+    // for lane 1
+    // shift XXXX XXXX XXXX XXXX XXXX FFFF FFFF FFFF (accum 0 via cross input)
+    // to 0000 XXXX XXXX XXXX XXXX FFFF FFFF FFFF
+
+    let config1 = LaneCtrl {
+        shift: uv_fractional_bits - 8,
+        signed: true,
+        cross_input: true,
+        ..LaneCtrl::new()
+    };
+    interp.get_lane1().set_ctrl(config1.encode());
+
+    interp.get_lane0().set_accum(0);
+    interp.set_base(samples.as_ptr() as u32);
+
+    let expected: [(i32, u32, i16, i16); 16] = [
+        (0, 0, 0, 10),
+        (2, 25, 0, 10),
+        (5, 50, 0, 10),
+        (7, 75, 0, 10),
+        (10, 0, 10, -20),
+        (2, 25, 10, -20),
+        (-5, 50, 10, -20),
+        (-13, 75, 10, -20),
+        (-20, 0, -20, -1000),
+        (-265, 25, -20, -1000),
+        (-510, 50, -20, -1000),
+        (-755, 75, -20, -1000),
+        (-1000, 0, -1000, 500),
+        (-625, 25, -1000, 500),
+        (-250, 50, -1000, 500),
+        (125, 75, -1000, 500),
+    ];
+    for (expected_peek, expected_percent, expected_pair_0, expected_pair_1) in expected {
+        // result2 = samples + (lane0 raw result)
+        // i.e. ptr to the first of two samples to blend between
+        let sample_pair: [i16; 2] = unsafe {
+            let sp: &[i16] = &(interp.peek() as *const [i16; 5]).read()[0..2];
+            [sp[0], sp[1]]
+        };
+
+        interp.get_lane0().set_base(sample_pair[0] as u32);
+        interp.get_lane1().set_base(sample_pair[1] as u32);
+
+        if expected_peek != interp.get_lane1().peek() as i32 {
+            return false;
+        }
+        if expected_percent != 100 * (interp.get_lane1().read_raw() & 0xff) / 0xff {
+            return false;
+        }
+        if expected_pair_0 != sample_pair[0] {
+            return false;
+        }
+        if expected_pair_1 != sample_pair[1] {
+            return false;
+        }
+
+        interp.get_lane0().add_accum(step);
+    }
+
     true
 }
 
