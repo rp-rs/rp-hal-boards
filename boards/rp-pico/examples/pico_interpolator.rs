@@ -121,8 +121,9 @@ fn main() -> ! {
     choose_led(3, cross_lanes(&mut sio.interp0));
     choose_led(4, simple_blend1(&mut sio.interp0));
     choose_led(5, simple_blend2(&mut sio.interp0));
-    choose_led(6, clamp(&mut sio.interp1));
-    choose_led(7, texture_mapping(&mut sio.interp0));
+    choose_led(6, simple_blend3(&mut sio.interp0));
+    choose_led(7, clamp(&mut sio.interp1));
+    choose_led(8, texture_mapping(&mut sio.interp0));
 
     // turn the on board led on to indicate testing is done
     system_led_pin.set_high().unwrap();
@@ -315,6 +316,37 @@ fn simple_blend2(interp: &mut Interp0) -> bool {
         if interp.get_lane1().peek() != expected_unsigned[i as usize] {
             return false;
         }
+    }
+    true
+}
+
+fn simple_blend3(interp: &mut Interp0) -> bool {
+    interp.get_lane1().set_accum(128);
+
+    let config = LaneCtrl {
+        blend: true,
+        ..LaneCtrl::new()
+    };
+    interp.get_lane0().set_ctrl(config.encode());
+    let mut config1 = LaneCtrl { ..LaneCtrl::new() };
+    interp.get_lane1().set_ctrl(config1.encode());
+
+    interp.set_base_1and0(0x30005000);
+    if interp.get_lane1().peek() != 0x00004000 {
+        return false;
+    }
+
+    interp.set_base_1and0(0xe000f000);
+    if interp.get_lane1().peek() != 0x0000e800 {
+        return false;
+    }
+
+    config1.signed = true;
+    interp.get_lane1().set_ctrl(config1.encode());
+
+    interp.set_base_1and0(0xe000f000);
+    if interp.get_lane1().peek() != 0xffffe800 {
+        return false;
     }
     true
 }
