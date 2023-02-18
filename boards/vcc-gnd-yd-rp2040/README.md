@@ -16,7 +16,7 @@ RP2040 chip according to how it is connected up on the YD-RP2040.
 To use this crate, your `Cargo.toml` file should contain:
 
 ```toml
-vcc-gnd-yd-rp2040 = "0.1.0"
+vcc-gnd-yd-rp2040 = "0.4.0"
 ```
 
 In your program, you will need to call `vcc_gnd_studio_yd_rp2040::Pins::new` to create

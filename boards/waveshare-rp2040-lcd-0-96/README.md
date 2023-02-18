@@ -17,7 +17,7 @@ RP2040 chip according to how it is connected up on the Feather.
 To use this crate, your `Cargo.toml` file should contain:
 
 ```toml
-waveshare_rp2040_lcd_0_96 = "0.4.0"
+waveshare_rp2040_lcd_0_96 = "0.6.0"
 ```
 
 In your program, you will need to call `waveshare_rp2040_lcd_0_96::Pins::new` to create

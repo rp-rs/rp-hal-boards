@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+## 0.7.0 - 2023-02-18
+
+### Changed
+
+- Update to rp2040-hal 0.8.0
+- Update to ws2812-pio 0.6.0
+- Update to i2c-pio 0.6.0
+- Update to embedded-sdmmc 0.4.0
+
 ## 0.6.0 - 2022-12-11
 
 ### Changed
@@ -14,10 +23,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Update to rp2040-hal 0.7.0
 - Update to ws2812-pio 0.5.0
 - Update to i2c-pio 0.5.0
-
-### Changed
-
-- Bump `i2c-pio` to 0.4.0
 
 ## 0.5.0 - 2022-08-26
 

@@ -17,7 +17,7 @@ RP2040 chip according to how it is connected up on the Badger2040.
 To use this crate, your `Cargo.toml` file should contain:
 
 ```toml
-pimoroni-badger2040 = "0.1.0"
+pimoroni-badger2040 = "0.4.0"
 ```
 
 In your program, you will need to call `pimoroni_badger2040::Board::take().unwrap()` to create
