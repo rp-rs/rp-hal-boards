@@ -1,4 +1,4 @@
-# [pimoroni-badger2040] - Board Support for the [Pimoroni Badger2040]
+# [pimoroni_badger2040] - Board Support for the [Pimoroni Badger2040]
 
 You should include this crate if you are writing code that you want to run on
 a [Pimoroni Badger2040] - a conference-style badge built around an e-paper
@@ -8,7 +8,7 @@ This crate includes the [rp2040-hal], but also configures each pin of the
 RP2040 chip according to how it is connected up on the Badger2040.
 
 [Pimoroni Badger2040]: https://shop.pimoroni.com/products/badger-2040/
-[pimoroni-badger2040]: https://github.com/rp-rs/rp-hal-boards/tree/main/boards/pimoroni-badger2040
+[pimoroni_badger2040]: https://github.com/rp-rs/rp-hal-boards/tree/main/boards/pimoroni_badger2040
 [rp2040-hal]: https://github.com/rp-rs/rp-hal/tree/main/rp2040-hal
 [Raspberry Silicon RP2040]: https://www.raspberrypi.org/products/rp2040/
 
@@ -17,7 +17,7 @@ RP2040 chip according to how it is connected up on the Badger2040.
 To use this crate, your `Cargo.toml` file should contain:
 
 ```toml
-pimoroni-badger2040 = "0.4.0"
+pimoroni_badger2040 = "0.4.0"
 ```
 
 In your program, you will need to call `pimoroni_badger2040::Board::take().unwrap()` to create
@@ -31,7 +31,7 @@ devices and configure common clocks. See the [examples](./examples) folder for m
 To compile an example, clone the _rp-hal-boards_ repository and run:
 
 ```console
-rp-hal-boards/boards/pimoroni-badger2040 $ cargo build --release --example <name>
+rp-hal-boards/boards/pimoroni_badger2040 $ cargo build --release --example <name>
 ```
 
 You will get an ELF file called
@@ -45,7 +45,7 @@ USB drive exported by the RP2040 bootloader, simply boot your board into
 bootloader mode and run:
 
 ```console
-rp-hal-boards/boards/pimoroni-badger2040 $ cargo run --release --example <name>
+rp-hal-boards/boards/pimoroni_badger2040 $ cargo run --release --example <name>
 ```
 
 If you get an error about not being able to find `elf2uf2-rs`, try:

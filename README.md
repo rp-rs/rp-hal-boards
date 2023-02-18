@@ -166,7 +166,7 @@ RP2040 chip according to how it is connected up on the Trinkey.
 [Adafruit-Trinkey-QT2040]: https://github.com/rp-rs/rp-hal-boards/tree/main/boards/adafruit-trinkey-qt2040
 [adafruit trinkey qt2040]: https://www.adafruit.com/product/5056
 
-### [pimoroni-badger2040] - Board Support for the [Pimoroni Badger2040]
+### [pimoroni_badger2040] - Board Support for the [Pimoroni Badger2040]
 
 You should include this crate if you are writing code that you want to run on
 a [Pimoroni Badger2040] - a conference-style badge built around an e-paper
@@ -176,7 +176,7 @@ This crate includes the [rp2040-hal], but also configures each pin of the
 RP2040 chip according to how it is connected up on the Badger2040.
 
 [Pimoroni Badger2040]: https://shop.pimoroni.com/products/badger-2040
-[pimoroni-badger2040]: https://github.com/rp-rs/rp-hal-boards/tree/main/boards/pimoroni-badger2040
+[pimoroni_badger2040]: https://github.com/rp-rs/rp-hal-boards/tree/main/boards/pimoroni_badger2040
 
 ### [pimoroni-pico-explorer] - Board Support for the [Pimoroni Pico Explorer]
 
