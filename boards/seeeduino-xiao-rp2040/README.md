@@ -16,7 +16,7 @@ RP2040 chip according to how it is connected up on the XIAO RP2040.
 To use this crate, your `Cargo.toml` file should contain:
 
 ```toml
-seeeduino-xiao-rp2040 = "0.1.0"
+seeeduino-xiao-rp2040 = "0.4.0"
 ```
 
 In your program, you will need to call `seeeduino-xiao-rp2040::Pins::new` to create
