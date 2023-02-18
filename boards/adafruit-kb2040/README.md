@@ -27,15 +27,15 @@ devices. See the [examples](./examples) folder for more details.
 
 ### General Instructions
 
-To compile an example, clone the _rp-hal_ repository and run:
+To compile an example, clone the _rp-hal-boards_ repository and run:
 
 ```console
-rp-hal/boards/adafruit-kb2040 $ cargo build --release --example <name>
+rp-hal-boards/boards/adafruit-kb2040 $ cargo build --release --example <name>
 ```
 
 You will get an ELF file called
 `./target/thumbv6m-none-eabi/release/examples/<name>`, where the `target`
-folder is located at the top of the _rp-hal_ repository checkout. Normally
+folder is located at the top of the _rp-hal-boards_ repository checkout. Normally
 you would also need to specify `--target=thumbv6m-none-eabi` but when
 building examples from this git repository, that is set as the default.
 
@@ -44,7 +44,7 @@ USB drive exported by the RP2040 bootloader, simply boot your board into
 bootloader mode and run:
 
 ```console
-rp-hal/boards/adafruit-kb2040$ cargo run --release --example <name>
+rp-hal-boards/boards/adafruit-kb2040$ cargo run --release --example <name>
 ```
 
 If you get an error about not being able to find `elf2uf2-rs`, try:
@@ -70,7 +70,7 @@ The steps are:
 3. Make some changes to the code or documentation.
 4. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
 5. Push to the Feature Branch (`git push origin feature/AmazingFeature`)
-6. Create a [New Pull Request](https://github.com/rp-rs/rp-hal/pulls)
+6. Create a [New Pull Request](https://github.com/rp-rs/rp-hal-boards/pulls)
 7. An admin will review the Pull Request and discuss any changes that may be required.
 8. Once everyone is happy, the Pull Request can be merged by an admin, and your work is part of our project!
 
