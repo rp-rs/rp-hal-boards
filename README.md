@@ -231,6 +231,17 @@ RP2040 chip according to how it is connected up on the Pimoroni Plasma 2040.
 [Pimoroni Plasma 2040]: https://shop.pimoroni.com/products/plasma-2040
 [pimoroni-plasma-2040]: https://github.com/rp-rs/rp-hal-boards/tree/main/boards/pimoroni-plasma-2040
 
+### [pimoroni-plasma-stick-2040-w] - Board Support for the [Pimoroni Plasma Stick 2040 W]
+
+You should include this crate if you are writing code that you want to run on
+a [Pimoroni Plasma Stick 2040 W] - This perky Pico W-powered controller for WS2812/Neopixel/SK6812 LEDs is perfect for coding up some wireless blinkenlight shenanigans.
+
+This crate includes the [rp2040-hal], but also configures each pin of the
+RP2040 chip according to how it is connected up on the Pimoroni Plasma Stick 2040 W.
+
+[Pimoroni Plasma Stick 2040 W]: https://shop.pimoroni.com/products/plasma-stick-2040-w
+[pimoroni-plasma-stick-2040-w]: https://github.com/rp-rs/rp-hal-boards/tree/main/boards/pimoroni-plasma-stick-2040-w
+
 ### [pimoroni-servo2040] - Board Support for the [Pimoroni Servo2040]
 
 You should include this crate if you are writing code that you want to run on
