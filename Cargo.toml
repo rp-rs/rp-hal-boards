@@ -23,3 +23,6 @@ members = [
     "boards/waveshare-rp2040-zero",
     "boards/waveshare-rp2040-lcd-0-96",
 ]
+
+[patch.crates-io]
+spi-pio = { git = "https://github.com/rp-rs/spi-pio-rs" }
