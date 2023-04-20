@@ -39,6 +39,9 @@ boot2 = ["rp2040-boot2"]
 # Minimal startup / runtime for Cortex-M microcontrollers
 rt = ["cortex-m-rt","rp2040-hal/rt"]
 
+# This enables Real-Time Interrupt-driven Concurrency
+rtic-monotonic = ["rp2040-hal/rtic-monotonic"]
+
 # This enables a fix for USB errata 5: USB device fails to exit RESET state on busy USB bus.
 # Only required for RP2040 B0 and RP2040 B1, but it also works for RP2040 B2 and above
 rp2040-e5 = ["rp2040-hal/rp2040-e5"]
