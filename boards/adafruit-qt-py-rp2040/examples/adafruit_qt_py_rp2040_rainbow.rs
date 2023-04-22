@@ -48,7 +48,7 @@ fn main() -> ! {
         &mut pac.RESETS,
     );
 
-    let led = pins.neopixel_data.into_mode();
+    let led = pins.neopixel_data.into_function();
 
     pins.neopixel_power
         .into_push_pull_output_in_state(PinState::High);

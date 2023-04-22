@@ -50,15 +50,15 @@ use core::cell::RefCell;
 use critical_section::Mutex;
 
 /// Import the GPIO pins we use
-use hal::gpio::pin::bank0::{Gpio0, Gpio1};
+use hal::gpio::bank0::{Gpio0, Gpio1};
 
 // UART related types
 use hal::uart::{DataBits, StopBits, UartConfig};
 
 /// Alias the type for our UART pins to make things clearer.
 type UartPins = (
-    hal::gpio::Pin<Gpio0, hal::gpio::Function<hal::gpio::Uart>>,
-    hal::gpio::Pin<Gpio1, hal::gpio::Function<hal::gpio::Uart>>,
+    hal::gpio::Pin<Gpio0, hal::gpio::FunctionUart, hal::gpio::PullNone>,
+    hal::gpio::Pin<Gpio1, hal::gpio::FunctionUart, hal::gpio::PullNone>,
 );
 
 /// Alias the type for our UART to make things clearer.
@@ -112,9 +112,9 @@ fn main() -> ! {
 
     let uart_pins = (
         // UART TX (characters sent from RP2040) on pin 1 (GPIO0)
-        pins.gpio0.into_mode::<hal::gpio::FunctionUart>(),
+        pins.gpio0.into(),
         // UART RX (characters received by RP2040) on pin 2 (GPIO1)
-        pins.gpio1.into_mode::<hal::gpio::FunctionUart>(),
+        pins.gpio1.into(),
     );
 
     // Make a UART on the given pins

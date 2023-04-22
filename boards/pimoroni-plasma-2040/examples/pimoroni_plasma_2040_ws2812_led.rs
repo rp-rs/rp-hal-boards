@@ -94,7 +94,7 @@ fn main() -> ! {
 
     // Instantiate a Ws2812 LED strip:
     let mut ws = Ws2812::new(
-        pins.data.into_mode(),
+        pins.data.into_function(),
         &mut pio,
         sm0,
         clocks.peripheral_clock.freq(),

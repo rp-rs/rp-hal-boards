@@ -20,45 +20,45 @@ pub use hal::pac;
 hal::bsp_pins!(
     Gpio0 {
         name: tx,
-        aliases: { FunctionUart: UartTx }
+        aliases: { FunctionUart, PullNone: UartTx }
     },
     Gpio1 {
         name: rx
-        aliases: { FunctionUart: UartRx, FunctionSpi: Csn }
+        aliases: { FunctionUart, PullNone: UartRx, FunctionSpi, PullNone: Csn }
     },
     Gpio2 {
         name: sck,
-        aliases: { FunctionSpi: Sck }
+        aliases: { FunctionSpi, PullNone: Sck }
     },
     Gpio3 {
          name: mosi,
-         aliases: { FunctionSpi: Mosi }
+         aliases: { FunctionSpi, PullNone: Mosi }
     },
     Gpio4 {
          name: miso,
-         aliases: { FunctionSpi: Miso }
+         aliases: { FunctionSpi, PullNone: Miso }
     },
     Gpio6 {
         name: sda,
-        aliases: { FunctionI2C: Sda }
+        aliases: { FunctionI2C, PullUp: Sda }
     },
     Gpio7 {
         name: scl,
-        aliases: { FunctionI2C: Scl }
+        aliases: { FunctionI2C, PullUp: Scl }
     },
     Gpio11 { name: neopixel_power },
     Gpio12 { name: neopixel_data },
     Gpio16 {
         name: led_green,
-        aliases: { FunctionPwm: LedGreenPwm }
+        aliases: { FunctionPwm, PullNone: LedGreenPwm }
     },
     Gpio17 {
         name: led_red,
-        aliases: { FunctionPwm: LedRedPwm }
+        aliases: { FunctionPwm, PullNone: LedRedPwm }
     },
     Gpio25 {
         name: led_blue,
-        aliases: { FunctionPwm: LedBluePwm }
+        aliases: { FunctionPwm, PullNone: LedBluePwm }
     },
     Gpio26 { name: a0 },
     Gpio27 { name: a1 },

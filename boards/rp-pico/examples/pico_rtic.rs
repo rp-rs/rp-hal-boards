@@ -19,7 +19,11 @@ mod app {
     struct Shared {
         timer: hal::Timer,
         alarm: hal::timer::Alarm0,
-        led: hal::gpio::Pin<hal::gpio::pin::bank0::Gpio25, hal::gpio::PushPullOutput>,
+        led: hal::gpio::Pin<
+            hal::gpio::bank0::Gpio25,
+            hal::gpio::FunctionSioOutput,
+            hal::gpio::PullNone,
+        >,
     }
 
     #[local]
@@ -53,7 +57,7 @@ mod app {
             sio.gpio_bank0,
             &mut resets,
         );
-        let mut led = pins.led.into_push_pull_output();
+        let mut led = pins.led.into();
         led.set_low().unwrap();
 
         let mut timer = hal::Timer::new(c.device.TIMER, &mut resets, &clocks);

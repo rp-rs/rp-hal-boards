@@ -20,19 +20,19 @@ pub use hal::pac;
 hal::bsp_pins!(
     Gpio0 {
         name: tx,
-        aliases: { FunctionUart: UartTx }
+        aliases: { FunctionUart, PullNone: UartTx }
     },
     Gpio1 {
         name: rx,
-        aliases: { FunctionUart: UartRx }
+        aliases: { FunctionUart, PullNone: UartRx }
     },
     Gpio2 {
         name: sda,
-        aliases: { FunctionI2C: Sda }
+        aliases: { FunctionI2C, PullUp: Sda }
     },
     Gpio3 {
         name: scl,
-        aliases: { FunctionI2C: Scl }
+        aliases: { FunctionI2C, PullUp: Scl }
     },
     Gpio4 { name: d4 },
     Gpio5 { name: d3 },
@@ -48,15 +48,15 @@ hal::bsp_pins!(
     Gpio17 { name: neopixel_data },
     Gpio18 {
         name: sclk,
-        aliases: { FunctionSpi: Sclk }
+        aliases: { FunctionSpi, PullNone: Sclk }
     },
     Gpio19 {
         name: mosi,
-        aliases: { FunctionSpi: Mosi }
+        aliases: { FunctionSpi, PullNone: Mosi }
     },
     Gpio20 {
         name: miso
-        aliases: { FunctionSpi: Miso }
+        aliases: { FunctionSpi, PullNone: Miso }
     },
     Gpio24 { name: d24 },
     Gpio25 { name: d25 },

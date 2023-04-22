@@ -133,7 +133,7 @@ fn main() -> ! {
     let installed = pio0.install(&program.program).unwrap();
 
     // Set gpio25 to pio
-    let _led: hal::gpio::Pin<_, hal::gpio::FunctionPio0> = pins.led.into_mode();
+    let _led: hal::gpio::Pin<_, hal::gpio::FunctionPio0, hal::gpio::PullNone> = pins.led.into();
     let led_pin_id = 25;
 
     // Build the pio program and set pin both for set and side set!
