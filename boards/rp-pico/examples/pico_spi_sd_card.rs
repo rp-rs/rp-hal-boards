@@ -239,13 +239,13 @@ fn main() -> ! {
     let mut delay = cortex_m::delay::Delay::new(core.SYST, clocks.system_clock.freq().to_Hz());
 
     // These are implicitly used by the spi driver if they are in the correct mode
-    let _spi_sclk = pins.gpio2.into_mode::<gpio::FunctionSpi>();
-    let _spi_mosi = pins.gpio3.into_mode::<gpio::FunctionSpi>();
-    let _spi_miso = pins.gpio4.into_mode::<gpio::FunctionSpi>();
+    let spi_sclk = pins.gpio2.into_function::<gpio::FunctionSpi>();
+    let spi_mosi = pins.gpio3.into_function::<gpio::FunctionSpi>();
+    let spi_miso = pins.gpio4.into_function::<gpio::FunctionSpi>();
     let spi_cs = pins.gpio5.into_push_pull_output();
 
     // Create an SPI driver instance for the SPI0 device
-    let spi = spi::Spi::<_, _, 8>::new(pac.SPI0);
+    let spi = spi::Spi::<_, _, _, 8>::new(pac.SPI0, (spi_mosi, spi_miso, spi_sclk));
 
     // Exchange the uninitialised SPI driver for an initialised one
     let spi = spi.init(

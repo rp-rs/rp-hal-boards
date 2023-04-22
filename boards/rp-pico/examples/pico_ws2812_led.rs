@@ -129,7 +129,7 @@ fn main() -> ! {
     let mut ws = Ws2812::new(
         // Use pin 6 on the Raspberry Pi Pico (which is GPIO4 of the rp2040 chip)
         // for the LED data output:
-        pins.gpio4.into_mode(),
+        pins.gpio4.into_function(),
         &mut pio,
         sm0,
         clocks.peripheral_clock.freq(),

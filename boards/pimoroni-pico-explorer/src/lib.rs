@@ -36,11 +36,10 @@ use hal::{
     adc::Adc,
     gpio::{
         bank0::{
-            Gpio0, Gpio1, Gpio12, Gpio13, Gpio14, Gpio15, Gpio16, Gpio17, Gpio18, Gpio19, Gpio2,
-            Gpio20, Gpio21, Gpio22, Gpio23, Gpio24, Gpio25, Gpio26, Gpio27, Gpio28, Gpio29, Gpio3,
-            Gpio4, Gpio5, Gpio6, Gpio7,
+            Gpio0, Gpio1, Gpio12, Gpio13, Gpio14, Gpio15, Gpio16, Gpio17, Gpio2, Gpio22, Gpio23,
+            Gpio24, Gpio25, Gpio26, Gpio27, Gpio28, Gpio29, Gpio3, Gpio4, Gpio5, Gpio6, Gpio7,
         },
-        FunctionI2C, FunctionPwm, FunctionSpi, Pin, PinId, PullUpInput, PushPullOutput,
+        FunctionNull, FunctionPwm, FunctionSioInput, FunctionSioOutput, Pin, PullNone, PullUp,
     },
     pac::{RESETS, SPI0},
     sio::SioGpioBank0,
@@ -60,19 +59,19 @@ pub mod all_pins {
         Gpio7 { name: gpio7 },
         Gpio8 {
             name: motor1_neg,
-            aliases: { FunctionPwm: Motor1Neg }
+            aliases: { FunctionPwm, PullNone: Motor1Neg }
         },
         Gpio9 {
             name: motor1_pos,
-            aliases: { FunctionPwm: Motor1Pos }
+            aliases: { FunctionPwm, PullNone: Motor1Pos }
         },
         Gpio10 {
             name: motor2_neg,
-            aliases: { FunctionPwm: Motor2Neg }
+            aliases: { FunctionPwm, PullNone: Motor2Neg }
         },
         Gpio11 {
             name: motor2_pos,
-            aliases: { FunctionPwm: Motor2Pos }
+            aliases: { FunctionPwm, PullNone: Motor2Pos }
         },
         Gpio12 { name: switch_a },
         Gpio13 { name: switch_b },
@@ -80,27 +79,27 @@ pub mod all_pins {
         Gpio15 { name: switch_y },
         Gpio16 {
             name: spi_miso,
-            aliases: { FunctionSpi: Miso }
+            aliases: { FunctionSpi, PullNone: Miso }
         },
         Gpio17 {
             name: lcd_cs,
-            aliases: { FunctionSpi: LcdCs }
+            aliases: { FunctionSpi, PullNone: LcdCs }
         },
         Gpio18 {
             name: spi_sclk,
-            aliases: { FunctionSpi: Sclk }
+            aliases: { FunctionSpi, PullNone: Sclk }
         },
         Gpio19 {
             name: spi_mosi,
-            aliases: { FunctionSpi: Mosi }
+            aliases: { FunctionSpi, PullNone: Mosi }
         },
         Gpio20 {
             name: i2c_sda,
-            aliases: { FunctionI2C: Sda }
+            aliases: { FunctionI2C, PullUp: Sda }
         },
         Gpio21 {
             name: i2c_scl,
-            aliases: { FunctionI2C: Scl }
+            aliases: { FunctionI2C, PullUp: Scl }
         },
         Gpio22 { name: i2c_int },
         Gpio23 { name: b_power_save },
@@ -117,26 +116,24 @@ pub mod all_pins {
 
 // Can't use `hal::bsp_pins!` here because some pins are not set to their reset state
 pub struct Pins {
-    pub gpio0: Pin<Gpio0, <Gpio0 as PinId>::Reset>,
-    pub gpio1: Pin<Gpio1, <Gpio1 as PinId>::Reset>,
-    pub gpio2: Pin<Gpio2, <Gpio2 as PinId>::Reset>,
-    pub gpio3: Pin<Gpio3, <Gpio3 as PinId>::Reset>,
-    pub gpio4: Pin<Gpio4, <Gpio4 as PinId>::Reset>,
-    pub gpio5: Pin<Gpio5, <Gpio5 as PinId>::Reset>,
-    pub gpio6: Pin<Gpio6, <Gpio6 as PinId>::Reset>,
-    pub gpio7: Pin<Gpio7, <Gpio7 as PinId>::Reset>,
-    pub spi_sclk: Pin<Gpio18, FunctionSpi>,
-    pub spi_mosi: Pin<Gpio19, FunctionSpi>,
-    pub i2c_sda: Pin<Gpio20, FunctionI2C>,
-    pub i2c_scl: Pin<Gpio21, FunctionI2C>,
-    pub i2c_int: Pin<Gpio22, FunctionI2C>,
-    pub b_power_save: Pin<Gpio23, <Gpio23 as PinId>::Reset>,
-    pub vbus_detect: Pin<Gpio24, <Gpio24 as PinId>::Reset>,
-    pub led: Pin<Gpio25, <Gpio25 as PinId>::Reset>,
-    pub adc0: Pin<Gpio26, <Gpio26 as PinId>::Reset>,
-    pub adc1: Pin<Gpio27, <Gpio27 as PinId>::Reset>,
-    pub adc2: Pin<Gpio28, <Gpio28 as PinId>::Reset>,
-    pub voltage_monitor: Pin<Gpio29, <Gpio29 as PinId>::Reset>,
+    pub gpio0: Pin<Gpio0, FunctionNull, PullNone>,
+    pub gpio1: Pin<Gpio1, FunctionNull, PullNone>,
+    pub gpio2: Pin<Gpio2, FunctionNull, PullNone>,
+    pub gpio3: Pin<Gpio3, FunctionNull, PullNone>,
+    pub gpio4: Pin<Gpio4, FunctionNull, PullNone>,
+    pub gpio5: Pin<Gpio5, FunctionNull, PullNone>,
+    pub gpio6: Pin<Gpio6, FunctionNull, PullNone>,
+    pub gpio7: Pin<Gpio7, FunctionNull, PullNone>,
+    pub i2c_sda: all_pins::Sda,
+    pub i2c_scl: all_pins::Scl,
+    pub i2c_int: Pin<Gpio22, FunctionSioInput, PullUp>,
+    pub b_power_save: Pin<Gpio23, FunctionNull, PullNone>,
+    pub vbus_detect: Pin<Gpio24, FunctionNull, PullNone>,
+    pub led: Pin<Gpio25, FunctionNull, PullNone>,
+    pub adc0: Pin<Gpio26, FunctionNull, PullNone>,
+    pub adc1: Pin<Gpio27, FunctionNull, PullNone>,
+    pub adc2: Pin<Gpio28, FunctionNull, PullNone>,
+    pub voltage_monitor: Pin<Gpio29, FunctionNull, PullNone>,
 }
 
 pub const XOSC_CRYSTAL_FREQ: u32 = 12_000_000;
@@ -159,15 +156,19 @@ pub enum MotorAction {
 }
 
 pub type Screen = ST7789<
-    SPIInterface<Spi<Enabled, SPI0, 8>, Pin<Gpio16, PushPullOutput>, Pin<Gpio17, PushPullOutput>>,
+    SPIInterface<
+        Spi<Enabled, SPI0, (all_pins::Mosi, all_pins::Sclk), 8>,
+        Pin<Gpio16, FunctionSioOutput, PullNone>,
+        Pin<Gpio17, FunctionSioOutput, PullNone>,
+    >,
     DummyPin,
 >;
 
 pub struct PicoExplorer {
-    pub a: Pin<Gpio12, PullUpInput>,
-    pub b: Pin<Gpio13, PullUpInput>,
-    pub x: Pin<Gpio14, PullUpInput>,
-    pub y: Pin<Gpio15, PullUpInput>,
+    pub a: Pin<Gpio12, FunctionSioInput, PullUp>,
+    pub b: Pin<Gpio13, FunctionSioInput, PullUp>,
+    pub x: Pin<Gpio14, FunctionSioInput, PullUp>,
+    pub y: Pin<Gpio15, FunctionSioInput, PullUp>,
     adc: Adc,
     pub screen: Screen,
 }
@@ -201,17 +202,18 @@ impl PicoExplorer {
         let x = internal_pins.switch_x.into_pull_up_input();
         let y = internal_pins.switch_y.into_pull_up_input();
 
-        internal_pins.motor1_pos.into_mode::<FunctionPwm>();
-        internal_pins.motor1_neg.into_mode::<FunctionPwm>();
-        internal_pins.motor2_pos.into_mode::<FunctionPwm>();
-        internal_pins.motor2_neg.into_mode::<FunctionPwm>();
+        internal_pins.motor1_pos.into_function::<FunctionPwm>();
+        internal_pins.motor1_neg.into_function::<FunctionPwm>();
+        internal_pins.motor2_pos.into_function::<FunctionPwm>();
+        internal_pins.motor2_neg.into_function::<FunctionPwm>();
 
-        let dc = internal_pins.spi_miso.into_push_pull_output();
-        let cs = internal_pins.lcd_cs.into_push_pull_output();
-        let spi_sclk = internal_pins.spi_sclk.into_mode::<FunctionSpi>();
-        let spi_mosi = internal_pins.spi_mosi.into_mode::<FunctionSpi>();
+        let dc = internal_pins.spi_miso.into();
+        let cs = internal_pins.lcd_cs.into();
+        let spi_sclk = internal_pins.spi_sclk.into();
+        let spi_mosi = internal_pins.spi_mosi.into();
 
-        let spi_screen = Spi::<_, _, 8>::new(spi0).init(resets, 125u32.MHz(), 16u32.MHz(), MODE_0);
+        let spi_screen =
+            Spi::new(spi0, (spi_mosi, spi_sclk)).init(resets, 125u32.MHz(), 16u32.MHz(), MODE_0);
 
         let spii_screen = SPIInterface::new(spi_screen, dc, cs);
 
@@ -233,26 +235,24 @@ impl PicoExplorer {
                 screen,
             },
             Pins {
-                gpio0: internal_pins.gpio0,
-                gpio1: internal_pins.gpio1,
-                gpio2: internal_pins.gpio2,
-                gpio3: internal_pins.gpio3,
-                gpio4: internal_pins.gpio4,
-                gpio5: internal_pins.gpio5,
-                gpio6: internal_pins.gpio6,
-                gpio7: internal_pins.gpio7,
-                spi_sclk,
-                spi_mosi,
-                i2c_sda: internal_pins.i2c_sda.into_mode(),
-                i2c_scl: internal_pins.i2c_scl.into_mode(),
-                i2c_int: internal_pins.i2c_int.into_mode(),
-                b_power_save: internal_pins.b_power_save,
-                vbus_detect: internal_pins.vbus_detect,
-                led: internal_pins.led,
-                adc0: internal_pins.adc0,
-                adc1: internal_pins.adc1,
-                adc2: internal_pins.adc2,
-                voltage_monitor: internal_pins.voltage_monitor,
+                gpio0: internal_pins.gpio0.into(),
+                gpio1: internal_pins.gpio1.into(),
+                gpio2: internal_pins.gpio2.into(),
+                gpio3: internal_pins.gpio3.into(),
+                gpio4: internal_pins.gpio4.into(),
+                gpio5: internal_pins.gpio5.into(),
+                gpio6: internal_pins.gpio6.into(),
+                gpio7: internal_pins.gpio7.into(),
+                i2c_sda: internal_pins.i2c_sda.into(),
+                i2c_scl: internal_pins.i2c_scl.into(),
+                i2c_int: internal_pins.i2c_int.into(),
+                b_power_save: internal_pins.b_power_save.into(),
+                vbus_detect: internal_pins.vbus_detect.into(),
+                led: internal_pins.led.into(),
+                adc0: internal_pins.adc0.into(),
+                adc1: internal_pins.adc1.into(),
+                adc2: internal_pins.adc2.into(),
+                voltage_monitor: internal_pins.voltage_monitor.into(),
             },
         )
     }

@@ -69,7 +69,7 @@ fn main() -> ! {
     // Configure the addressable LED
     let (mut pio, sm0, _, _, _) = pac.PIO0.split(&mut pac.RESETS);
     let mut ws = Ws2812::new(
-        pins.led.into_mode(),
+        pins.led.into_function(),
         &mut pio,
         sm0,
         clocks.peripheral_clock.freq(),
