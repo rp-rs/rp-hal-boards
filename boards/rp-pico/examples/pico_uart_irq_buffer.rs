@@ -73,10 +73,6 @@ struct UartQueue {
     interrupt: pac::Interrupt,
 }
 
-/// External high-speed crystal on the Raspberry Pi Pico board is 12 MHz. Adjust
-/// if your board has a different frequency
-const XTAL_FREQ_HZ: u32 = 12_000_000u32;
-
 /// This how we transfer the UART into the Interrupt Handler
 static GLOBAL_UART: Mutex<RefCell<Option<Uart>>> = Mutex::new(RefCell::new(None));
 
@@ -105,7 +101,7 @@ fn main() -> ! {
 
     // Configure the clocks
     let clocks = hal::clocks::init_clocks_and_plls(
-        XTAL_FREQ_HZ,
+        rp_pico::XOSC_CRYSTAL_FREQ,
         pac.XOSC,
         pac.CLOCKS,
         pac.PLL_SYS,
