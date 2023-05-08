@@ -39,37 +39,6 @@
 //!
 //!     $ mkfs.fat /dev/sdj1
 //!
-//! In the following ASCII art the SD card is also connected to 5 strong pull up
-//! resistors. I've found varying values for these, from 50kOhm, 10kOhm
-//! down to 5kOhm.
-//! Stronger pull up resistors will eat more amperes, but also allow faster
-//! data rates.
-//!
-//! ```text
-//!                    +3.3V
-//!          Pull Ups ->||||
-//!                 4x[5kOhm]
-//!                     ||| \
-//!  _______________    |||  \
-//! |     DAT2/NC  9\---o||   \                            _|USB|_
-//! | S   DAT3/CS   1|---o+----+------SS--\               |1  R 40|
-//! | D   CMD/DI    2|----o----+-----MOSI-+-\             |2  P 39|
-//! |     VSS1      3|-- GND   |          | |         GND-|3    38|- GND
-//! | C   VDD       4|-- +3.3V |  /--SCK--+-+----SPI0 SCK-|4  P 37|
-//! | A   CLK/SCK   5|---------+-/        | \----SPI0 TX--|5  I 36|- +3.3V
-//! | R   VSS2      6|-- GND   |  /--MISO-+------SPI0 RX--|6  C   |
-//! | D   DAT0/DO   7|---------o-/        \------SPI0 CSn-|7  O   |
-//! |     DAT1/IRQ  8|-[5k]- +3.3V                        |       |
-//!  """"""""""""""""                                     |       |
-//!                                                       |       |
-//!                                                       .........
-//!                                                       |20   21|
-//!                                                        """""""
-//! Symbols:
-//!     - (+) crossing lines, not connected
-//!     - (o) connected lines
-//! ```
-//!
 //! The example can either be used with a probe to receive debug output
 //! and also the LED is used as status output. There are different blinking
 //! patterns.
@@ -238,9 +207,9 @@ fn main() -> ! {
     let mut led_pin = pins.led.into_push_pull_output();
 
     // These are implicitly used by the spi driver if they are in the correct mode
-    let spi_sclk = pins.gpio2.into_function::<gpio::FunctionSpi>();
-    let spi_mosi = pins.gpio3.into_function::<gpio::FunctionSpi>();
-    let spi_miso = pins.gpio4.into_function::<gpio::FunctionSpi>();
+    let spi_sclk: gpio::Pin<_, gpio::FunctionSpi, gpio::PullNone> = pins.gpio2.reconfigure();
+    let spi_mosi: gpio::Pin<_, gpio::FunctionSpi, gpio::PullNone> = pins.gpio3.reconfigure();
+    let spi_miso: gpio::Pin<_, gpio::FunctionSpi, gpio::PullUp> = pins.gpio4.reconfigure();
     let spi_cs = pins.gpio5.into_push_pull_output();
 
     // Create an SPI driver instance for the SPI0 device
