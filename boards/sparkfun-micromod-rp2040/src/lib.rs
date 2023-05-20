@@ -102,7 +102,7 @@ hal::bsp_pins!(
     Gpio3 {
         name: gpio3,
         aliases: {
-            FunctionUart: UartRts1k,
+            FunctionUart: UartRts1,
             FunctionPio0: AudBclkPio0,
             FunctionPio1: AudBclkPio1
         }
