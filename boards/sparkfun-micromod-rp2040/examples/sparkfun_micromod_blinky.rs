@@ -1,4 +1,4 @@
-//! # Pico Blinky Example
+//! # SparkFun MicroMod Blinky Example
 //!
 //! Blinks the LED on a SparkFun MicroMod RP2040 board.
 //!
