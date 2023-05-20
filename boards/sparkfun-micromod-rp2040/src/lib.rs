@@ -369,3 +369,46 @@ hal::bsp_pins!(
 );
 
 pub const XOSC_CRYSTAL_FREQ: u32 = 12_000_000;
+
+/// Alias for a configured pin
+pub type BattVin = hal::gpio::Pin<hal::gpio::bank0::Gpio29, hal::gpio::Input<hal::gpio::Floating>>;
+
+/// Driver for reading the battery volatage
+pub struct BatteryVoltage {
+    pin: BattVin,
+}
+
+impl BatteryVoltage {
+    /// Creates a new battery voltage reader
+    pub fn new(pin: BattVin) -> Self {
+        Self { pin }
+    }
+
+    /// Reads the current battery voltage
+    ///
+    /// # Return
+    ///
+    /// The current voltage in millivolts
+    pub fn read(&mut self, adc: &mut hal::Adc) -> u16 {
+        use embedded_hal::adc::OneShot;
+        let raw_value: u32 = loop {
+            match adc.read(&mut self.pin) {
+                Ok(val) => break val,
+                Err(nb::Error::WouldBlock) => (),
+                Err(nb::Error::Other(())) => unreachable!(),
+            }
+        };
+
+        // Convert value to millivolts
+        // The raw ADC value is in in the range of 0..4096,
+        // where 0 = 0V and 4096 = 3.3V.
+        // The MicroMod interface defines that the voltage is divided by 3,
+        // so the conversion formula:
+        // value / 4096 * 3300(mV) * 3
+        let value = (raw_value * 3300 * 3) / 4096;
+
+        // The maximum possible value is 9900, so it's safe to convert
+        // back to u16.
+        value as u16
+    }
+}
