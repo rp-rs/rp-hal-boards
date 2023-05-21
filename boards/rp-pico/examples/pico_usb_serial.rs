@@ -67,6 +67,8 @@ fn main() -> ! {
     .ok()
     .unwrap();
 
+    let timer = hal::Timer::new(pac.TIMER, &mut pac.RESETS, &clocks);
+
     #[cfg(feature = "rp2040-e5")]
     {
         let sio = hal::Sio::new(pac.SIO);
@@ -98,7 +100,6 @@ fn main() -> ! {
         .device_class(2) // from: https://www.usb.org/defined-class-codes
         .build();
 
-    let timer = hal::Timer::new(pac.TIMER, &mut pac.RESETS);
     let mut said_hello = false;
     loop {
         // A welcome message at the beginning

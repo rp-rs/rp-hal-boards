@@ -119,7 +119,7 @@ fn main() -> ! {
     let sin = hal::rom_data::float_funcs::fsin::ptr();
 
     // Create a count down timer for the Ws2812 instance:
-    let timer = Timer::new(pac.TIMER, &mut pac.RESETS);
+    let timer = Timer::new(pac.TIMER, &mut pac.RESETS, &clocks);
 
     // Split the PIO state machine 0 into individual objects, so that
     // Ws2812 can use it:

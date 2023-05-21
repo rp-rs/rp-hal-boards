@@ -150,7 +150,7 @@ fn main() -> ! {
         .text_color(BinaryColor::On)
         .build();
 
-    let timer = hal::Timer::new(pac.TIMER, &mut pac.RESETS);
+    let timer = hal::Timer::new(pac.TIMER, &mut pac.RESETS, &clocks);
     let mut delay = timer.count_down();
 
     let mut count = 0;
