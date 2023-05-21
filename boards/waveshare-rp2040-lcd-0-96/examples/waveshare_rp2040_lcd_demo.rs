@@ -87,7 +87,7 @@ fn main() -> ! {
         &mut pac.RESETS,
         clocks.peripheral_clock.freq(),
         10.MHz(),
-        &embedded_hal::spi::MODE_0,
+        embedded_hal::spi::MODE_0,
     );
 
     // LCD is a 65K IPS LCD 160x80, color order is BGR and a offset 1,26 pixel.

@@ -251,7 +251,7 @@ fn main() -> ! {
         &mut pac.RESETS,
         clocks.peripheral_clock.freq(),
         400.kHz(), // card initialization happens at low baud rate
-        &embedded_hal::spi::MODE_0,
+        embedded_hal::spi::MODE_0,
     );
 
     // We need a delay implementation that can be passed to SdCard and still be used
