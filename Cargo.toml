@@ -23,3 +23,6 @@ members = [
     "boards/waveshare-rp2040-zero",
     "boards/waveshare-rp2040-lcd-0-96",
 ]
+
+[patch.crates-io]
+rp2040-hal = { version = "0.9.0", git = "https://github.com/rp-rs/rp-hal" }
