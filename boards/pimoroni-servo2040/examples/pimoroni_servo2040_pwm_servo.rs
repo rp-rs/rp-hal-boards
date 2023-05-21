@@ -37,7 +37,7 @@ fn main() -> ! {
 
     let sio = hal::Sio::new(pac.SIO);
 
-    let _clocks = hal::clocks::init_clocks_and_plls(
+    let clocks = hal::clocks::init_clocks_and_plls(
         pimoroni_servo2040::XOSC_CRYSTAL_FREQ,
         pac.XOSC,
         pac.CLOCKS,
@@ -50,7 +50,7 @@ fn main() -> ! {
     .unwrap();
 
     // Configure the Timer peripheral in count-down mode
-    let timer = hal::Timer::new(pac.TIMER, &mut pac.RESETS);
+    let timer = hal::Timer::new(pac.TIMER, &mut pac.RESETS, &clocks);
     let mut count_down = timer.count_down();
 
     let pins = pimoroni_servo2040::Pins::new(
