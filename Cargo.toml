@@ -28,5 +28,5 @@ members = [
 
 [patch.crates-io]
 rp2040-hal = { version = "0.9.0", git = "https://github.com/rp-rs/rp-hal" }
-ws2812-pio = { git = "https://github.com/jannic/ws2812-pio-rs", branch = "hal-0.9" }
-i2c-pio = { git = "https://github.com/jannic/i2c-pio-rs", branch = "hal-0.9" }
+ws2812-pio = { git = "https://github.com/rp-rs/ws2812-pio-rs", branch = "hal-0.9" }
+i2c-pio = { git = "https://github.com/rp-rs/i2c-pio-rs", branch = "hal-0.9" }
