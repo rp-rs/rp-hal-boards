@@ -78,10 +78,8 @@
 //! If everything is successful (9 long blink signals), the example will go
 //! into a loop and either blink in a _"short long"_ or _"short short long"_ pattern.
 //!
-//! If there are 5 different error patterns, all with short blinking pulses:
+//! If there are 4 different error patterns, all with short blinking pulses:
 //!
-//! - **2 short blink (in a loop)**: Block device could not be acquired, either
-//!   no SD card is present or some electrical problem.
 //! - **3 short blink (in a loop)**: Card size could not be retrieved.
 //! - **4 short blink (in a loop)**: Error getting volume/partition 0.
 //! - **5 short blink (in a loop)**: Error opening root directory.
@@ -91,6 +89,8 @@
 
 #![no_std]
 #![no_main]
+
+use core::cell::RefCell;
 
 // The macro for our start-up function
 use rp_pico::entry;
@@ -125,11 +125,14 @@ use rp_pico::hal;
 
 // Link in the embedded_sdmmc crate.
 // The `SdMmcSpi` is used for block level access to the card.
-// And the `Controller` gives access to the FAT filesystem functions.
-use embedded_sdmmc::{Controller, SdMmcSpi, TimeSource, Timestamp, VolumeIdx};
+// And the `VolumeManager` gives access to the FAT filesystem functions.
+use embedded_sdmmc::{SdCard, TimeSource, Timestamp, VolumeIdx, VolumeManager};
 
 // Get the file open mode enum:
 use embedded_sdmmc::filesystem::Mode;
+
+use embedded_hal::blocking::delay::DelayMs;
+use embedded_hal::blocking::delay::DelayUs;
 
 /// A dummy timesource, which is mostly important for creating files.
 #[derive(Default)]
@@ -154,7 +157,6 @@ impl TimeSource for DummyTimesource {
 const BLINK_OK_LONG: [u8; 1] = [8u8];
 const BLINK_OK_SHORT_LONG: [u8; 4] = [1u8, 0u8, 6u8, 0u8];
 const BLINK_OK_SHORT_SHORT_LONG: [u8; 6] = [1u8, 0u8, 1u8, 0u8, 6u8, 0u8];
-const BLINK_ERR_2_SHORT: [u8; 4] = [1u8, 0u8, 1u8, 0u8];
 const BLINK_ERR_3_SHORT: [u8; 6] = [1u8, 0u8, 1u8, 0u8, 1u8, 0u8];
 const BLINK_ERR_4_SHORT: [u8; 8] = [1u8, 0u8, 1u8, 0u8, 1u8, 0u8, 1u8, 0u8];
 const BLINK_ERR_5_SHORT: [u8; 10] = [1u8, 0u8, 1u8, 0u8, 1u8, 0u8, 1u8, 0u8, 1u8, 0u8];
@@ -162,7 +164,7 @@ const BLINK_ERR_6_SHORT: [u8; 12] = [1u8, 0u8, 1u8, 0u8, 1u8, 0u8, 1u8, 0u8, 1u8
 
 fn blink_signals(
     pin: &mut dyn embedded_hal::digital::v2::OutputPin<Error = core::convert::Infallible>,
-    delay: &mut cortex_m::delay::Delay,
+    delay: &mut dyn DelayMs<u32>,
     sig: &[u8],
 ) {
     for bit in sig {
@@ -186,7 +188,7 @@ fn blink_signals(
 
 fn blink_signals_loop(
     pin: &mut dyn embedded_hal::digital::v2::OutputPin<Error = core::convert::Infallible>,
-    delay: &mut cortex_m::delay::Delay,
+    delay: &mut dyn DelayMs<u32>,
     sig: &[u8],
 ) -> ! {
     loop {
@@ -235,9 +237,6 @@ fn main() -> ! {
     // Set the LED to be an output
     let mut led_pin = pins.led.into_push_pull_output();
 
-    // Setup a delay for the LED blink signals:
-    let mut delay = cortex_m::delay::Delay::new(core.SYST, clocks.system_clock.freq().to_Hz());
-
     // These are implicitly used by the spi driver if they are in the correct mode
     let _spi_sclk = pins.gpio2.into_mode::<gpio::FunctionSpi>();
     let _spi_mosi = pins.gpio3.into_mode::<gpio::FunctionSpi>();
@@ -251,34 +250,25 @@ fn main() -> ! {
     let spi = spi.init(
         &mut pac.RESETS,
         clocks.peripheral_clock.freq(),
-        16_000_000u32.Hz(),
+        400.kHz(), // card initialization happens at low baud rate
         &embedded_hal::spi::MODE_0,
     );
 
-    info!("Aquire SPI SD/MMC BlockDevice...");
-    let mut sdspi = SdMmcSpi::new(spi, spi_cs);
+    // We need a delay implementation that can be passed to SdCard and still be used
+    // for the blink signals.
+    let mut delay = &SharedDelay::new(cortex_m::delay::Delay::new(
+        core.SYST,
+        clocks.system_clock.freq().to_Hz(),
+    ));
+
+    info!("Initialize SPI SD/MMC data structures...");
+    let sdcard = SdCard::new(spi, spi_cs, delay);
+    let mut volume_mgr = VolumeManager::new(sdcard, DummyTimesource::default());
 
     blink_signals(&mut led_pin, &mut delay, &BLINK_OK_LONG);
 
-    // Next we need to aquire the block device and initialize the
-    // communication with the SD card.
-    let block = match sdspi.acquire() {
-        Ok(block) => block,
-        Err(e) => {
-            error!("Error retrieving card size: {}", defmt::Debug2Format(&e));
-            blink_signals_loop(&mut led_pin, &mut delay, &BLINK_ERR_2_SHORT);
-        }
-    };
-
-    blink_signals(&mut led_pin, &mut delay, &BLINK_OK_LONG);
-
-    info!("Init SD card controller...");
-    let mut cont = Controller::new(block, DummyTimesource::default());
-
-    blink_signals(&mut led_pin, &mut delay, &BLINK_OK_LONG);
-
-    info!("OK!\nCard size...");
-    match cont.device().card_size_bytes() {
+    info!("Init SD card controller and retrieve card size...");
+    match volume_mgr.device().num_bytes() {
         Ok(size) => info!("card size is {} bytes", size),
         Err(e) => {
             error!("Error retrieving card size: {}", defmt::Debug2Format(&e));
@@ -288,8 +278,13 @@ fn main() -> ! {
 
     blink_signals(&mut led_pin, &mut delay, &BLINK_OK_LONG);
 
+    // Now that the card is initialized, clock can go faster
+    volume_mgr
+        .device()
+        .spi(|spi| spi.set_baudrate(clocks.peripheral_clock.freq(), 16.MHz()));
+
     info!("Getting Volume 0...");
-    let mut volume = match cont.get_volume(VolumeIdx(0)) {
+    let mut volume = match volume_mgr.get_volume(VolumeIdx(0)) {
         Ok(v) => v,
         Err(e) => {
             error!("Error getting volume 0: {}", defmt::Debug2Format(&e));
@@ -301,7 +296,7 @@ fn main() -> ! {
 
     // After we have the volume (partition) of the drive we got to open the
     // root directory:
-    let dir = match cont.open_root_dir(&volume) {
+    let dir = match volume_mgr.open_root_dir(&volume) {
         Ok(dir) => dir,
         Err(e) => {
             error!("Error opening root dir: {}", defmt::Debug2Format(&e));
@@ -314,24 +309,25 @@ fn main() -> ! {
 
     // This shows how to iterate through the directory and how
     // to get the file names (and print them in hope they are UTF-8 compatible):
-    cont.iterate_dir(&volume, &dir, |ent| {
-        info!(
-            "/{}.{}",
-            core::str::from_utf8(ent.name.base_name()).unwrap(),
-            core::str::from_utf8(ent.name.extension()).unwrap()
-        );
-    })
-    .unwrap();
+    volume_mgr
+        .iterate_dir(&volume, &dir, |ent| {
+            info!(
+                "/{}.{}",
+                core::str::from_utf8(ent.name.base_name()).unwrap(),
+                core::str::from_utf8(ent.name.extension()).unwrap()
+            );
+        })
+        .unwrap();
 
     blink_signals(&mut led_pin, &mut delay, &BLINK_OK_LONG);
 
     let mut successful_read = false;
 
     // Next we going to read a file from the SD card:
-    if let Ok(mut file) = cont.open_file_in_dir(&mut volume, &dir, "O.TST", Mode::ReadOnly) {
+    if let Ok(mut file) = volume_mgr.open_file_in_dir(&mut volume, &dir, "O.TST", Mode::ReadOnly) {
         let mut buf = [0u8; 32];
-        let read_count = cont.read(&volume, &mut file, &mut buf).unwrap();
-        cont.close_file(&volume, file).unwrap();
+        let read_count = volume_mgr.read(&volume, &mut file, &mut buf).unwrap();
+        volume_mgr.close_file(&volume, file).unwrap();
 
         if read_count >= 2 {
             info!("READ {} bytes: {}", read_count, buf);
@@ -347,10 +343,12 @@ fn main() -> ! {
 
     blink_signals(&mut led_pin, &mut delay, &BLINK_OK_LONG);
 
-    match cont.open_file_in_dir(&mut volume, &dir, "O.TST", Mode::ReadWriteCreateOrTruncate) {
+    match volume_mgr.open_file_in_dir(&mut volume, &dir, "O.TST", Mode::ReadWriteCreateOrTruncate) {
         Ok(mut file) => {
-            cont.write(&mut volume, &mut file, b"\x42\x1E").unwrap();
-            cont.close_file(&volume, file).unwrap();
+            volume_mgr
+                .write(&mut volume, &mut file, b"\x42\x1E")
+                .unwrap();
+            volume_mgr.close_file(&volume, file).unwrap();
         }
         Err(e) => {
             error!("Error opening file 'O.TST': {}", defmt::Debug2Format(&e));
@@ -358,7 +356,7 @@ fn main() -> ! {
         }
     }
 
-    cont.free();
+    volume_mgr.free();
 
     blink_signals(&mut led_pin, &mut delay, &BLINK_OK_LONG);
 
@@ -377,5 +375,31 @@ fn main() -> ! {
         }
 
         delay.delay_ms(1000);
+    }
+}
+
+// Can be removed once we have https://github.com/rp-rs/rp-hal/pull/614,
+// ie. when we move to rp2040-hal 0.9
+struct SharedDelay {
+    inner: RefCell<cortex_m::delay::Delay>,
+}
+
+impl SharedDelay {
+    fn new(delay: cortex_m::delay::Delay) -> Self {
+        Self {
+            inner: delay.into(),
+        }
+    }
+}
+
+impl DelayMs<u32> for &SharedDelay {
+    fn delay_ms(&mut self, ms: u32) {
+        self.inner.borrow_mut().delay_ms(ms);
+    }
+}
+
+impl DelayUs<u8> for &SharedDelay {
+    fn delay_us(&mut self, us: u8) {
+        self.inner.borrow_mut().delay_us(us as u32);
     }
 }
