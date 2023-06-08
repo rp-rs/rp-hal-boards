@@ -166,6 +166,19 @@ RP2040 chip according to how it is connected up on the Trinkey.
 [Adafruit-Trinkey-QT2040]: https://github.com/rp-rs/rp-hal-boards/tree/main/boards/adafruit-trinkey-qt2040
 [adafruit trinkey qt2040]: https://www.adafruit.com/product/5056
 
+### [blok-rp2040] - Board Support for the [Blok microcontroller]
+
+You should include this crate if you are writing code that you want to run on
+a [Blok microcontroller] - an RP2040 based controller, made by [Boardsource],
+built for the keyboard community.
+
+This crate includes the [rp2040-hal], but also configures each pin of the
+RP2040 chip according to how it is connected up on the Blok.
+
+[Blok microcontroller]: https://boardsource.xyz/store/628b95b494dfa308a6581622
+[blok-rp2040]: https://github.com/rp-rs/rp-hal-boards/tree/main/boards/blok-rp2040
+[Boardsource]: https://boardsource.xyz/
+
 ### [pimoroni_badger2040] - Board Support for the [Pimoroni Badger2040]
 
 You should include this crate if you are writing code that you want to run on
