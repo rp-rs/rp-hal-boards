@@ -10,16 +10,12 @@
 #![no_std]
 #![no_main]
 
-use core::iter::once;
-use embedded_hal::timer::CountDown;
 use panic_halt as _;
 use blok_rp2040::{entry, hal};
 use blok_rp2040::{
     hal::{
         clocks::{init_clocks_and_plls, Clock},
         pac,
-        pac::interrupt,
-        pio::PIOExt,
         timer::Timer,
         watchdog::Watchdog,
         Sio,
@@ -46,14 +42,14 @@ fn main() -> ! {
     .unwrap();
 
     let sio = Sio::new(pac.SIO);
-    let pins = Pins::new(
+    let _pins = Pins::new(
         pac.IO_BANK0,
         pac.PADS_BANK0,
         sio.gpio_bank0,
         &mut pac.RESETS,
     );
 
-    let timer = Timer::new(pac.TIMER, &mut pac.RESETS);
+    let _timer = Timer::new(pac.TIMER, &mut pac.RESETS);
 
     let core = pac::CorePeripherals::take().unwrap();
     let mut delay = cortex_m::delay::Delay::new(core.SYST, clocks.system_clock.freq().to_Hz());

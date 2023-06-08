@@ -14,8 +14,6 @@
 #![no_std]
 #![no_main]
 
-use core::iter::once;
-use embedded_hal::timer::CountDown;
 use panic_halt as _;
 use blok_rp2040::{entry, hal};
 use blok_rp2040::{
@@ -23,7 +21,6 @@ use blok_rp2040::{
         clocks::{init_clocks_and_plls, Clock},
         pac,
         pac::interrupt,
-        pio::PIOExt,
         timer::Timer,
         watchdog::Watchdog,
         Sio,
@@ -67,14 +64,14 @@ fn main() -> ! {
     .unwrap();
 
     let sio = Sio::new(pac.SIO);
-    let pins = Pins::new(
+    let _pins = Pins::new(
         pac.IO_BANK0,
         pac.PADS_BANK0,
         sio.gpio_bank0,
         &mut pac.RESETS,
     );
 
-    let timer = Timer::new(pac.TIMER, &mut pac.RESETS);
+    let _timer = Timer::new(pac.TIMER, &mut pac.RESETS);
 
     let usb_bus = UsbBusAllocator::new(hal::usb::UsbBus::new(
         pac.USBCTRL_REGS,
@@ -89,12 +86,12 @@ fn main() -> ! {
 
     let bus_ref = unsafe { USB_BUS.as_ref().unwrap() };
 
-    let mut usb_hid = HIDClass::new(bus_ref, KeyboardReport::desc(), 10);
+    let usb_hid = HIDClass::new(bus_ref, KeyboardReport::desc(), 10);
     unsafe {
         USB_HID = Some(usb_hid);
     }
 
-    let mut usb_device = UsbDeviceBuilder::new(bus_ref, UsbVidPid(0x1209, 0x0001))
+    let usb_device = UsbDeviceBuilder::new(bus_ref, UsbVidPid(0x1209, 0x0001))
         .product("keyboard input")
         .build();
     unsafe {
