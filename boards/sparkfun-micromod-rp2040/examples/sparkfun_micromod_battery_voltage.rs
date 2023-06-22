@@ -2,6 +2,11 @@
 //!
 //! Continuously reads the battery voltage and prints it over defmt-rtt.
 //!
+//! Note that for this example to work, you need to change the runner
+//! to `probe-run` (in `.cargo/config` at the root of the repository)
+//! and connect to the RP2040 via SWD, preferredly via the Raspberry
+//! Pi Debug Probe.
+//!
 //! See the `Cargo.toml` file for Copyright and license details.
 
 #![no_std]
@@ -10,7 +15,7 @@
 // The macro for our start-up function
 use sparkfun_micromod_rp2040 as bsp;
 
-// Import log macros and register global logger and
+// Import log macros and register global logger
 use defmt::*;
 use defmt_rtt as _;
 
