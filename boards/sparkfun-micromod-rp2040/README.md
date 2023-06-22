@@ -51,12 +51,18 @@ rp-hal-boards/boards/sparkfun-micromod-rp2040 $ cargo run --release --example <n
 If you get an error about not being able to find `elf2uf2-rs`, try:
 
 ```console
-$ cargo install elf2uf2-rs, then repeating the `cargo run` command above.
+$ cargo install elf2uf2-rs
 ```
+
+Then repeat the `cargo run` command above.
 
 ### [Blinky](./examples/sparkfun_micromod_blinky.rs)
 
 This example will blink the on-board LED.
+
+### [Battery Voltage](./examples/sparkfun_micromod_battery_voltage.rs)
+
+This example will continuously print the current supply voltage.
 
 ## Contributing
 
