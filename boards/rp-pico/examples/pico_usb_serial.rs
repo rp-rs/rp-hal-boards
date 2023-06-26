@@ -1,3 +1,7 @@
+// q: What does this code does?
+
+
+
 //! # Pico USB Serial Example
 //!
 //! Creates a USB Serial device on a Pico board, with the USB driver running in
@@ -12,6 +16,9 @@
 #![no_std]
 #![no_main]
 
+
+use embedded_hal::digital::v2::OutputPin;
+use hal::gpio::PinState;
 // The macro for our start-up function
 use rp_pico::entry;
 
@@ -36,6 +43,7 @@ use usbd_serial::SerialPort;
 // Used to demonstrate writing formatted strings
 use core::fmt::Write;
 use heapless::String;
+
 
 /// Entry point to our bare-metal application.
 ///
@@ -66,6 +74,21 @@ fn main() -> ! {
     )
     .ok()
     .unwrap();
+
+        // The single-cycle I/O block controls our GPIO pins
+        let sio = hal::Sio::new(pac.SIO);
+
+        // Set the pins up according to their function on this particular board
+        let pins = rp_pico::Pins::new(
+            pac.IO_BANK0,
+            pac.PADS_BANK0,
+            sio.gpio_bank0,
+            &mut pac.RESETS,
+        );
+    
+        // Set the LED to be an output
+        let mut led_pin = pins.gpio26.into_push_pull_output();
+        led_pin.set_low().unwrap();
 
     #[cfg(feature = "rp2040-e5")]
     {
@@ -99,16 +122,20 @@ fn main() -> ! {
         .build();
 
     let timer = hal::Timer::new(pac.TIMER, &mut pac.RESETS);
+
+
     let mut said_hello = false;
+    let mut pin_state = PinState::from(false);
     loop {
-        // A welcome message at the beginning
-        if !said_hello && timer.get_counter().ticks() >= 2_000_000 {
+        // A welcome message to show we're alive
+        if !said_hello && timer.get_counter().ticks() >= 5_000_000 {
             said_hello = true;
-            let _ = serial.write(b"Hello, World!\r\n");
+            
+            let _ = serial.write(b"Hello, world!\r\n");
 
             let time = timer.get_counter().ticks();
             let mut text: String<64> = String::new();
-            writeln!(&mut text, "Current timer ticks: {}", time).unwrap();
+            writeln!(&mut text, "Current timer ticks: {}\r\n", time).unwrap();
 
             // This only works reliably because the number of bytes written to
             // the serial port is smaller than the buffers available to the USB
@@ -123,6 +150,7 @@ fn main() -> ! {
             match serial.read(&mut buf) {
                 Err(_e) => {
                     // Do nothing
+                    // let _ = serial.write(b"No Data in serial buffer!\r\n");
                 }
                 Ok(0) => {
                     // Do nothing
@@ -136,7 +164,11 @@ fn main() -> ! {
                     let mut wr_ptr = &buf[..count];
                     while !wr_ptr.is_empty() {
                         match serial.write(wr_ptr) {
-                            Ok(len) => wr_ptr = &wr_ptr[len..],
+                            Ok(len) => {
+                                wr_ptr = &wr_ptr[len..];
+                                pin_state = !pin_state;
+                                led_pin.set_state(pin_state).unwrap();
+                                },
                             // On error, just drop unwritten data.
                             // One possible error is Err(WouldBlock), meaning the USB
                             // write buffer is full.

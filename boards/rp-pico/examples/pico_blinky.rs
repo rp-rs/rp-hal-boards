@@ -79,7 +79,9 @@ fn main() -> ! {
 
     // Set the LED to be an output
     let mut led_pin = pins.led.into_push_pull_output();
-
+    let mut led_pin = pins.led.into_push_pull_output();
+    
+    
     // Blink the LED at 1 Hz
     loop {
         led_pin.set_high().unwrap();
