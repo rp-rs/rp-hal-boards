@@ -18,7 +18,7 @@ pub static BOOT2_FIRMWARE: [u8; 256] = rp2040_boot2::BOOT_LOADER_W25Q080;
 pub use hal::pac;
 
 hal::bsp_pins!(
-    Gpio0 { 
+    Gpio0 {
         name: tx,
         aliases: { FunctionUart: Gp0Uart0Tx }
     },
@@ -34,7 +34,7 @@ hal::bsp_pins!(
         name: scl,
         aliases: { FunctionI2C: Gp17I2C0Scl }
     },
-    
+
     Gpio4 {
         name: gpio4,
     },
@@ -47,7 +47,7 @@ hal::bsp_pins!(
     Gpio7 {
         name: gpio7,
     },
-    
+
     Gpio8 {
         name: gpio8,
         aliases: { FunctionUart: Gp8Uart0Tx }
@@ -56,7 +56,7 @@ hal::bsp_pins!(
         name: gpio9,
         aliases: { FunctionUart: Gp9Uart0Rx}
     },
-    
+
     Gpio29 {
         name: gpio29,
     },
@@ -69,7 +69,7 @@ hal::bsp_pins!(
     Gpio26 {
         name: gpio26,
     },
-    
+
     Gpio22 {
         name: gpio22,
         aliases: { FunctionSpi: Gp22Spi0Sck }
@@ -86,7 +86,7 @@ hal::bsp_pins!(
         name: gpio21,
         aliases: { FunctionSpi: Gp21Spi0Csn }
     },
-    
+
     Gpio25 {
         name: neopixel,
     },

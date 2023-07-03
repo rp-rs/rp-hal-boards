@@ -1,6 +1,6 @@
-//! # Reset To Usb Boot Example for the Blok microcontroller
+//! # Reset To Usb Boot Example for the Blok
 //!
-//! Resets the Blok microcontroller after 10 seconds to usb boot mode.
+//! Resets the Blok after 10 seconds to usb boot mode.
 //!
 //! Afterwards the microcontroller should be automatically mounted as a drive,
 //! just like when booted while holding down the boot button.
@@ -10,9 +10,8 @@
 #![no_std]
 #![no_main]
 
-use panic_halt as _;
-use blok_rp2040::{entry, hal};
-use blok_rp2040::{
+use boardsource_blok::{entry, hal};
+use boardsource_blok::{
     hal::{
         clocks::{init_clocks_and_plls, Clock},
         pac,
@@ -22,6 +21,7 @@ use blok_rp2040::{
     },
     Pins, XOSC_CRYSTAL_FREQ,
 };
+use panic_halt as _;
 
 #[entry]
 fn main() -> ! {

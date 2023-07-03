@@ -1,16 +1,15 @@
-# [blok-rp2040] - Board Support for the [Blok microcontroller]
+# [boardsource-blok] - Board Support for the [Blok]
 
 You should include this crate if you are writing code that you want to run on
-a [Blok microcontroller] - an RP2040 based controller, made by [Boardsource],
+a [Blok] - an RP2040 based controller, made by [Boardsource],
 built for the keyboard community. 
 This crate includes the [rp2040-hal], but also configures each pin of the
 RP2040 chip according to how it is connected up on the Blok.
 More Information about the pin layout at [Peg].
 
-[Blok microcontroller]: https://boardsource.xyz/store/628b95b494dfa308a6581622
-[blok-rp2040]: https://github.com/rp-rs/rp-hal-boards/tree/main/boards/blok-rp2040
+[Blok]: https://boardsource.xyz/store/628b95b494dfa308a6581622
+[boardsource-blok]: https://github.com/rp-rs/rp-hal-boards/tree/main/boards/boardsource-blok
 [rp2040-hal]: https://github.com/rp-rs/rp-hal/tree/main/rp2040-hal
-[Raspberry Silicon RP2040]: https://www.raspberrypi.org/products/rp2040/
 [Boardsource]: https://boardsource.xyz/
 [Peg]: https://peg.software/docs/blok
 
@@ -19,7 +18,7 @@ More Information about the pin layout at [Peg].
 To use this crate, your `Cargo.toml` file should contain:
 
 ```toml
-blok-rp2040 = "0.1.0"
+boardsource-blok = "0.1.0"
 ```
 
 In your program, you will need to call `blok::Pins::new` to create
@@ -33,7 +32,7 @@ devices. See the [examples](./examples) folder for more details.
 To compile an example, clone the _rp-hal-boards_ repository and run:
 
 ```console
-rp-hal-boards/boards/blok-rp2040 $ cargo build --release --example <name>
+rp-hal-boards/boards/boardsource-blok $ cargo build --release --example <name>
 ```
 
 You will get an ELF file called
@@ -47,7 +46,7 @@ USB drive exported by the RP2040 bootloader, simply boot your board into
 bootloader mode and run:
 
 ```console
-rp-hal-boards/boards/blok-rp2040 $ cargo run --release --example <name>
+rp-hal-boards/boards/boardsource-blok $ cargo run --release --example <name>
 ```
 
 If you get an error about not being able to find `elf2uf2-rs`, try:
@@ -89,9 +88,9 @@ Runs a rainbow-effect color wheel on the on-board neopixel.
 
 ### [blok_reset_to_usb_boot](./examples/blok_reset_to_usb_boot.rs)
 
-Resets the Blok microcontroller after 10 seconds to usb boot mode.
+Resets the Blok after 10 seconds to usb boot mode.
 
-### [blok_usb_keyboard_input](./examples/pico_usb_keyboard_input.rs)
+### [blok_usb_keyboard_input](./examples/blok_usb_keyboard_input.rs)
 
 Demonstrates emulating a USB Human Input Device (HID) Keyboard. The keyboard
 will type "HELLO" five times.

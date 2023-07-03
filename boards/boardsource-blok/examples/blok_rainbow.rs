@@ -1,4 +1,4 @@
-//! # Rainbow Example for the blok microcontroller
+//! # Rainbow Example for the Blok
 //!
 //! Runs a rainbow-effect colour wheel on the on-board neopixel.
 //! Uses the `ws2821_pio` driver to control the NeoPixel, which in turn uses the
@@ -9,13 +9,8 @@
 #![no_std]
 #![no_main]
 
-use core::iter::once;
-use embedded_hal::timer::CountDown;
-use fugit::ExtU32;
-use panic_halt as _;
-use smart_leds::{brightness, SmartLedsWrite, RGB8};
-use blok_rp2040::entry;
-use blok_rp2040::{
+use boardsource_blok::entry;
+use boardsource_blok::{
     hal::{
         clocks::{init_clocks_and_plls, Clock},
         pac,
@@ -26,6 +21,11 @@ use blok_rp2040::{
     },
     Pins, XOSC_CRYSTAL_FREQ,
 };
+use core::iter::once;
+use embedded_hal::timer::CountDown;
+use fugit::ExtU32;
+use panic_halt as _;
+use smart_leds::{brightness, SmartLedsWrite, RGB8};
 use ws2812_pio::Ws2812;
 
 #[entry]

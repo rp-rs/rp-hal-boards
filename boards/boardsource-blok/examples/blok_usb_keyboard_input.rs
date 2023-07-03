@@ -1,22 +1,21 @@
-//! # Keyboard Input Example for the blok microcontroller
+//! # Keyboard Input Example for the Blok
 //!
-//! Creates a USB HID Class Keyboard device on a blok
-//! board, with the USB driver running in the main thread.
+//! Creates a USB HID Class Keyboard device on a Blok,
+//! with the USB driver running in the main thread.
 //!
 //! It generates keyboard reports which all together
 //! type the word "HELLO" on the computer.
 //!
 //! This behaviour will be repeated 5 times
-//! after which the blok microcontroller will reset to usb boot mode.
+//! after which the Blok will reset to usb boot mode.
 //!
 //! See the `Cargo.toml` file for Copyright and license details.
 
 #![no_std]
 #![no_main]
 
-use panic_halt as _;
-use blok_rp2040::{entry, hal};
-use blok_rp2040::{
+use boardsource_blok::{entry, hal};
+use boardsource_blok::{
     hal::{
         clocks::{init_clocks_and_plls, Clock},
         pac,
@@ -27,23 +26,16 @@ use blok_rp2040::{
     },
     Pins, XOSC_CRYSTAL_FREQ,
 };
+use panic_halt as _;
 use usb_device::{
-    bus::UsbBusAllocator,
-    device::UsbDevice,
-    device::UsbDeviceBuilder,
-    device::UsbVidPid,
+    bus::UsbBusAllocator, device::UsbDevice, device::UsbDeviceBuilder, device::UsbVidPid,
 };
-use usbd_hid::{
-    hid_class::HIDClass,
-    descriptor::KeyboardReport,
-    descriptor::SerializedDescriptor,
-};
+use usbd_hid::{descriptor::KeyboardReport, descriptor::SerializedDescriptor, hid_class::HIDClass};
 
 // shared with the interrupt
 static mut USB_BUS: Option<UsbBusAllocator<hal::usb::UsbBus>> = None;
 static mut USB_HID: Option<HIDClass<hal::usb::UsbBus>> = None;
 static mut USB_DEVICE: Option<UsbDevice<hal::usb::UsbBus>> = None;
-
 
 #[entry]
 fn main() -> ! {
@@ -98,7 +90,6 @@ fn main() -> ! {
         USB_DEVICE = Some(usb_device);
     }
 
-
     // enable usb interrupt
     unsafe {
         pac::NVIC::unmask(hal::pac::Interrupt::USBCTRL_IRQ);
@@ -121,7 +112,7 @@ fn main() -> ! {
             modifier: 0b0000_0010, // LeftShift
             reserved: 0x00,
             leds: 0x00,
-            keycodes: [0x0b, 0x00, 0x00, 0x00, 0x00, 0x00] // H
+            keycodes: [0x0b, 0x00, 0x00, 0x00, 0x00, 0x00], // H
         });
 
         delay.delay_ms(100);
@@ -129,7 +120,7 @@ fn main() -> ! {
             modifier: 0b0000_0010, // LeftShift
             reserved: 0x00,
             leds: 0x00,
-            keycodes: [0x08, 0x00, 0x00, 0x00, 0x00, 0x00] // E
+            keycodes: [0x08, 0x00, 0x00, 0x00, 0x00, 0x00], // E
         });
 
         delay.delay_ms(100);
@@ -137,7 +128,7 @@ fn main() -> ! {
             modifier: 0b0000_0010, // LeftShift
             reserved: 0x00,
             leds: 0x00,
-            keycodes: [0x0f, 0x00, 0x00, 0x00, 0x00, 0x00] // L
+            keycodes: [0x0f, 0x00, 0x00, 0x00, 0x00, 0x00], // L
         });
 
         delay.delay_ms(100);
@@ -145,16 +136,7 @@ fn main() -> ! {
             modifier: 0x00,
             reserved: 0x00,
             leds: 0x00,
-            keycodes: [0x00, 0x00, 0x00, 0x00, 0x00, 0x00] // no keys pressed
-        });
-
-
-        delay.delay_ms(100);
-        push_report(KeyboardReport {
-            modifier: 0b0000_0010, // LeftShift
-            reserved: 0x00,
-            leds: 0x00,
-            keycodes: [0x0f, 0x00, 0x00, 0x00, 0x00, 0x00] // L
+            keycodes: [0x00, 0x00, 0x00, 0x00, 0x00, 0x00], // no keys pressed
         });
 
         delay.delay_ms(100);
@@ -162,7 +144,15 @@ fn main() -> ! {
             modifier: 0b0000_0010, // LeftShift
             reserved: 0x00,
             leds: 0x00,
-            keycodes: [0x12, 0x00, 0x00, 0x00, 0x00, 0x00] // O
+            keycodes: [0x0f, 0x00, 0x00, 0x00, 0x00, 0x00], // L
+        });
+
+        delay.delay_ms(100);
+        push_report(KeyboardReport {
+            modifier: 0b0000_0010, // LeftShift
+            reserved: 0x00,
+            leds: 0x00,
+            keycodes: [0x12, 0x00, 0x00, 0x00, 0x00, 0x00], // O
         });
 
         delay.delay_ms(100);
@@ -170,9 +160,8 @@ fn main() -> ! {
             modifier: 0x00,
             reserved: 0x00,
             leds: 0x00,
-            keycodes: [0x2c, 0x00, 0x00, 0x00, 0x00, 0x00] // space
+            keycodes: [0x2c, 0x00, 0x00, 0x00, 0x00, 0x00], // space
         });
-
 
         i += 1;
         if i >= 5 {
@@ -183,7 +172,7 @@ fn main() -> ! {
 
 /// Submit a new Keyboard Report to the USB stack.
 ///
-/// We do this with interrupts disabled, to avoid a rave hazard with the USB IRQ.
+/// We do this with interrupts disabled, to avoid a race hazard with the USB IRQ.
 fn push_report(report: KeyboardReport) {
     let _ = critical_section::with(|_| unsafe {
         // Now interrupts are disabled
@@ -191,7 +180,6 @@ fn push_report(report: KeyboardReport) {
     })
     .unwrap();
 }
-
 
 /// This function is called whenever the USB Hardware generates
 /// an Interrupt Request
