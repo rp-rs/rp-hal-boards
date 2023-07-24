@@ -207,10 +207,10 @@ impl PicoExplorer {
         internal_pins.motor2_pos.into_function::<FunctionPwm>();
         internal_pins.motor2_neg.into_function::<FunctionPwm>();
 
-        let dc = internal_pins.spi_miso.into();
-        let cs = internal_pins.lcd_cs.into();
-        let spi_sclk = internal_pins.spi_sclk.into();
-        let spi_mosi = internal_pins.spi_mosi.into();
+        let dc = internal_pins.spi_miso.reconfigure();
+        let cs = internal_pins.lcd_cs.reconfigure();
+        let spi_sclk = internal_pins.spi_sclk.reconfigure();
+        let spi_mosi = internal_pins.spi_mosi.reconfigure();
 
         let spi_screen =
             Spi::new(spi0, (spi_mosi, spi_sclk)).init(resets, 125u32.MHz(), 16u32.MHz(), MODE_0);
@@ -235,24 +235,24 @@ impl PicoExplorer {
                 screen,
             },
             Pins {
-                gpio0: internal_pins.gpio0.into(),
-                gpio1: internal_pins.gpio1.into(),
-                gpio2: internal_pins.gpio2.into(),
-                gpio3: internal_pins.gpio3.into(),
-                gpio4: internal_pins.gpio4.into(),
-                gpio5: internal_pins.gpio5.into(),
-                gpio6: internal_pins.gpio6.into(),
-                gpio7: internal_pins.gpio7.into(),
-                i2c_sda: internal_pins.i2c_sda.into(),
-                i2c_scl: internal_pins.i2c_scl.into(),
-                i2c_int: internal_pins.i2c_int.into(),
-                b_power_save: internal_pins.b_power_save.into(),
-                vbus_detect: internal_pins.vbus_detect.into(),
-                led: internal_pins.led.into(),
-                adc0: internal_pins.adc0.into(),
-                adc1: internal_pins.adc1.into(),
-                adc2: internal_pins.adc2.into(),
-                voltage_monitor: internal_pins.voltage_monitor.into(),
+                gpio0: internal_pins.gpio0.reconfigure(),
+                gpio1: internal_pins.gpio1.reconfigure(),
+                gpio2: internal_pins.gpio2.reconfigure(),
+                gpio3: internal_pins.gpio3.reconfigure(),
+                gpio4: internal_pins.gpio4.reconfigure(),
+                gpio5: internal_pins.gpio5.reconfigure(),
+                gpio6: internal_pins.gpio6.reconfigure(),
+                gpio7: internal_pins.gpio7.reconfigure(),
+                i2c_sda: internal_pins.i2c_sda.reconfigure(),
+                i2c_scl: internal_pins.i2c_scl.reconfigure(),
+                i2c_int: internal_pins.i2c_int.reconfigure(),
+                b_power_save: internal_pins.b_power_save.reconfigure(),
+                vbus_detect: internal_pins.vbus_detect.reconfigure(),
+                led: internal_pins.led.reconfigure(),
+                adc0: internal_pins.adc0.reconfigure(),
+                adc1: internal_pins.adc1.reconfigure(),
+                adc2: internal_pins.adc2.reconfigure(),
+                voltage_monitor: internal_pins.voltage_monitor.reconfigure(),
             },
         )
     }

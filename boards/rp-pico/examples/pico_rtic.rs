@@ -57,7 +57,7 @@ mod app {
             sio.gpio_bank0,
             &mut resets,
         );
-        let mut led = pins.led.into();
+        let mut led = pins.led.reconfigure();
         led.set_low().unwrap();
 
         let mut timer = hal::Timer::new(c.device.TIMER, &mut resets, &clocks);
