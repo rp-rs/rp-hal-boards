@@ -176,7 +176,7 @@ This crate includes the [rp2040-hal], but also configures each pin of the
 RP2040 chip according to how it is connected up on the Blok.
 
 [Blok]: https://boardsource.xyz/store/628b95b494dfa308a6581622
-[bourdsource-blok]: https://github.com/rp-rs/rp-hal-boards/tree/main/boards/bourdsource-blok
+[boardsource-blok]: https://github.com/rp-rs/rp-hal-boards/tree/main/boards/boardsource-blok
 [Boardsource]: https://boardsource.xyz/
 
 ### [pimoroni_badger2040] - Board Support for the [Pimoroni Badger2040]
