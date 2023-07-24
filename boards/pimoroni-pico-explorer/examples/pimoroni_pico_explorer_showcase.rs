@@ -44,7 +44,7 @@ fn main() -> ! {
 
     // Enable adc
     let mut adc = Adc::new(p.ADC, &mut p.RESETS);
-    let mut temp_sense = adc.enable_temp_sensor();
+    let mut temp_sense = adc.take_temp_sensor().unwrap();
 
     let sio = Sio::new(p.SIO);
 
