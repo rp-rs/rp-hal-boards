@@ -88,6 +88,7 @@ Each BSP includes some examples to show off the features of that particular boar
 [Cargo Workspace]: https://doc.rust-lang.org/cargo/reference/workspaces.html
 [Embedded HAL]: https://github.com/rust-embedded/embedded-hal
 [Cargo Features]: https://doc.rust-lang.org/cargo/reference/features.html
+[rp2040-hal]: https://crates.io/crates/rp2040-hal
 
 ### [rp-pico] - Board Support for the [Raspberry Pi Pico]
 
