@@ -1,6 +1,6 @@
 [package]
 name = "rp-pico"
-version = "0.7.0"
+version = "0.8.0-alpha.1"
 authors = ["evan <evanmolder@gmail.com>", "The rp-rs Developers"]
 edition = "2018"
 homepage = "https://github.com/rp-rs/rp-hal-boards/tree/main/boards/rp-pico"
