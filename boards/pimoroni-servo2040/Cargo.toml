@@ -1,6 +1,6 @@
 [package]
 name = "pimoroni-servo2040"
-version = "0.3.0"
+version = "0.4.0-alpha.1"
 authors = ["Paul Daniel Faria <nashenas88@gmail.com>", "The rp-rs Developers"]
 edition = "2018"
 homepage = "https://github.com/rp-rs/rp-hal-boards/tree/main/boards/pimoroni-servo2040"
