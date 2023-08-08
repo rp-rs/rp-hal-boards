@@ -9,46 +9,35 @@ jobs:
         features: ["", "--features rp2040-e5"]
         mode: ["", "--release"]
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions-rs/toolchain@v1
+      - uses: actions/checkout@v3
+      - uses: dtolnay/rust-toolchain@stable
         with:
-          toolchain: stable
           target: thumbv6m-none-eabi
-          override: true
-          profile: minimal
       - name: Build workspace
-        uses: actions-rs/cargo@v1
-        with:
-          command: build
-          args: ${{ matrix.mode }} --workspace ${{ matrix.features }}
+        run: cargo build ${{ matrix.mode }} --workspace ${{ matrix.features }}
       - name: Build workspace and examples
-        uses: actions-rs/cargo@v1
-        with:
-          command: build
-          args: ${{ matrix.mode }} --workspace --examples ${{ matrix.features }}
+        run: cargo build ${{ matrix.mode }} --workspace --examples ${{ matrix.features }}
       - name: List built examples and clean
         run: rm -vrf target/thumbv6m-none-eabi/*/examples/* | sed -e "s/removed '\(.*\)'/\1/" | xargs -l basename | grep -Ev '(-|\.d)'
       - name: Test
-        uses: actions-rs/cargo@v1
-        with:
-          command: test
-          args: --tests --target x86_64-unknown-linux-gnu ${{ matrix.features }}
+        run: cargo test --tests --target x86_64-unknown-linux-gnu ${{ matrix.features }}
       - name: Test docs
-        uses: actions-rs/cargo@v1
-        with:
-          command: test
-          args: --doc --target x86_64-unknown-linux-gnu ${{ matrix.features }}
+        run: cargo test --doc --target x86_64-unknown-linux-gnu ${{ matrix.features }}
       - name: Clean
-        uses: actions-rs/cargo@v1
+        run: cargo clean
+  udeps:
+    name: Check rp2040-hal for unused dependencies
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v3
+      - uses: dtolnay/rust-toolchain@master
         with:
-          command: clean
-      - uses: actions-rs/toolchain@v1
-        with:
-          toolchain: nightly
+          toolchain: nightly-2023-06-27
           target: thumbv6m-none-eabi
-          override: true
-          profile: minimal
       - name: Install cargo-udeps
-        run: curl --location "https://github.com/est31/cargo-udeps/releases/download/v0.1.35/cargo-udeps-v0.1.35-x86_64-unknown-linux-gnu.tar.gz" --output - | tar --strip-components=2 -C ~/.cargo/bin -xzvvf - ./cargo-udeps-v0.1.35-x86_64-unknown-linux-gnu/cargo-udeps
+        uses: baptiste0928/cargo-install@v2
+        with:
+          crate: cargo-udeps
+          version: "=0.1.41"
       - name: Check unused deps
         run: cargo udeps ${{ matrix.mode }} --workspace ${{ matrix.features }}
