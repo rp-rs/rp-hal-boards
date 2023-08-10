@@ -95,6 +95,12 @@ Resets the Blok after 10 seconds to usb boot mode.
 Demonstrates emulating a USB Human Input Device (HID) Keyboard. The keyboard
 will type "HELLO" five times.
 
+### [blok_usb_serial](./examples/blok_usb_serial.rs)
+
+Demonstrates creating a USB Serial device.
+The device will loop 10 times, where on each loop the current loop number is printed.
+If the device reads "stop", the blok will reset to usb boot mode.
+
 ## Contributing
 
 Contributions are what make the open source community such an amazing place to
