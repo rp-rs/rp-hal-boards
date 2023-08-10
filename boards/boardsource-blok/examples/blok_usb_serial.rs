@@ -27,13 +27,13 @@ use boardsource_blok::{
     },
     Pins, XOSC_CRYSTAL_FREQ,
 };
+use core::fmt::Write;
+use heapless::String;
 use panic_halt as _;
 use usb_device::{
     bus::UsbBusAllocator, device::UsbDevice, device::UsbDeviceBuilder, device::UsbVidPid,
 };
 use usbd_serial::SerialPort;
-use core::fmt::Write;
-use heapless::String;
 
 // shared with the interrupt
 static mut USB_DEVICE: Option<UsbDevice<hal::usb::UsbBus>> = None;
@@ -119,7 +119,7 @@ fn main() -> ! {
 }
 
 /// Writes to the serial port.
-/// 
+///
 /// We do this with interrupts disabled, to avoid a race hazard with the USB IRQ.
 fn write_serial(byte_array: &[u8]) {
     let _ = critical_section::with(|_| unsafe {
@@ -140,17 +140,18 @@ unsafe fn USBCTRL_IRQ() {
         let mut buf = [0u8; 64];
 
         match serial.read(&mut buf) {
-            Err(_e) => {},
+            Err(_e) => {}
             Ok(_count) => {
-
                 // gets the first 4 bytes of buf
                 let mut read_text = [0u8; 4];
-                read_text.iter_mut().enumerate().for_each(|(i, e)| *e = buf[i]);
+                read_text
+                    .iter_mut()
+                    .enumerate()
+                    .for_each(|(i, e)| *e = buf[i]);
 
                 if &read_text == b"stop" {
                     hal::rom_data::reset_to_usb_boot(0, 0);
-                }
-                else {
+                } else {
                     let _ = serial.write("write stop to reset to usb boot\r\n".as_bytes());
                 }
             }
