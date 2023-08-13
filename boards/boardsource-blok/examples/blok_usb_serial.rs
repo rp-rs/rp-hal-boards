@@ -143,13 +143,7 @@ unsafe fn USBCTRL_IRQ() {
             Err(_e) => {}
             Ok(_count) => {
                 // gets the first 4 bytes of buf
-                let mut read_text = [0u8; 4];
-                read_text
-                    .iter_mut()
-                    .enumerate()
-                    .for_each(|(i, e)| *e = buf[i]);
-
-                if &read_text == b"stop" {
+                if &buf[0..4] == b"stop" {
                     hal::rom_data::reset_to_usb_boot(0, 0);
                 } else {
                     let _ = serial.write("write stop to reset to usb boot\r\n".as_bytes());
