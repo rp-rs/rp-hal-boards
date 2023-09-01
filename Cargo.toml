@@ -25,8 +25,3 @@ members = [
     "boards/waveshare-rp2040-zero",
     "boards/waveshare-rp2040-lcd-0-96",
 ]
-
-[patch.crates-io]
-rp2040-hal = { git = "https://github.com/rp-rs/rp-hal" }
-ws2812-pio = { git = "https://github.com/rp-rs/ws2812-pio-rs", branch = "hal-0.9" }
-i2c-pio = { git = "https://github.com/rp-rs/i2c-pio-rs", branch = "hal-0.9" }
