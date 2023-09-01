@@ -20,19 +20,19 @@ pub use hal::pac;
 hal::bsp_pins!(
     Gpio0 {
         name: tx,
-        aliases: { FunctionUart: Gp0Uart0Tx }
+        aliases: { FunctionUart, PullNone: Gp0Uart0Tx }
     },
     Gpio1 {
         name: rx,
-        aliases: { FunctionUart: Gp0Uart0Rx }
+        aliases: { FunctionUart, PullNone: Gp0Uart0Rx }
     },
     Gpio16 {
         name: sda,
-        aliases: { FunctionI2C: Gp16I2C0Sda}
+        aliases: { FunctionI2C, PullUp: Gp16I2C0Sda}
     },
     Gpio17 {
         name: scl,
-        aliases: { FunctionI2C: Gp17I2C0Scl }
+        aliases: { FunctionI2C, PullUp: Gp17I2C0Scl }
     },
 
     Gpio4 {
@@ -50,11 +50,11 @@ hal::bsp_pins!(
 
     Gpio8 {
         name: gpio8,
-        aliases: { FunctionUart: Gp8Uart0Tx }
+        aliases: { FunctionUart, PullNone: Gp8Uart0Tx }
     },
     Gpio9 {
         name: gpio9,
-        aliases: { FunctionUart: Gp9Uart0Rx}
+        aliases: { FunctionUart, PullNone: Gp9Uart0Rx}
     },
 
     Gpio29 {
@@ -72,19 +72,19 @@ hal::bsp_pins!(
 
     Gpio22 {
         name: gpio22,
-        aliases: { FunctionSpi: Gp22Spi0Sck }
+        aliases: { FunctionSpi, PullNone: Gp22Spi0Sck }
     },
     Gpio20 {
         name: gpio20,
-        aliases: { FunctionSpi: Gp20Spi0Rx }
+        aliases: { FunctionSpi, PullNone: Gp20Spi0Rx }
     },
     Gpio23 {
         name: gpio23,
-        aliases: { FunctionSpi: Gp23Spi0Tx }
+        aliases: { FunctionSpi, PullNone: Gp23Spi0Tx }
     },
     Gpio21 {
         name: gpio21,
-        aliases: { FunctionSpi: Gp21Spi0Csn }
+        aliases: { FunctionSpi, PullNone: Gp21Spi0Csn }
     },
 
     Gpio25 {
