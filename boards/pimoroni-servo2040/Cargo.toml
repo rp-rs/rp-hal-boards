@@ -1,6 +1,6 @@
 [package]
 name = "pimoroni-servo2040"
-version = "0.4.0-alpha.1"
+version = "0.4.0"
 authors = ["Paul Daniel Faria <nashenas88@gmail.com>", "The rp-rs Developers"]
 edition = "2018"
 homepage = "https://github.com/rp-rs/rp-hal-boards/tree/main/boards/pimoroni-servo2040"
@@ -13,7 +13,7 @@ repository = "https://github.com/rp-rs/rp-hal-boards.git"
 [dependencies]
 cortex-m-rt = { version = "0.7", optional = true }
 rp2040-boot2 = { version = "0.3.0", optional = true }
-rp2040-hal = { version = "0.9.0-alpha.1" }
+rp2040-hal = { version = "0.9.0" }
 
 [dev-dependencies]
 defmt = "0.3.5"
@@ -22,7 +22,7 @@ embedded-hal ="0.2.7"
 fugit = "0.3.7"
 nb = "1.1.0"
 panic-halt= "0.2.0"
-rp2040-hal = { version = "0.9.0-alpha.1", features = [ "defmt" ] }
+rp2040-hal = { version = "0.9.0", features = [ "defmt" ] }
 smart-leds = "0.3.0"
 ws2812-pio = "0.6.0"
 

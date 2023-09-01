@@ -1,6 +1,6 @@
 [package]
 name = "pimoroni-pico-explorer"
-version = "0.7.0-alpha.1"
+version = "0.7.0"
 authors = ["Hmvp <hmvp@users.noreply.github.com>", "The rp-rs Developers"]
 edition = "2018"
 homepage = "https://github.com/rp-rs/rp-hal-boards/tree/main/boards/pimoroni-pico-explorer"
@@ -17,7 +17,7 @@ embedded-graphics = "0.7.1"
 embedded-hal = { version = "0.2.7", features = ["unproven"] }
 fugit = "0.3.7"
 rp2040-boot2 = { version = "0.3.0", optional = true }
-rp2040-hal = { version = "0.9.0-alpha.1" }
+rp2040-hal = { version = "0.9.0" }
 st7789 = "0.6.1"
 
 [dev-dependencies]
