@@ -22,7 +22,7 @@ fugit = "0.3.7"
 panic-halt= "0.2.0"
 rp2040-hal = { version = "0.9.0", features = [ "defmt" ] }
 smart-leds = "0.3.0"
-ws2812-pio = "0.6.0"
+ws2812-pio = "0.7.0"
 
 defmt = "0.3.5"
 defmt-rtt = "0.4.0"

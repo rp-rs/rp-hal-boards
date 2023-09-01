@@ -22,7 +22,7 @@ embedded-hal ="0.2.7"
 fugit = "0.3.7"
 nb = "1.1.0"
 smart-leds = "0.3.0"
-ws2812-pio = "0.6.0"
+ws2812-pio = "0.7.0"
 
 [features]
 # This is the set of features we enable by default

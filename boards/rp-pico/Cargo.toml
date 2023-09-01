@@ -36,7 +36,7 @@ smart-leds = "0.3.0"
 ssd1306 = "0.7.1"
 usbd-hid = "0.5.2"
 usbd-serial = "0.1.1"
-ws2812-pio = "0.6.0"
+ws2812-pio = "0.7.0"
 
 defmt = "0.3.5"
 defmt-rtt = "0.4.0"
