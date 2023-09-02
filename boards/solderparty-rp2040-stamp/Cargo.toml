@@ -16,10 +16,10 @@ rp2040-boot2 = { version = "0.3.0", optional = true }
 rp2040-hal = { version = "0.9.0" }
 
 [dev-dependencies]
-embedded-hal ="0.2.7"
+embedded-hal = "0.2.7"
 fugit = "0.3.7"
 nb = "1.1.0"
-panic-halt= "0.2.0"
+panic-halt = "0.2.0"
 pio = "0.2.1"
 smart-leds = "0.3.0"
 ws2812-pio = "0.7.0"
@@ -35,7 +35,7 @@ critical-section-impl = ["rp2040-hal/critical-section-impl"]
 boot2 = ["rp2040-boot2"]
 
 # Minimal startup / runtime for Cortex-M microcontrollers
-rt = ["cortex-m-rt","rp2040-hal/rt"]
+rt = ["cortex-m-rt", "rp2040-hal/rt"]
 
 # This enables a fix for USB errata 5: USB device fails to exit RESET state on busy USB bus.
 # Only required for RP2040 B0 and RP2040 B1, but it also works for RP2040 B2 and above
@@ -49,3 +49,6 @@ disable-intrinsics = ["rp2040-hal/disable-intrinsics"]
 
 # This enables ROM functions for f64 math that were not present in the earliest RP2040s
 rom-v2-intrinsics = ["rp2040-hal/rom-v2-intrinsics"]
+
+# Support alpha release of embedded-hal
+eh1_0_alpha = ["rp2040-hal/eh1_0_alpha"]

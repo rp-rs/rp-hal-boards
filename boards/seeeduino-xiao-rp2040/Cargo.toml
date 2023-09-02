@@ -1,7 +1,10 @@
 [package]
 name = "seeeduino-xiao-rp2040"
 version = "0.5.0"
-authors = ["Philip L. McMahon <plm@users.noreply.github.com>", "The rp-rs Developers"]
+authors = [
+  "Philip L. McMahon <plm@users.noreply.github.com>",
+  "The rp-rs Developers",
+]
 edition = "2018"
 homepage = "https://github.com/rp-rs/rp-hal-boards/tree/main/boards/seeeduino-xiao-rp02040"
 description = "Board Support Package for the Seeediuno XIAO RP2040"
@@ -17,10 +20,10 @@ rp2040-hal = { version = "0.9.0" }
 
 [dev-dependencies]
 cortex-m = "0.7.7"
-embedded-hal ="0.2.7"
+embedded-hal = "0.2.7"
 fugit = "0.3.7"
 nb = "1.1"
-panic-halt= "0.2.0"
+panic-halt = "0.2.0"
 
 [features]
 # This is the set of features we enable by default
@@ -33,7 +36,7 @@ critical-section-impl = ["rp2040-hal/critical-section-impl"]
 boot2 = ["rp2040-boot2"]
 
 # Minimal startup / runtime for Cortex-M microcontrollers
-rt = ["cortex-m-rt","rp2040-hal/rt"]
+rt = ["cortex-m-rt", "rp2040-hal/rt"]
 
 # This enables a fix for USB errata 5: USB device fails to exit RESET state on busy USB bus.
 # Only required for RP2040 B0 and RP2040 B1, but it also works for RP2040 B2 and above
@@ -47,3 +50,6 @@ disable-intrinsics = ["rp2040-hal/disable-intrinsics"]
 
 # This enables ROM functions for f64 math that were not present in the earliest RP2040s
 rom-v2-intrinsics = ["rp2040-hal/rom-v2-intrinsics"]
+
+# Support alpha release of embedded-hal
+eh1_0_alpha = ["rp2040-hal/eh1_0_alpha"]
