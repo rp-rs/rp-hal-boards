@@ -51,14 +51,14 @@ fn main() -> ! {
         &mut pac.RESETS,
     );
 
-    let timer = Timer::new(pac.TIMER, &mut pac.RESETS);
+    let timer = Timer::new(pac.TIMER, &mut pac.RESETS, &clocks);
     let mut delay = timer.count_down();
 
     // Configure the addressable LED
     let (mut pio, sm0, _, _, _) = pac.PIO0.split(&mut pac.RESETS);
     let mut ws = Ws2812::new(
         // The onboard NeoPixel is attached to GPIO pin #16 on the Feather RP2040.
-        pins.neopixel.into_mode(),
+        pins.neopixel.into_function(),
         &mut pio,
         sm0,
         clocks.peripheral_clock.freq(),

@@ -20,14 +20,14 @@ hal::bsp_pins!(
         name: gpio0,
         aliases: {
             /// UART Function alias for pin [crate::Pins::gpio0].
-            FunctionUart: UartTx
+            FunctionUart, PullNone: UartTx
         }
     },
     Gpio1 {
         name: gpio1,
         aliases: {
             /// UART Function alias for pin [crate::Pins::gpio1].
-            FunctionUart: UartRx
+            FunctionUart, PullNone: UartRx
         }
     },
     Gpio3 { name: i2c_int },
@@ -35,14 +35,14 @@ hal::bsp_pins!(
         name: gpio4,
         aliases: {
             /// I2C Function alias for pin [crate::Pins::gpio4].
-            FunctionI2C: I2cSda
+            FunctionI2C, PullUp: I2cSda
         }
     },
     Gpio5 {
         name: gpio5,
         aliases: {
             /// I2C Function alias for pin [crate::Pins::gpio5].
-            FunctionI2C: I2cScl
+            FunctionI2C, PullUp: I2cScl
         }
     },
     Gpio10 { name: p3v3_en },
@@ -55,28 +55,28 @@ hal::bsp_pins!(
         name: miso,
         aliases: {
             /// SPI Function alias for pin [crate::Pins::gpio16].
-            FunctionSpi: Miso
+            FunctionSpi, PullNone: Miso
         }
     },
     Gpio17 {
         name: inky_cs_gpio,
         aliases: {
             /// SPI Function alias for pin [crate::Pins::gpio17].
-            FunctionSpi: InkyCs
+            FunctionSpi, PullNone: InkyCs
         }
     },
     Gpio18 {
         name: sclk,
         aliases: {
             /// SPI Function alias for pin [crate::Pins::gpio18].
-            FunctionSpi: Sclk
+            FunctionSpi, PullNone: Sclk
         }
     },
     Gpio19 {
         name: mosi,
         aliases: {
             /// SPI Function alias for pin [crate::Pins::gpio19].
-            FunctionSpi: Mosi
+            FunctionSpi, PullNone: Mosi
         }
     },
     Gpio20 { name: inky_dc },

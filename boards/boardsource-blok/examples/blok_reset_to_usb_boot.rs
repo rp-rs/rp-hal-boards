@@ -49,7 +49,7 @@ fn main() -> ! {
         &mut pac.RESETS,
     );
 
-    let _timer = Timer::new(pac.TIMER, &mut pac.RESETS);
+    let _timer = Timer::new(pac.TIMER, &mut pac.RESETS, &clocks);
 
     let core = pac::CorePeripherals::take().unwrap();
     let mut delay = cortex_m::delay::Delay::new(core.SYST, clocks.system_clock.freq().to_Hz());

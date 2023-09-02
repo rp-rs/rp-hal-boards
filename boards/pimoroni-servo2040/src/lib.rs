@@ -47,11 +47,11 @@ hal::bsp_pins!(
         name: servo1,
         aliases: {
             /// PWM Function alias for pin [crate::Pins::servo1].
-            FunctionPwm: Servo1Pwm0A,
+            FunctionPwm, PullNone: Servo1Pwm0A,
             /// PIO0 Function alias for pin [crate::Pins::servo1].
-            FunctionPio0: Servo1Pio0,
+            FunctionPio0, PullNone: Servo1Pio0,
             /// PIO1 Function alias for pin [crate::Pins::servo1].
-            FunctionPio1: Servo1Pio1
+            FunctionPio1, PullNone: Servo1Pio1
         }
     },
 
@@ -66,11 +66,11 @@ hal::bsp_pins!(
         name: servo2,
         aliases: {
             /// PWM Function alias for pin [crate::Pins::servo2].
-            FunctionPwm: Servo2Pwm0B,
+            FunctionPwm, PullNone: Servo2Pwm0B,
             /// PIO0 Function alias for pin [crate::Pins::servo2].
-            FunctionPio0: Servo2Pio0,
+            FunctionPio0, PullNone: Servo2Pio0,
             /// PIO1 Function alias for pin [crate::Pins::servo2].
-            FunctionPio1: Servo2Pio1
+            FunctionPio1, PullNone: Servo2Pio1
         }
     },
 
@@ -85,11 +85,11 @@ hal::bsp_pins!(
         name: servo3,
         aliases: {
             /// PWM Function alias for pin [crate::Pins::servo3].
-            FunctionPwm: Servo3Pwm1A,
+            FunctionPwm, PullNone: Servo3Pwm1A,
             /// PIO0 Function alias for pin [crate::Pins::servo3].
-            FunctionPio0: Servo3Pio0,
+            FunctionPio0, PullNone: Servo3Pio0,
             /// PIO1 Function alias for pin [crate::Pins::servo3].
-            FunctionPio1: Servo3Pio1
+            FunctionPio1, PullNone: Servo3Pio1
         }
     },
 
@@ -104,11 +104,11 @@ hal::bsp_pins!(
         name: servo4,
         aliases: {
             /// PWM Function alias for pin [crate::Pins::servo4].
-            FunctionPwm: Servo4Pwm1B,
+            FunctionPwm, PullNone: Servo4Pwm1B,
             /// PIO0 Function alias for pin [crate::Pins::servo4].
-            FunctionPio0: Servo4Pio0,
+            FunctionPio0, PullNone: Servo4Pio0,
             /// PIO1 Function alias for pin [crate::Pins::servo4].
-            FunctionPio1: Servo4Pio1
+            FunctionPio1, PullNone: Servo4Pio1
         }
     },
 
@@ -123,11 +123,11 @@ hal::bsp_pins!(
         name: servo5,
         aliases: {
             /// PWM Function alias for pin [crate::Pins::servo5].
-            FunctionPwm: Servo5Pwm2A,
+            FunctionPwm, PullNone: Servo5Pwm2A,
             /// PIO0 Function alias for pin [crate::Pins::servo5].
-            FunctionPio0: Servo5Pio0,
+            FunctionPio0, PullNone: Servo5Pio0,
             /// PIO1 Function alias for pin [crate::Pins::servo5].
-            FunctionPio1: Servo5Pio1
+            FunctionPio1, PullNone: Servo5Pio1
         }
     },
 
@@ -142,11 +142,11 @@ hal::bsp_pins!(
         name: servo6,
         aliases: {
             /// PWM Function alias for pin [crate::Pins::servo6].
-            FunctionPwm: Servo6Pwm2B,
+            FunctionPwm, PullNone: Servo6Pwm2B,
             /// PIO0 Function alias for pin [crate::Pins::servo6].
-            FunctionPio0: Servo6Pio0,
+            FunctionPio0, PullNone: Servo6Pio0,
             /// PIO1 Function alias for pin [crate::Pins::servo6].
-            FunctionPio1: Servo6Pio1
+            FunctionPio1, PullNone: Servo6Pio1
         }
     },
 
@@ -161,11 +161,11 @@ hal::bsp_pins!(
         name: servo7,
         aliases: {
             /// PWM Function alias for pin [crate::Pins::servo7].
-            FunctionPwm: Servo7Pwm3A,
+            FunctionPwm, PullNone: Servo7Pwm3A,
             /// PIO0 Function alias for pin [crate::Pins::servo7].
-            FunctionPio0: Servo7Pio0,
+            FunctionPio0, PullNone: Servo7Pio0,
             /// PIO1 Function alias for pin [crate::Pins::servo7].
-            FunctionPio1: Servo7Pio1
+            FunctionPio1, PullNone: Servo7Pio1
         }
     },
 
@@ -180,11 +180,11 @@ hal::bsp_pins!(
         name: servo8,
         aliases: {
             /// PWM Function alias for pin [crate::Pins::servo8].
-            FunctionPwm: Servo8Pwm3B,
+            FunctionPwm, PullNone: Servo8Pwm3B,
             /// PIO0 Function alias for pin [crate::Pins::servo8].
-            FunctionPio0: Servo8Pio0,
+            FunctionPio0, PullNone: Servo8Pio0,
             /// PIO1 Function alias for pin [crate::Pins::servo8].
-            FunctionPio1: Servo8Pio1
+            FunctionPio1, PullNone: Servo8Pio1
         }
     },
 
@@ -199,11 +199,11 @@ hal::bsp_pins!(
         name: servo9,
         aliases: {
             /// PWM Function alias for pin [crate::Pins::servo9].
-            FunctionPwm: Servo9Pwm4A,
+            FunctionPwm, PullNone: Servo9Pwm4A,
             /// PIO0 Function alias for pin [crate::Pins::servo9].
-            FunctionPio0: Servo9Pio0,
+            FunctionPio0, PullNone: Servo9Pio0,
             /// PIO1 Function alias for pin [crate::Pins::servo9].
-            FunctionPio1: Servo9Pio1
+            FunctionPio1, PullNone: Servo9Pio1
         }
     },
 
@@ -218,11 +218,11 @@ hal::bsp_pins!(
         name: servo10,
         aliases: {
             /// PWM Function alias for pin [crate::Pins::servo10].
-            FunctionPwm: Servo10Pwm4B,
+            FunctionPwm, PullNone: Servo10Pwm4B,
             /// PIO0 Function alias for pin [crate::Pins::servo10].
-            FunctionPio0: Servo10Pio0,
+            FunctionPio0, PullNone: Servo10Pio0,
             /// PIO1 Function alias for pin [crate::Pins::servo10].
-            FunctionPio1: Servo10Pio1
+            FunctionPio1, PullNone: Servo10Pio1
         }
     },
 
@@ -237,11 +237,11 @@ hal::bsp_pins!(
         name: servo11,
         aliases: {
             /// PWM Function alias for pin [crate::Pins::servo11].
-            FunctionPwm: Servo11Pwm5A,
+            FunctionPwm, PullNone: Servo11Pwm5A,
             /// PIO0 Function alias for pin [crate::Pins::servo11].
-            FunctionPio0: Servo11Pio0,
+            FunctionPio0, PullNone: Servo11Pio0,
             /// PIO1 Function alias for pin [crate::Pins::servo11].
-            FunctionPio1: Servo11Pio1
+            FunctionPio1, PullNone: Servo11Pio1
         }
     },
 
@@ -256,11 +256,11 @@ hal::bsp_pins!(
         name: servo12,
         aliases: {
             /// PWM Function alias for pin [crate::Pins::servo12].
-            FunctionPwm: Servo12Pwm5B,
+            FunctionPwm, PullNone: Servo12Pwm5B,
             /// PIO0 Function alias for pin [crate::Pins::servo12].
-            FunctionPio0: Servo12Pio0,
+            FunctionPio0, PullNone: Servo12Pio0,
             /// PIO1 Function alias for pin [crate::Pins::servo12].
-            FunctionPio1: Servo12Pio1
+            FunctionPio1, PullNone: Servo12Pio1
         }
     },
 
@@ -275,11 +275,11 @@ hal::bsp_pins!(
         name: servo13,
         aliases: {
             /// PWM Function alias for pin [crate::Pins::servo13].
-            FunctionPwm: Servo13Pwm6A,
+            FunctionPwm, PullNone: Servo13Pwm6A,
             /// PIO0 Function alias for pin [crate::Pins::servo13].
-            FunctionPio0: Servo13Pio0,
+            FunctionPio0, PullNone: Servo13Pio0,
             /// PIO1 Function alias for pin [crate::Pins::servo13].
-            FunctionPio1: Servo13Pio1
+            FunctionPio1, PullNone: Servo13Pio1
         }
     },
 
@@ -294,11 +294,11 @@ hal::bsp_pins!(
         name: servo14,
         aliases: {
             /// PWM Function alias for pin [crate::Pins::servo14].
-            FunctionPwm: Servo14Pwm6B,
+            FunctionPwm, PullNone: Servo14Pwm6B,
             /// PIO0 Function alias for pin [crate::Pins::servo14].
-            FunctionPio0: Servo14Pio0,
+            FunctionPio0, PullNone: Servo14Pio0,
             /// PIO1 Function alias for pin [crate::Pins::servo14].
-            FunctionPio1: Servo14Pio1
+            FunctionPio1, PullNone: Servo14Pio1
         }
     },
 
@@ -313,11 +313,11 @@ hal::bsp_pins!(
         name: servo15,
         aliases: {
             /// PWM Function alias for pin [crate::Pins::servo15].
-            FunctionPwm: Servo15Pwm7A,
+            FunctionPwm, PullNone: Servo15Pwm7A,
             /// PIO0 Function alias for pin [crate::Pins::servo15].
-            FunctionPio0: Servo15Pio0,
+            FunctionPio0, PullNone: Servo15Pio0,
             /// PIO1 Function alias for pin [crate::Pins::servo15].
-            FunctionPio1: Servo15Pio1
+            FunctionPio1, PullNone: Servo15Pio1
         }
     },
 
@@ -332,11 +332,11 @@ hal::bsp_pins!(
         name: servo16,
         aliases: {
             /// PWM Function alias for pin [crate::Pins::servo16].
-            FunctionPwm: Servo16Pwm7B,
+            FunctionPwm, PullNone: Servo16Pwm7B,
             /// PIO0 Function alias for pin [crate::Pins::servo16].
-            FunctionPio0: Servo16Pio0,
+            FunctionPio0, PullNone: Servo16Pio0,
             /// PIO1 Function alias for pin [crate::Pins::servo16].
-            FunctionPio1: Servo16Pio1
+            FunctionPio1, PullNone: Servo16Pio1
         }
     },
 
@@ -351,11 +351,11 @@ hal::bsp_pins!(
         name: servo17,
         aliases: {
             /// PWM Function alias for pin [crate::Pins::servo17].
-            FunctionPwm: Servo17Pwm0A,
+            FunctionPwm, PullNone: Servo17Pwm0A,
             /// PIO0 Function alias for pin [crate::Pins::servo17].
-            FunctionPio0: Servo17Pio0,
+            FunctionPio0, PullNone: Servo17Pio0,
             /// PIO1 Function alias for pin [crate::Pins::servo17].
-            FunctionPio1: Servo17Pio1
+            FunctionPio1, PullNone: Servo17Pio1
         }
     },
 
@@ -370,11 +370,11 @@ hal::bsp_pins!(
         name: servo18,
         aliases: {
             /// PWM Function alias for pin [crate::Pins::servo18].
-            FunctionPwm: Servo18Pwm0B,
+            FunctionPwm, PullNone: Servo18Pwm0B,
             /// PIO0 Function alias for pin [crate::Pins::servo18].
-            FunctionPio0: Servo18Pio0,
+            FunctionPio0, PullNone: Servo18Pio0,
             /// PIO1 Function alias for pin [crate::Pins::servo18].
-            FunctionPio1: Servo18Pio1
+            FunctionPio1, PullNone: Servo18Pio1
         }
     },
 
@@ -397,17 +397,17 @@ hal::bsp_pins!(
         name: int_,
         aliases: {
             /// UART Function alias for pin [crate::Pins::int_].
-            FunctionUart: Gp19Uart0Rts,
+            FunctionUart, PullNone: Gp19Uart0Rts,
             /// SPI Function alias for pin [crate::Pins::int_].
-            FunctionSpi: Gp19Spi0Tx,
+            FunctionSpi, PullNone: Gp19Spi0Tx,
             /// I2C Function alias for pin [crate::Pins::int_].
-            FunctionI2C: Gp19I2C1Scl,
+            FunctionI2C, PullUp: Gp19I2C1Scl,
             /// PWM Function alias for pin [crate::Pins::int_].
-            FunctionPwm: Gp19Pwm1B,
+            FunctionPwm, PullNone: Gp19Pwm1B,
             /// PIO0 Function alias for pin [crate::Pins::int_].
-            FunctionPio0: Gp19Pio0,
+            FunctionPio0, PullNone: Gp19Pio0,
             /// PIO1 Function alias for pin [crate::Pins::int_].
-            FunctionPio1: Gp19Pio1
+            FunctionPio1, PullNone: Gp19Pio1
         }
     },
 
@@ -425,17 +425,17 @@ hal::bsp_pins!(
         name: sda,
         aliases: {
             /// UART Function alias for pin [crate::Pins::sda].
-            FunctionUart: Gp20Uart1Tx,
+            FunctionUart, PullNone: Gp20Uart1Tx,
             /// SPI Function alias for pin [crate::Pins::sda].
-            FunctionSpi: Gp20Spi0Rx,
+            FunctionSpi, PullNone: Gp20Spi0Rx,
             /// I2C Function alias for pin [crate::Pins::sda].
-            FunctionI2C: Gp20I2C0Sda,
+            FunctionI2C, PullUp: Gp20I2C0Sda,
             /// PWM Function alias for pin [crate::Pins::sda].
-            FunctionPwm: Gp20Pwm2A,
+            FunctionPwm, PullNone: Gp20Pwm2A,
             /// PIO0 Function alias for pin [crate::Pins::sda].
-            FunctionPio0: Gp20Pio0,
+            FunctionPio0, PullNone: Gp20Pio0,
             /// PIO1 Function alias for pin [crate::Pins::sda].
-            FunctionPio1: Gp20Pio1
+            FunctionPio1, PullNone: Gp20Pio1
         }
     },
 
@@ -453,17 +453,17 @@ hal::bsp_pins!(
         name: scl,
         aliases: {
             /// UART Function alias for pin [crate::Pins::scl].
-            FunctionUart: Gp21Uart1Rx,
+            FunctionUart, PullNone: Gp21Uart1Rx,
             /// SPI Function alias for pin [crate::Pins::scl].
-            FunctionSpi: Gp21Spi0Csn,
+            FunctionSpi, PullNone: Gp21Spi0Csn,
             /// I2C Function alias for pin [crate::Pins::scl].
-            FunctionI2C: Gp21I2C0Scl,
+            FunctionI2C, PullUp: Gp21I2C0Scl,
             /// PWM Function alias for pin [crate::Pins::scl].
-            FunctionPwm: Gp21Pwm2B,
+            FunctionPwm, PullNone: Gp21Pwm2B,
             /// PIO0 Function alias for pin [crate::Pins::scl].
-            FunctionPio0: Gp21Pio0,
+            FunctionPio0, PullNone: Gp21Pio0,
             /// PIO1 Function alias for pin [crate::Pins::scl].
-            FunctionPio1: Gp21Pio1
+            FunctionPio1, PullNone: Gp21Pio1
         }
     },
 
@@ -486,17 +486,17 @@ hal::bsp_pins!(
         name: user_sw,
         aliases: {
             /// UART Function alias for pin [crate::Pins::user_sw].
-            FunctionUart: Gp23Uart1Rts,
+            FunctionUart, PullNone: Gp23Uart1Rts,
             /// SPI Function alias for pin [crate::Pins::user_sw].
-            FunctionSpi: Gp23Spi0Tx,
+            FunctionSpi, PullNone: Gp23Spi0Tx,
             /// I2C Function alias for pin [crate::Pins::user_sw].
-            FunctionI2C: Gp23I2C1Scl,
+            FunctionI2C, PullUp: Gp23I2C1Scl,
             /// PWM Function alias for pin [crate::Pins::user_sw].
-            FunctionPwm: Gp23Pwm3B,
+            FunctionPwm, PullNone: Gp23Pwm3B,
             /// PIO0 Function alias for pin [crate::Pins::user_sw].
-            FunctionPio0: Gp23Pio0,
+            FunctionPio0, PullNone: Gp23Pio0,
             /// PIO1 Function alias for pin [crate::Pins::user_sw].
-            FunctionPio1: Gp23Pio1
+            FunctionPio1, PullNone: Gp23Pio1
         }
     },
 
@@ -524,17 +524,17 @@ hal::bsp_pins!(
         name: adc0,
         aliases: {
             /// UART Function alias for pin [crate::Pins::gpio26].
-            FunctionUart: Gp26Uart1Cts,
+            FunctionUart, PullNone: Gp26Uart1Cts,
             /// SPI Function alias for pin [crate::Pins::gpio26].
-            FunctionSpi: Gp26Spi1Sck,
+            FunctionSpi, PullNone: Gp26Spi1Sck,
             /// I2C Function alias for pin [crate::Pins::gpio26].
-            FunctionI2C: Gp26I2C1Sda,
+            FunctionI2C, PullUp: Gp26I2C1Sda,
             /// PWM Function alias for pin [crate::Pins::gpio26].
-            FunctionPwm: Gp26Pwm5A,
+            FunctionPwm, PullNone: Gp26Pwm5A,
             /// PIO0 Function alias for pin [crate::Pins::gpio26].
-            FunctionPio0: Gp26Pio0,
+            FunctionPio0, PullNone: Gp26Pio0,
             /// PIO1 Function alias for pin [crate::Pins::gpio26].
-            FunctionPio1: Gp26Pio1
+            FunctionPio1, PullNone: Gp26Pio1
         }
     },
 
@@ -552,17 +552,17 @@ hal::bsp_pins!(
         name: adc1,
         aliases: {
             /// UART Function alias for pin [crate::Pins::gpio27].
-            FunctionUart: Gp27Uart1Rts,
+            FunctionUart, PullNone: Gp27Uart1Rts,
             /// SPI Function alias for pin [crate::Pins::gpio27].
-            FunctionSpi: Gp27Spi1Tx,
+            FunctionSpi, PullNone: Gp27Spi1Tx,
             /// I2C Function alias for pin [crate::Pins::gpio27].
-            FunctionI2C: Gp27I2C1Scl,
+            FunctionI2C, PullUp: Gp27I2C1Scl,
             /// PWM Function alias for pin [crate::Pins::gpio27].
-            FunctionPwm: Gp27Pwm5B,
+            FunctionPwm, PullNone: Gp27Pwm5B,
             /// PIO0 Function alias for pin [crate::Pins::gpio27].
-            FunctionPio0: Gp27Pio0,
+            FunctionPio0, PullNone: Gp27Pio0,
             /// PIO1 Function alias for pin [crate::Pins::gpio27].
-            FunctionPio1: Gp27Pio1
+            FunctionPio1, PullNone: Gp27Pio1
         }
     },
 
@@ -580,17 +580,17 @@ hal::bsp_pins!(
         name: adc2,
         aliases: {
             /// UART Function alias for pin [crate::Pins::gpio28].
-            FunctionUart: Gp28Uart0Tx,
+            FunctionUart, PullNone: Gp28Uart0Tx,
             /// SPI Function alias for pin [crate::Pins::gpio28].
-            FunctionSpi: Gp28Spi1Rx,
+            FunctionSpi, PullNone: Gp28Spi1Rx,
             /// I2C Function alias for pin [crate::Pins::gpio28].
-            FunctionI2C: Gp28I2C0Sda,
+            FunctionI2C, PullUp: Gp28I2C0Sda,
             /// PWM Function alias for pin [crate::Pins::gpio28].
-            FunctionPwm: Gp28Pwm6A,
+            FunctionPwm, PullNone: Gp28Pwm6A,
             /// PIO0 Function alias for pin [crate::Pins::gpio28].
-            FunctionPio0: Gp28Pio0,
+            FunctionPio0, PullNone: Gp28Pio0,
             /// PIO1 Function alias for pin [crate::Pins::gpio28].
-            FunctionPio1: Gp28Pio1
+            FunctionPio1, PullNone: Gp28Pio1
         }
     },
 

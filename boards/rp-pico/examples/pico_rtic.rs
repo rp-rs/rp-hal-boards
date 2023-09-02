@@ -19,7 +19,11 @@ mod app {
     struct Shared {
         timer: hal::Timer,
         alarm: hal::timer::Alarm0,
-        led: hal::gpio::Pin<hal::gpio::pin::bank0::Gpio25, hal::gpio::PushPullOutput>,
+        led: hal::gpio::Pin<
+            hal::gpio::bank0::Gpio25,
+            hal::gpio::FunctionSioOutput,
+            hal::gpio::PullNone,
+        >,
     }
 
     #[local]
@@ -34,7 +38,7 @@ mod app {
         }
         let mut resets = c.device.RESETS;
         let mut watchdog = Watchdog::new(c.device.WATCHDOG);
-        let _clocks = init_clocks_and_plls(
+        let clocks = init_clocks_and_plls(
             XOSC_CRYSTAL_FREQ,
             c.device.XOSC,
             c.device.CLOCKS,
@@ -53,10 +57,10 @@ mod app {
             sio.gpio_bank0,
             &mut resets,
         );
-        let mut led = pins.led.into_push_pull_output();
+        let mut led = pins.led.reconfigure();
         led.set_low().unwrap();
 
-        let mut timer = hal::Timer::new(c.device.TIMER, &mut resets);
+        let mut timer = hal::Timer::new(c.device.TIMER, &mut resets, &clocks);
         let mut alarm = timer.alarm_0().unwrap();
         let _ = alarm.schedule(SCAN_TIME_US);
         alarm.enable_interrupt();

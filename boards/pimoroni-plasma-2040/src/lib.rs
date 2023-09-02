@@ -45,12 +45,12 @@ hal::bsp_pins!(
     /// GPIO 20 is I2C_SDA
     Gpio20 {
         name: i2c_sda,
-        aliases: { FunctionI2C: Sda }
+        aliases: { FunctionI2C, PullUp: Sda }
     },
     /// GPIO 21 is I2C_SCL
     Gpio21 {
         name: i2c_scl,
-        aliases: { FunctionI2C: Scl }
+        aliases: { FunctionI2C, PullUp: Scl }
     },
     /// GPIO 23 is connected to the USER_SW, the BOOT button, active low
     Gpio23 { name: user_sw },

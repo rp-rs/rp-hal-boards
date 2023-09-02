@@ -70,9 +70,8 @@ fn main() -> ! {
     // https://www.waveshare.com/wiki/RP2040-LCD-0.96
     // ST7735S LCD
     let lcd_dc = pins.gp8.into_push_pull_output();
-    let mut _lcd_cs = pins.gp9.into_mode::<hal::gpio::FunctionSpi>();
-    let mut _lcd_clk = pins.gp10.into_mode::<hal::gpio::FunctionSpi>();
-    let mut _lcd_mosi = pins.gp11.into_mode::<hal::gpio::FunctionSpi>();
+    let lcd_clk = pins.gp10.into_function::<hal::gpio::FunctionSpi>();
+    let lcd_mosi = pins.gp11.into_function::<hal::gpio::FunctionSpi>();
     let lcd_rst = pins
         .gp12
         .into_push_pull_output_in_state(hal::gpio::PinState::High);
@@ -80,14 +79,14 @@ fn main() -> ! {
         .gp25
         .into_push_pull_output_in_state(hal::gpio::PinState::High);
 
-    let spi = hal::Spi::<_, _, 8>::new(pac.SPI1);
+    let spi = hal::Spi::<_, _, _, 8>::new(pac.SPI1, (lcd_mosi, lcd_clk));
 
     // Exchange the uninitialised SPI driver for an initialised one
     let spi = spi.init(
         &mut pac.RESETS,
         clocks.peripheral_clock.freq(),
         10.MHz(),
-        &embedded_hal::spi::MODE_0,
+        embedded_hal::spi::MODE_0,
     );
 
     // LCD is a 65K IPS LCD 160x80, color order is BGR and a offset 1,26 pixel.

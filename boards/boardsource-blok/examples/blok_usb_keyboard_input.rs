@@ -63,7 +63,7 @@ fn main() -> ! {
         &mut pac.RESETS,
     );
 
-    let _timer = Timer::new(pac.TIMER, &mut pac.RESETS);
+    let _timer = Timer::new(pac.TIMER, &mut pac.RESETS, &clocks);
 
     let usb_bus = UsbBusAllocator::new(hal::usb::UsbBus::new(
         pac.USBCTRL_REGS,

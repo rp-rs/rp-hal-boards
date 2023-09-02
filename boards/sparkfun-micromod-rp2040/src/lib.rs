@@ -66,6 +66,7 @@ pub use hal::entry;
 #[used]
 pub static BOOT2_FIRMWARE: [u8; 256] = rp2040_boot2::BOOT_LOADER_W25Q080;
 
+use hal::gpio::{bank0::Gpio29, FunctionSioInput, PullNone};
 pub use hal::pac;
 
 hal::bsp_pins!(
@@ -74,7 +75,7 @@ hal::bsp_pins!(
     Gpio0 {
         name: gpio0,
         aliases: {
-            FunctionUart: UartTx1
+            FunctionUart, PullNone: UartTx1
         }
     },
     /// GPIO 1 can serve as:
@@ -82,7 +83,7 @@ hal::bsp_pins!(
     Gpio1 {
         name: gpio1,
         aliases: {
-            FunctionUart: UartRx1
+            FunctionUart, PullNone: UartRx1
         }
     },
     /// GPIO 2 can serve as:
@@ -91,9 +92,9 @@ hal::bsp_pins!(
     Gpio2 {
         name: gpio2,
         aliases: {
-            FunctionUart: UartCts1,
-            FunctionPio0: AudLrclkPio0,
-            FunctionPio1: AudLrclkPio1
+            FunctionUart, PullNone: UartCts1,
+            FunctionPio0, PullNone: AudLrclkPio0,
+            FunctionPio1, PullNone: AudLrclkPio1
         }
     },
     /// GPIO 3 can serve as:
@@ -102,9 +103,9 @@ hal::bsp_pins!(
     Gpio3 {
         name: gpio3,
         aliases: {
-            FunctionUart: UartRts1,
-            FunctionPio0: AudBclkPio0,
-            FunctionPio1: AudBclkPio1
+            FunctionUart, PullNone: UartRts1,
+            FunctionPio0, PullNone: AudBclkPio0,
+            FunctionPio1, PullNone: AudBclkPio1
         }
     },
     /// GPIO 4 can serve as:
@@ -112,7 +113,7 @@ hal::bsp_pins!(
     Gpio4 {
         name: gpio4,
         aliases: {
-            FunctionI2C: I2CSda
+            FunctionI2C, PullUp: I2CSda
         }
     },
     /// GPIO 5 can serve as:
@@ -120,7 +121,7 @@ hal::bsp_pins!(
     Gpio5 {
         name: gpio5,
         aliases: {
-            FunctionI2C: I2CScl
+            FunctionI2C, PullUp: I2CScl
         }
     },
     /// GPIO 6 can serve as:
@@ -128,9 +129,9 @@ hal::bsp_pins!(
     Gpio6 {
         name: gpio6,
         aliases: {
-            FunctionPwm: D0Pwm,
-            FunctionPio0: D0Pio0,
-            FunctionPio1: D0Pio1
+            FunctionPwm, PullNone: D0Pwm,
+            FunctionPio0, PullNone: D0Pio0,
+            FunctionPio1, PullNone: D0Pio1
         }
     },
     /// GPIO 7 can serve as:
@@ -138,9 +139,9 @@ hal::bsp_pins!(
     Gpio7 {
         name: gpio7,
         aliases: {
-            FunctionPwm: D1Pwm,
-            FunctionPio0: D1Pio0,
-            FunctionPio1: D1Pio1
+            FunctionPwm, PullNone: D1Pwm,
+            FunctionPio0, PullNone: D1Pio0,
+            FunctionPio1, PullNone: D1Pio1
         }
     },
     /// GPIO 8 can serve as:
@@ -149,8 +150,8 @@ hal::bsp_pins!(
     Gpio8 {
         name: gpio8,
         aliases: {
-            FunctionI2C: I2CInt,
-            FunctionUart: UartTx2
+            FunctionI2C, PullUp: I2CInt,
+            FunctionUart, PullNone: UartTx2
         }
     },
     /// GPIO 9 can serve as:
@@ -160,10 +161,10 @@ hal::bsp_pins!(
     Gpio9 {
         name: gpio9,
         aliases: {
-            FunctionUart: UartRx2,
-            FunctionSpi: SpiCs1,
-            FunctionPio0: SdioData3Pio0,
-            FunctionPio1: SdioData3Pio1
+            FunctionUart, PullNone: UartRx2,
+            FunctionSpi, PullNone: SpiCs1,
+            FunctionPio0, PullNone: SdioData3Pio0,
+            FunctionPio1, PullNone: SdioData3Pio1
         }
     },
     /// GPIO 10 can serve as:
@@ -172,10 +173,10 @@ hal::bsp_pins!(
     Gpio10 {
         name: gpio10,
         aliases: {
-            FunctionPio0: SdioData2Pio0,
-            FunctionPio1: SdioData2Pio1,
-            FunctionPio0: AudOutPio0,
-            FunctionPio1: AudOutPio1
+            FunctionPio0, PullNone: SdioData2Pio0,
+            FunctionPio1, PullNone: SdioData2Pio1,
+            FunctionPio0, PullNone: AudOutPio0,
+            FunctionPio1, PullNone: AudOutPio1
         }
     },
     /// GPIO 11 can serve as:
@@ -184,10 +185,10 @@ hal::bsp_pins!(
     Gpio11 {
         name: gpio11,
         aliases: {
-            FunctionPio0: SdioData1Pio0,
-            FunctionPio1: SdioData1Pio1,
-            FunctionPio0: AudInPio0,
-            FunctionPio1: AudInPio1
+            FunctionPio0, PullNone: SdioData1Pio0,
+            FunctionPio1, PullNone: SdioData1Pio1,
+            FunctionPio0, PullNone: AudInPio0,
+            FunctionPio1, PullNone: AudInPio1
         }
     },
     /// GPIO 12 can serve as:
@@ -196,9 +197,9 @@ hal::bsp_pins!(
     Gpio12 {
         name: gpio12,
         aliases: {
-            FunctionSpi: SpiCipo1,
-            FunctionPio0: SdioData0Pio0,
-            FunctionPio1: SdioData0Pio1
+            FunctionSpi, PullNone: SpiCipo1,
+            FunctionPio0, PullNone: SdioData0Pio0,
+            FunctionPio1, PullNone: SdioData0Pio1
         }
     },
     /// GPIO 13 can serve as:
@@ -206,7 +207,7 @@ hal::bsp_pins!(
     Gpio13 {
         name: gpio13,
         aliases: {
-            FunctionPwm: Pwm0
+            FunctionPwm, PullNone: Pwm0
         }
     },
     /// GPIO 14 can serve as:
@@ -215,9 +216,9 @@ hal::bsp_pins!(
     Gpio14 {
         name: gpio14,
         aliases: {
-            FunctionSpi: SpiSck1,
-            FunctionPio0: SdioSckPio0,
-            FunctionPio1: SdioSckPio1
+            FunctionSpi, PullNone: SpiSck1,
+            FunctionPio0, PullNone: SdioSckPio0,
+            FunctionPio1, PullNone: SdioSckPio1
         }
     },
     /// GPIO 15 can serve as:
@@ -226,9 +227,9 @@ hal::bsp_pins!(
     Gpio15 {
         name: gpio15,
         aliases: {
-            FunctionSpi: SpiCopi1,
-            FunctionPio0: SdioCmdPio0,
-            FunctionPio1: SdioCmdPio1
+            FunctionSpi, PullNone: SpiCopi1,
+            FunctionPio0, PullNone: SdioCmdPio0,
+            FunctionPio1, PullNone: SdioCmdPio1
         }
     },
     /// GPIO 16 can serve as:
@@ -236,9 +237,9 @@ hal::bsp_pins!(
     Gpio16 {
         name: gpio16,
         aliases: {
-            FunctionPwm: G0Pwm,
-            FunctionPio0: G0Pio0,
-            FunctionPio1: G0Pio1
+            FunctionPwm, PullNone: G0Pwm,
+            FunctionPio0, PullNone: G0Pio0,
+            FunctionPio1, PullNone: G0Pio1
         }
     },
     /// GPIO 17 can serve as:
@@ -246,9 +247,9 @@ hal::bsp_pins!(
     Gpio17 {
         name: gpio17,
         aliases: {
-            FunctionPwm: G1Pwm,
-            FunctionPio0: G1Pio0,
-            FunctionPio1: G1Pio1
+            FunctionPwm, PullNone: G1Pwm,
+            FunctionPio0, PullNone: G1Pio0,
+            FunctionPio1, PullNone: G1Pio1
         }
     },
     /// GPIO 18 can serve as:
@@ -256,9 +257,9 @@ hal::bsp_pins!(
     Gpio18 {
         name: gpio18,
         aliases: {
-            FunctionPwm: G2Pwm,
-            FunctionPio0: G2Pio0,
-            FunctionPio1: G2Pio1
+            FunctionPwm, PullNone: G2Pwm,
+            FunctionPio0, PullNone: G2Pio0,
+            FunctionPio1, PullNone: G2Pio1
         }
     },
     /// GPIO 19 can serve as:
@@ -266,9 +267,9 @@ hal::bsp_pins!(
     Gpio19 {
         name: gpio19,
         aliases: {
-            FunctionPwm: G3Pwm,
-            FunctionPio0: G3Pio0,
-            FunctionPio1: G3Pio1
+            FunctionPwm, PullNone: G3Pwm,
+            FunctionPio0, PullNone: G3Pio0,
+            FunctionPio1, PullNone: G3Pio1
         }
     },
     /// GPIO 20 can serve as:
@@ -277,10 +278,10 @@ hal::bsp_pins!(
     Gpio20 {
         name: gpio20,
         aliases: {
-            FunctionSpi: SpiCipo,
-            FunctionPwm: G4Pwm,
-            FunctionPio0: G4Pio0,
-            FunctionPio1: G4Pio1
+            FunctionSpi, PullNone: SpiCipo,
+            FunctionPwm, PullNone: G4Pwm,
+            FunctionPio0, PullNone: G4Pio0,
+            FunctionPio1, PullNone: G4Pio1
         }
     },
     /// GPIO 21 can serve as:
@@ -289,10 +290,10 @@ hal::bsp_pins!(
     Gpio21 {
         name: gpio21,
         aliases: {
-            FunctionSpi: SpiCs,
-            FunctionPwm: G5Pwm,
-            FunctionPio0: G5Pio0,
-            FunctionPio1: G5Pio1
+            FunctionSpi, PullNone: SpiCs,
+            FunctionPwm, PullNone: G5Pwm,
+            FunctionPio0, PullNone: G5Pio0,
+            FunctionPio1, PullNone: G5Pio1
         }
     },
     /// GPIO 22 can serve as:
@@ -301,10 +302,10 @@ hal::bsp_pins!(
     Gpio22 {
         name: gpio22,
         aliases: {
-            FunctionSpi: SpiSck,
-            FunctionPwm: G6Pwm,
-            FunctionPio0: G6Pio0,
-            FunctionPio1: G6Pio1
+            FunctionSpi, PullNone: SpiSck,
+            FunctionPwm, PullNone: G6Pwm,
+            FunctionPio0, PullNone: G6Pio0,
+            FunctionPio1, PullNone: G6Pio1
         }
     },
     /// GPIO 23 can serve as:
@@ -313,10 +314,10 @@ hal::bsp_pins!(
     Gpio23 {
         name: gpio23,
         aliases: {
-            FunctionSpi: SpiCopi,
-            FunctionPwm: G7Pwm,
-            FunctionPio0: G7Pio0,
-            FunctionPio1: G7Pio1
+            FunctionSpi, PullNone: SpiCopi,
+            FunctionPwm, PullNone: G7Pwm,
+            FunctionPio0, PullNone: G7Pio0,
+            FunctionPio1, PullNone: G7Pio1
         }
     },
     /// GPIO 24 can serve as:
@@ -325,9 +326,9 @@ hal::bsp_pins!(
     Gpio24 {
         name: gpio24,
         aliases: {
-            FunctionPwm: Pwm1,
-            FunctionPio0: AudMclkPio0,
-            FunctionPio1: AudMclkPio1
+            FunctionPwm, PullNone: Pwm1,
+            FunctionPio0, PullNone: AudMclkPio0,
+            FunctionPio1, PullNone: AudMclkPio1
         }
     },
     /// GPIO 25 can serve as:
@@ -336,9 +337,9 @@ hal::bsp_pins!(
     Gpio25 {
         name: led,
         aliases: {
-            FunctionPwm: G10Pwm,
-            FunctionPio0: G10Pio0,
-            FunctionPio1: G10Pio1
+            FunctionPwm, PullNone: G10Pwm,
+            FunctionPio0, PullNone: G10Pio0,
+            FunctionPio1, PullNone: G10Pio1
         }
     },
     /// ADC 0 can serve as:
@@ -356,9 +357,9 @@ hal::bsp_pins!(
     Gpio28 {
         name: gpio28,
         aliases: {
-            FunctionPwm: G9Pwm,
-            FunctionPio0: G9Pio0,
-            FunctionPio1: G9Pio1
+            FunctionPwm, PullNone: G9Pwm,
+            FunctionPio0, PullNone: G9Pio0,
+            FunctionPio1, PullNone: G9Pio1
         }
     },
     /// ADC 3 can serve as:
@@ -371,8 +372,7 @@ hal::bsp_pins!(
 pub const XOSC_CRYSTAL_FREQ: u32 = 12_000_000;
 
 /// Alias for a configured pin
-pub type BattVin = hal::gpio::Pin<hal::gpio::bank0::Gpio29, hal::gpio::Input<hal::gpio::Floating>>;
-
+pub type BattVin = hal::adc::AdcPin<hal::gpio::Pin<Gpio29, FunctionSioInput, PullNone>>;
 /// Driver for reading the battery volatage
 pub struct BatteryVoltage {
     pin: BattVin,
@@ -391,11 +391,12 @@ impl BatteryVoltage {
     /// The current voltage in millivolts
     pub fn read(&mut self, adc: &mut hal::Adc) -> u16 {
         use embedded_hal::adc::OneShot;
+
         let raw_value: u32 = loop {
             match adc.read(&mut self.pin) {
                 Ok(val) => break val,
                 Err(nb::Error::WouldBlock) => (),
-                Err(nb::Error::Other(())) => unreachable!(),
+                Err(nb::Error::Other(_)) => unreachable!(),
             }
         };
 

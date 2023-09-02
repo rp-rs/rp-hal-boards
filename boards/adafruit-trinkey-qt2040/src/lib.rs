@@ -21,11 +21,11 @@ hal::bsp_pins!(
     Gpio12 { name: button },
     Gpio16 {
         name: sda,
-        aliases: { FunctionI2C: Sda }
+        aliases: { FunctionI2C, PullUp: Sda }
     },
     Gpio17 {
         name: scl,
-        aliases: { FunctionI2C: Scl }
+        aliases: { FunctionI2C, PullUp: Scl }
     },
     Gpio27 { name: neopixel },
 );
