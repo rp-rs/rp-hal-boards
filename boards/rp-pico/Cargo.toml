@@ -11,35 +11,35 @@ repository = "https://github.com/rp-rs/rp-hal-boards.git"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-cortex-m-rt = { version = "0.7", optional = true }
-fugit = "0.3.7"
-rp2040-boot2 = { version = "0.3.0", optional = true }
-rp2040-hal = { version = "0.9.0" }
-usb-device= "0.2.9"
+cortex-m-rt = { workspace = true, optional = true }
+fugit.workspace = true
+rp2040-boot2 = { workspace = true, optional = true }
+rp2040-hal.workspace = true
+usb-device.workspace = true
 
 [dev-dependencies]
-cortex-m = "0.7.7"
-cortex-m-rtic = "1.1.4"
-critical-section = "1.1.2"
-embedded-graphics = "0.7.1"
-embedded-hal ="0.2.7"
-embedded-sdmmc = "0.5.0"
-hd44780-driver = "0.4.0"
-heapless = "0.7.16"
-i2c-pio = "0.7.0"
-nb = "1.1"
-panic-halt= "0.2.0"
-pio = "0.2.1"
-pio-proc = "0.2.2"
-rp2040-hal = { version = "0.9.0", features = [ "defmt" ] }
-smart-leds = "0.3.0"
-ssd1306 = "0.7.1"
-usbd-hid = "0.5.2"
-usbd-serial = "0.1.1"
-ws2812-pio = "0.7.0"
+cortex-m.workspace = true
+cortex-m-rtic.workspace = true
+critical-section.workspace = true
+embedded-graphics.workspace = true
+embedded-hal.workspace = true
+embedded-sdmmc.workspace = true
+hd44780-driver.workspace = true
+heapless.workspace = true
+i2c-pio.workspace = true
+nb.workspace = true
+panic-halt.workspace = true
+pio.workspace = true
+pio-proc.workspace = true
+rp2040-hal = { workspace = true, features = [ "defmt" ] }
+smart-leds.workspace = true
+ssd1306.workspace = true
+usbd-hid.workspace = true
+usbd-serial.workspace = true
+ws2812-pio.workspace = true
 
-defmt = "0.3.5"
-defmt-rtt = "0.4.0"
+defmt.workspace = true
+defmt-rtt.workspace = true
 
 [features]
 # This is the set of features we enable by default
