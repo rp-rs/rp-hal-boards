@@ -17,12 +17,15 @@ rp2040-boot2 = { workspace = true, optional = true }
 rp2040-hal.workspace = true
 
 [dev-dependencies]
-panic-halt.workspace = true
-rp2040-boot2.workspace = true
-smart-leds.workspace = true
+embedded-hal.workspace = true
+heapless.workspace = true
 fugit.workspace = true
 nb.workspace = true
+panic-halt.workspace = true
+smart-leds.workspace = true
 ws2812-pio.workspace = true
+usb-device.workspace = true
+usbd-serial.workspace = true
 
 [features]
 # This is the set of features we enable by default
