@@ -1,6 +1,7 @@
 #![no_std]
 
 pub use rp2040_hal as hal;
+
 #[cfg(feature = "rt")]
 extern crate cortex_m_rt;
 #[cfg(feature = "rt")]
