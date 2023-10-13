@@ -93,7 +93,7 @@ Each BSP includes some examples to show off the features of that particular boar
 ### [rp-pico] - Board Support for the [Raspberry Pi Pico]
 
 You should include this crate if you are writing code that you want to run on
-a [Raspberry Pi Pico] - the original launch PCB for the RP2040 chip.  
+a [Raspberry Pi Pico] - the original launch PCB for the RP2040 chip.
 
 This crate includes the [rp2040-hal], but also configures each pin of the
 RP2040 chip according to how it is connected up on the Pico.
@@ -287,6 +287,17 @@ RP2040 chip according to how it is connected up on the Thing Plus RP2040.
 [Sparkfun Thing Plus RP2040]: https://www.sparkfun.com/products/17745
 [sparkfun-thing-plus-rp2040]: https://github.com/rp-rs/rp-hal-boards/tree/main/boards/sparkfun-thing-plus-rp2040
 
+### [sparkfun-xrp] - Board Support for the [Sparkfun XRP Robot]
+
+You should include this crate if you are writing code that you want to run on
+a [Sparkfun XRP Robot] - a robot kit with an RP2040 control board.
+
+This crate includes the [rp2040-hal], but also configures each pin of the
+RP2040 chip according to how it is connected up on the XRP.
+
+[Sparkfun XRP Robot]: https://www.sparkfun.com/products/22230
+[sparkfun-xrp]: https://github.com/rp-rs/rp-hal-boards/tree/main/boards/sparkfun-xrp
+
 ### [arduino_nano_connect] - Board Support for the [Arduino Nano RP2040 Connect]
 
 You should include this crate if you are writing code that you want to run on
@@ -335,7 +346,7 @@ RP2040 chip according to how it is connected up on the Feather.
 ### [waveshare-rp2040-lcd-0_96] - Board Support for the [Waveshare RP2040 LCD 0.96"]
 
 You should include this crate if you are writing code that you want to run on
-an [Waveshare RP2040 LCD 0.96"] - a very small RP2040 breakout board with USB-C, 
+an [Waveshare RP2040 LCD 0.96"] - a very small RP2040 breakout board with USB-C,
 a 65K IPS LCD 160x80, 16MBit Flash and 1A battery charger from Waveshare.
 
 This crate includes the [rp2040-hal], but also configures each pin of the
