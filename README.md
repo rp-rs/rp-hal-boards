@@ -93,7 +93,7 @@ Each BSP includes some examples to show off the features of that particular boar
 ### [rp-pico] - Board Support for the [Raspberry Pi Pico]
 
 You should include this crate if you are writing code that you want to run on
-a [Raspberry Pi Pico] - the original launch PCB for the RP2040 chip.  
+a [Raspberry Pi Pico] - the original launch PCB for the RP2040 chip.
 
 This crate includes the [rp2040-hal], but also configures each pin of the
 RP2040 chip according to how it is connected up on the Pico.
@@ -144,6 +144,17 @@ RP2040 chip according to how it is connected up on the Macropad.
 
 [adafruit-macropad]: https://github.com/rp-rs/rp-hal-boards/tree/main/boards/adafruit-macropad
 [Adafruit Macropad]: https://www.adafruit.com/product/5128
+
+### [adafruit-metro-rp2040] - Board Support for the [Adafruit Metro RP2040]
+
+You should include this crate if you are writing code that you want to run on
+an [Adafruit Metro RP2040] - an RP2040 board in the Metro family.
+
+This crate includes the [rp2040-hal], but also configures each pin of the
+RP2040 chip according to how it is connected up on the Metro RP2040.
+
+[Adafruit Metro RP2040]: https://www.adafruit.com/product/5786
+[adafruit-metro-rp2040]: https://github.com/rp-rs/rp-hal-boards/tree/main/boards/adafruit-metro-rp2040
 
 ### [adafruit-qt-py-rp2040] - Board Support for the [Adafruit QT Py RP2040]
 
@@ -335,7 +346,7 @@ RP2040 chip according to how it is connected up on the Feather.
 ### [waveshare-rp2040-lcd-0_96] - Board Support for the [Waveshare RP2040 LCD 0.96"]
 
 You should include this crate if you are writing code that you want to run on
-an [Waveshare RP2040 LCD 0.96"] - a very small RP2040 breakout board with USB-C, 
+an [Waveshare RP2040 LCD 0.96"] - a very small RP2040 breakout board with USB-C,
 a 65K IPS LCD 160x80, 16MBit Flash and 1A battery charger from Waveshare.
 
 This crate includes the [rp2040-hal], but also configures each pin of the

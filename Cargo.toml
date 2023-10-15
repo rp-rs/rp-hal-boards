@@ -5,6 +5,7 @@ members = [
     "boards/adafruit-itsy-bitsy-rp2040",
     "boards/adafruit-kb2040",
     "boards/adafruit-macropad",
+    "boards/adafruit-metro-rp2040",
     "boards/adafruit-qt-py-rp2040",
     "boards/adafruit-trinkey-qt2040",
     "boards/arduino_nano_connect",
