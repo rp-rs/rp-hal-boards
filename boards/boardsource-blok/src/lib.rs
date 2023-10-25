@@ -47,7 +47,6 @@ hal::bsp_pins!(
         }
     },
 
-
     /// GPIO 1 supports following functions:
     ///
     /// | Function     | Alias with applied function |
