@@ -494,7 +494,7 @@ hal::bsp_pins!(
             /// PIO1 Function alias for pin [crate::Pins::gpio21].
             FunctionPio1, PullNone: Gp23Pio1
         }
-    },    
+    },
 
     /// GPIO 21 supports following functions:
     ///
@@ -522,7 +522,7 @@ hal::bsp_pins!(
             /// PIO1 Function alias for pin [crate::Pins::gpio21].
             FunctionPio1, PullNone: Gp21Pio1
         }
-    },    
+    },
 
     /// GPIO 25 is connected to a neopixel on the top right of the board
     Gpio25 {
