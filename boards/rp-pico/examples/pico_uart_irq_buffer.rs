@@ -279,7 +279,7 @@ fn UART0_IRQ() {
         }
 
         if UART_TX_QUEUE.peek_byte().is_none() {
-            pac::NVIC::mask(hal::pac::Interrupt::UART0_IRQ);
+            pac::NVIC::mask(UART_TX_QUEUE.interrupt);
         }
     }
 
