@@ -18,7 +18,7 @@ use core::cell::RefCell;
 // Trait required to use `writeln!(…)`
 use core::fmt::Write;
 
-// A system wide mutex synchrinising IRQ & cores
+// A system wide mutex synchronising IRQ & cores
 use critical_section::Mutex;
 
 // Import common embedded_hal traits
@@ -79,11 +79,14 @@ fn do_with_usb<T>(closure: impl FnOnce(&mut StaticUsb) -> T) -> T {
 /// The `#[entry]` macro ensures the Cortex-M start-up code calls this function
 /// as soon as all global variables are initialised.
 ///
-/// The function configures the RP2040 peripherals, then blinks the LED in an
-/// infinite loop.
+/// The function
+/// 1. configures the RP2040 peripherals,
+/// 2. waits for USB enumeration to complete,
+/// 3. runs a loop 20 times sending a message over usbd-serial before
+/// 4. finally resetting to usbboot in bootrom.
 #[entry]
 fn main() -> ! {
-    // The USB Bus Driver (shared with the interrupt).
+    // The USB Bus Driver.
     static mut USB_BUS: Option<UsbBusAllocator<hal::usb::UsbBus>> = None;
 
     // Grab our singleton objects
@@ -120,9 +123,7 @@ fn main() -> ! {
         &mut pac.RESETS,
     )));
 
-    // Grab a reference to the USB Bus allocator. We are promising to the
-    // compiler not to take mutable access to this global variable whilst this
-    // reference exists!
+    // Grab a reference to the USB Bus allocator.
     let bus_ref = USB_BUS.as_mut().unwrap();
 
     // Set up the USB Communications Class Device driver
@@ -228,6 +229,11 @@ fn USBCTRL_IRQ() {
 #[allow(non_snake_case)]
 #[exception]
 fn SysTick() {
+    // Keeps the usb_device updated in case there is no activity on the bus triggering a
+    // USBCTRL_IRQ.
+    //
+    // This is required by the usb-specs and recommented by usb-device to be at least every 10ms.
+    // see: https://docs.rs/usb-device/latest/usb_device/device/struct.UsbDevice.html#method.poll
     do_with_usb(|usb| usb.usb_device.poll(&mut [&mut usb.usb_serial]));
 }
 
