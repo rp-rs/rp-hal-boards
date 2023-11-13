@@ -35,6 +35,7 @@ use rp_pico::hal::pac;
 // higher-level drivers.
 use rp_pico::hal;
 
+use usb_device::device::StringDescriptors;
 // USB Device support
 use usb_device::{class_prelude::*, prelude::*};
 
@@ -120,9 +121,11 @@ fn main() -> ! {
 
     // Create a USB device with a fake VID and PID
     let usb_dev = UsbDeviceBuilder::new(bus_ref, UsbVidPid(0x16c0, 0x27da))
-        .manufacturer("Fake company")
-        .product("Twitchy Mousey")
-        .serial_number("TEST")
+        .strings(&[StringDescriptors::default()
+            .manufacturer("Fake company")
+            .product("Twitchy Mousey")
+            .serial_number("TEST")])
+        .expect("Failed to configure UsbDevice")
         .device_class(0)
         .build();
     unsafe {

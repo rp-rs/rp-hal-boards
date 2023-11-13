@@ -25,3 +25,5 @@ members = [
     "boards/waveshare-rp2040-zero",
     "boards/waveshare-rp2040-lcd-0-96",
 ]
+[patch.crates-io]
+rp2040-hal = { git = "https://github.com/ithinuel/rp-hal", branch = "prepare-for-next-usb-device-release" }

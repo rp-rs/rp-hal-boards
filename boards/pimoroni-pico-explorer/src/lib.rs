@@ -162,6 +162,7 @@ pub type Screen = ST7789<
         Pin<Gpio17, FunctionSioOutput, PullNone>,
     >,
     DummyPin,
+    DummyPin,
 >;
 
 pub struct PicoExplorer {
@@ -217,7 +218,7 @@ impl PicoExplorer {
 
         let spii_screen = SPIInterface::new(spi_screen, dc, cs);
 
-        let mut screen = ST7789::new(spii_screen, DummyPin, 240, 240);
+        let mut screen = ST7789::new(spii_screen, Some(DummyPin), Some(DummyPin), 240, 240);
 
         screen.init(delay).unwrap();
         screen

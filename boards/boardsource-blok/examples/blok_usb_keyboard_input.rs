@@ -27,6 +27,7 @@ use boardsource_blok::{
     Pins, XOSC_CRYSTAL_FREQ,
 };
 use panic_halt as _;
+use usb_device::device::StringDescriptors;
 use usb_device::{
     bus::UsbBusAllocator, device::UsbDevice, device::UsbDeviceBuilder, device::UsbVidPid,
 };
@@ -84,7 +85,8 @@ fn main() -> ! {
     }
 
     let usb_device = UsbDeviceBuilder::new(bus_ref, UsbVidPid(0x1209, 0x0001))
-        .product("keyboard input")
+        .strings(&[StringDescriptors::default().product("keyboard input")])
+        .expect("Failed to configure UsbDevice")
         .build();
     unsafe {
         USB_DEVICE = Some(usb_device);

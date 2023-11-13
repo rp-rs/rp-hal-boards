@@ -28,7 +28,7 @@ use rp_pico::hal::pac;
 use rp_pico::hal;
 
 // USB Device support
-use usb_device::{class_prelude::*, prelude::*};
+use usb_device::{class_prelude::*, device::StringDescriptors, prelude::*};
 
 // USB Communications Class Device support
 use usbd_serial::SerialPort;
@@ -94,9 +94,11 @@ fn main() -> ! {
 
     // Create a USB device with a fake VID and PID
     let mut usb_dev = UsbDeviceBuilder::new(&usb_bus, UsbVidPid(0x16c0, 0x27dd))
-        .manufacturer("Fake company")
-        .product("Serial port")
-        .serial_number("TEST")
+        .strings(&[StringDescriptors::default()
+            .manufacturer("Fake company")
+            .product("Serial port")
+            .serial_number("TEST")])
+        .expect("Failed to configure UsbDevice")
         .device_class(2) // from: https://www.usb.org/defined-class-codes
         .build();
 
