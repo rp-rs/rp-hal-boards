@@ -276,6 +276,18 @@ RP2040 chip according to how it is connected up on the Stamp.
 [SolderParty RP2040 Stamp]: https://www.solder.party/docs/rp2040-stamp/
 [solderparty-rp2040-stamp]: https://github.com/rp-rs/rp-hal-boards/tree/main/boards/solderparty-rp2040-stamp
 
+### [sparkfun-micromod-rp2040] - Board Support for the [SparkFun MicroMod RP2040]
+
+You should include this crate if you are writing code that you want to run on
+a [SparkFun MicroMod RP2040] - the RP2040 processor board for the [SparkFun MicroMod] ecosystem.
+
+This crate includes the [rp2040-hal], but also configures each pin of the
+RP2040 chip according to how it is connected up on the MicroMod RP2040.
+
+[SparkFun MicroMod RP2040]: https://www.sparkfun.com/products/17720
+[SparkFun MicroMod]: https://www.sparkfun.com/micromod
+[sparkfun-micromod-rp2040]: https://github.com/rp-rs/rp-hal-boards/tree/main/boards/sparkfun-micromod-rp2040
+
 ### [sparkfun-pro-micro-rp2040] - Board Support for the [Sparkfun Pro Micro RP2040]
 
 You should include this crate if you are writing code that you want to run on
@@ -338,7 +350,7 @@ You should include this crate if you are writing code that you want to run on
 an [Waveshare RP2040 Zero] - a very small RP2040 breakout board with USB-C and a RGB led from Waveshare.
 
 This crate includes the [rp2040-hal], but also configures each pin of the
-RP2040 chip according to how it is connected up on the Feather.
+RP2040 chip according to how it is connected up on the board.
 
 [Waveshare RP2040 Zero]: https://www.waveshare.com/wiki/RP2040-Zero
 [waveshare-rp2040-zero]: https://github.com/rp-rs/rp-hal-boards/tree/main/boards/waveshare-rp2040-zero
@@ -350,7 +362,7 @@ an [Waveshare RP2040 LCD 0.96"] - a very small RP2040 breakout board with USB-C,
 a 65K IPS LCD 160x80, 16MBit Flash and 1A battery charger from Waveshare.
 
 This crate includes the [rp2040-hal], but also configures each pin of the
-RP2040 chip according to how it is connected up on the Feather.
+RP2040 chip according to how it is connected up on the board.
 
 [Waveshare RP2040 LCD 0.96"]: https://www.waveshare.com/wiki/RP2040-LCD-0.96
 [waveshare-rp2040-lcd-0_96]: https://github.com/rp-rs/rp-hal-boards/tree/main/boards/waveshare-rp2040-lcd-0-96
