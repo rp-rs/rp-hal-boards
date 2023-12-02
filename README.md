@@ -338,7 +338,7 @@ You should include this crate if you are writing code that you want to run on
 an [Waveshare RP2040 Zero] - a very small RP2040 breakout board with USB-C and a RGB led from Waveshare.
 
 This crate includes the [rp2040-hal], but also configures each pin of the
-RP2040 chip according to how it is connected up on the Feather.
+RP2040 chip according to how it is connected up on the RP2040 Zero.
 
 [Waveshare RP2040 Zero]: https://www.waveshare.com/wiki/RP2040-Zero
 [waveshare-rp2040-zero]: https://github.com/rp-rs/rp-hal-boards/tree/main/boards/waveshare-rp2040-zero
