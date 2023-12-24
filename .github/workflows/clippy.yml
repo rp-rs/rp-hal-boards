@@ -11,4 +11,4 @@ jobs:
         with:
           target: thumbv6m-none-eabi
           components: clippy
-      - run: cargo clippy --workspace --examples -- -Dwarnings
+      - run: cargo clippy --workspace --examples --features rp2040-hal/rtic-monotonic -- -Dwarnings
