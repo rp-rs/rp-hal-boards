@@ -1,4 +1,4 @@
-//! # Badger2040 Blinky Example
+//! # Tufty2040 Blinky Example
 //!
 //! Blinks the activity LED on a tufty2040 board, using an RP2040 Timer in Count-down mode.
 //!
