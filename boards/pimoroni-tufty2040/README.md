@@ -55,9 +55,9 @@ $ cargo install elf2uf2-rs
 ```
 then try repeating the `cargo run` command above.
 
-### [tufty_blinky](./examples/tufty_blinky)
+### [tufty_demo](./examples/tufty_demo)
 
-Flashes the Tufty2040's LED.
+Flashes the Tufty2040's LED and draws a circle on the screen.
 
 ## Contributing
 

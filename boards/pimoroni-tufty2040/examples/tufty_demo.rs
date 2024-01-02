@@ -1,6 +1,6 @@
 //! # Tufty2040 Blinky Example
 //!
-//! Blinks the activity LED on a tufty2040 board, using an RP2040 Timer in Count-down mode.
+//! Draws a circle on the LCD screen and then blinks the user LED on the Tufty 2040.
 //!
 //! See the `Cargo.toml` file for Copyright and licence details.
 
@@ -90,21 +90,6 @@ fn main() -> ! {
 
     pins.lcd_backlight.into_push_pull_output_in_state(PinState::High);
     pins.lcd_rd.into_push_pull_output_in_state(PinState::High);
-
-    /*
-    Example of using GPIO data lines:
-    let display_data = tufty::GpioDataLines {
-        wr: pins.lcd_wr.into_push_pull_output_in_state(PinState::High),
-        d0: pins.lcd_db0.into_push_pull_output(),
-        d1: pins.lcd_db1.into_push_pull_output(),
-        d2: pins.lcd_db2.into_push_pull_output(),
-        d3: pins.lcd_db3.into_push_pull_output(),
-        d4: pins.lcd_db4.into_push_pull_output(),
-        d5: pins.lcd_db5.into_push_pull_output(),
-        d6: pins.lcd_db6.into_push_pull_output(),
-        d7: pins.lcd_db7.into_push_pull_output(),
-    };
-     */
 
     let display_data = {
         use hal::dma::DMAExt;
