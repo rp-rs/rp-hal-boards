@@ -4,12 +4,14 @@ pub extern crate rp2040_hal as hal;
 
 pub use hal::pac;
 
-use embedded_hal::digital::v2::OutputPin;
 use display_interface::{DataFormat, DisplayError, WriteOnlyDataCommand};
+use embedded_hal::digital::v2::OutputPin;
 use fugit::HertzU32;
-use hal::dma::{Channel, ChannelIndex, single_buffer, WriteTarget};
+use hal::dma::{single_buffer, Channel, ChannelIndex, WriteTarget};
 use hal::gpio::PinId;
-use hal::pio::{Buffers, PinDir, PinState, PIOBuilder, PIOExt, StateMachineIndex, Tx, UninitStateMachine};
+use hal::pio::{
+    Buffers, PIOBuilder, PIOExt, PinDir, PinState, StateMachineIndex, Tx, UninitStateMachine,
+};
 use pio_proc::pio_file;
 
 #[cfg(feature = "rt")]
@@ -183,10 +185,17 @@ pub struct GpioDataLines<WR, D0, D1, D2, D3, D4, D5, D6, D7> {
 }
 
 impl<
-    WR: OutputPin,
-    D0: OutputPin, D1: OutputPin, D2: OutputPin, D3: OutputPin,
-    D4: OutputPin, D5: OutputPin, D6: OutputPin, D7: OutputPin,
-> GpioDataLines<WR, D0, D1, D2, D3, D4, D5, D6, D7> {
+        WR: OutputPin,
+        D0: OutputPin,
+        D1: OutputPin,
+        D2: OutputPin,
+        D3: OutputPin,
+        D4: OutputPin,
+        D5: OutputPin,
+        D6: OutputPin,
+        D7: OutputPin,
+    > GpioDataLines<WR, D0, D1, D2, D3, D4, D5, D6, D7>
+{
     #[inline]
     fn write_u8_inner(&mut self, value: u8) -> Result<(), DisplayError> {
         set_pin_bit(&mut self.d0, value, 1 << 0)?;
@@ -202,10 +211,17 @@ impl<
 }
 
 impl<
-    WR: OutputPin,
-    D0: OutputPin, D1: OutputPin, D2: OutputPin, D3: OutputPin,
-    D4: OutputPin, D5: OutputPin, D6: OutputPin, D7: OutputPin,
-> DisplayDataLines for GpioDataLines<WR, D0, D1, D2, D3, D4, D5, D6, D7> {
+        WR: OutputPin,
+        D0: OutputPin,
+        D1: OutputPin,
+        D2: OutputPin,
+        D3: OutputPin,
+        D4: OutputPin,
+        D5: OutputPin,
+        D6: OutputPin,
+        D7: OutputPin,
+    > DisplayDataLines for GpioDataLines<WR, D0, D1, D2, D3, D4, D5, D6, D7>
+{
     fn write_u8(&mut self, value: u8) -> Result<(), DisplayError> {
         self.wr.set_low().map_err(|_| DisplayError::BusWriteError)?;
         let err = self.write_u8_inner(value);
@@ -222,8 +238,12 @@ pub struct PioDataLines<P: PIOExt, SM: StateMachineIndex, CH: ChannelIndex> {
 
 impl<P: PIOExt, SM: StateMachineIndex, CH: ChannelIndex> PioDataLines<P, SM, CH> {
     pub fn new(
-        pio: &mut hal::pio::PIO<P>, sys_freq: HertzU32, wr: impl PinId, d0: impl PinId,
-        sm: UninitStateMachine<(P, SM)>, ch: Channel<CH>,
+        pio: &mut hal::pio::PIO<P>,
+        sys_freq: HertzU32,
+        wr: impl PinId,
+        d0: impl PinId,
+        sm: UninitStateMachine<(P, SM)>,
+        ch: Channel<CH>,
     ) -> PioDataLines<P, SM, CH> {
         let d0 = d0.as_dyn().num;
         let wr = wr.as_dyn().num;
@@ -255,13 +275,13 @@ impl<P: PIOExt, SM: StateMachineIndex, CH: ChannelIndex> PioDataLines<P, SM, CH>
         sm.set_pins([(wr, PinState::High)]);
         sm.start();
 
-        PioDataLines {
-            tx: Some((tx, ch)),
-        }
+        PioDataLines { tx: Some((tx, ch)) }
     }
 }
 
-impl<P: PIOExt, SM: StateMachineIndex, CH: ChannelIndex> DisplayDataLines for PioDataLines<P, SM, CH> {
+impl<P: PIOExt, SM: StateMachineIndex, CH: ChannelIndex> DisplayDataLines
+    for PioDataLines<P, SM, CH>
+{
     fn flush(&mut self) {
         if let Some((tx, _)) = self.tx.as_mut() {
             while !tx.is_empty() {}
@@ -297,15 +317,13 @@ pub struct ParallelDisplayInterface<CS, DC, D> {
 
 impl<CS: OutputPin, DC: OutputPin, D: DisplayDataLines> ParallelDisplayInterface<CS, DC, D> {
     pub fn new(cs: CS, dc: DC, data_lines: D) -> ParallelDisplayInterface<CS, DC, D> {
-        ParallelDisplayInterface {
-            cs,
-            dc,
-            data_lines,
-        }
+        ParallelDisplayInterface { cs, dc, data_lines }
     }
 }
 
-impl<CS: OutputPin, DC: OutputPin, D: DisplayDataLines> WriteOnlyDataCommand for ParallelDisplayInterface<CS, DC, D> {
+impl<CS: OutputPin, DC: OutputPin, D: DisplayDataLines> WriteOnlyDataCommand
+    for ParallelDisplayInterface<CS, DC, D>
+{
     fn send_commands(&mut self, cmds: DataFormat<'_>) -> Result<(), DisplayError> {
         self.cs.set_low().map_err(|_| DisplayError::CSError)?;
         self.dc.set_low().map_err(|_| DisplayError::DCError)?;

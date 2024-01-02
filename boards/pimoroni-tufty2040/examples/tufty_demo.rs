@@ -27,20 +27,20 @@ use tufty::hal;
 // register access
 use hal::pac;
 
-use hal::Timer;
-use hal::Clock;
 use hal::clocks::ClockSource;
-use hal::gpio::{PullNone, FunctionPio0};
+use hal::gpio::{FunctionPio0, PullNone};
+use hal::Clock;
+use hal::Timer;
 
 use tufty::DummyPin;
 
 // A few traits required for using the CountDown timer
-use embedded_hal::timer::CountDown;
 use embedded_graphics::draw_target::DrawTarget;
-use embedded_graphics::Drawable;
-use embedded_graphics::pixelcolor::{Rgb565, RgbColor};
 use embedded_graphics::geometry::Point;
+use embedded_graphics::pixelcolor::{Rgb565, RgbColor};
 use embedded_graphics::primitives::{Circle, Primitive, PrimitiveStyleBuilder};
+use embedded_graphics::Drawable;
+use embedded_hal::timer::CountDown;
 use fugit::ExtU32;
 use st7789::ST7789;
 
@@ -65,8 +65,8 @@ fn main() -> ! {
         &mut pac.RESETS,
         &mut watchdog,
     )
-        .ok()
-        .unwrap();
+    .ok()
+    .unwrap();
 
     // The single-cycle I/O block controls our GPIO pins
     let sio = hal::Sio::new(pac.SIO);
@@ -88,7 +88,8 @@ fn main() -> ! {
     // Set the LED to be an output
     let mut led_pin = pins.led.into_push_pull_output();
 
-    pins.lcd_backlight.into_push_pull_output_in_state(PinState::High);
+    pins.lcd_backlight
+        .into_push_pull_output_in_state(PinState::High);
     pins.lcd_rd.into_push_pull_output_in_state(PinState::High);
 
     let display_data = {
