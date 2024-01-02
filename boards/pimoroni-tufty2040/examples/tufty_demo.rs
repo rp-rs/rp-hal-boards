@@ -1,4 +1,4 @@
-//! # Tufty2040 Blinky Example
+//! # Tufty2040 Demo Example
 //!
 //! Draws a circle on the LCD screen and then blinks the user LED on the Tufty 2040.
 //!
