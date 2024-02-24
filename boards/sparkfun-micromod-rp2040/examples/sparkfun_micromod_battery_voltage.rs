@@ -3,7 +3,7 @@
 //! Continuously reads the battery voltage and prints it over defmt-rtt.
 //!
 //! Note that for this example to work, you need to change the runner
-//! to `probe-run` (in `.cargo/config` at the root of the repository)
+//! to `probe-rs run` (in `.cargo/config` at the root of the repository)
 //! and connect to the RP2040 via SWD, preferredly via the Raspberry
 //! Pi Debug Probe.
 //!
