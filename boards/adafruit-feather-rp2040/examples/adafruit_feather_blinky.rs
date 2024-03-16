@@ -14,7 +14,7 @@ use adafruit_feather_rp2040::{
     },
     Pins, XOSC_CRYSTAL_FREQ,
 };
-use embedded_hal::digital::v2::OutputPin;
+use embedded_hal::digital::OutputPin;
 use panic_halt as _;
 
 #[entry]
