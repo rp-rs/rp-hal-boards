@@ -22,7 +22,7 @@ use boardsource_blok::{
     Pins, XOSC_CRYSTAL_FREQ,
 };
 use core::iter::once;
-use embedded_hal::timer::CountDown;
+use embedded_hal_0_2::timer::CountDown;
 use fugit::ExtU32;
 use panic_halt as _;
 use smart_leds::{brightness, SmartLedsWrite, RGB8};

@@ -28,7 +28,8 @@ use boardsource_blok::{
 };
 use panic_halt as _;
 use usb_device::{
-    bus::UsbBusAllocator, device::UsbDevice, device::UsbDeviceBuilder, device::UsbVidPid,
+    bus::UsbBusAllocator,
+    device::{StringDescriptors, UsbDevice, UsbDeviceBuilder, UsbVidPid},
 };
 use usbd_hid::{descriptor::KeyboardReport, descriptor::SerializedDescriptor, hid_class::HIDClass};
 
@@ -84,7 +85,8 @@ fn main() -> ! {
     }
 
     let usb_device = UsbDeviceBuilder::new(bus_ref, UsbVidPid(0x1209, 0x0001))
-        .product("keyboard input")
+        .strings(&[StringDescriptors::default().product("keyboard input")])
+        .unwrap()
         .build();
     unsafe {
         USB_DEVICE = Some(usb_device);
