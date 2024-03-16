@@ -25,6 +25,7 @@ pio.workspace = true
 pio-proc.workspace = true
 
 [dev-dependencies]
+embedded_hal_0_2.workspace = true
 panic-halt.workspace = true
 nb.workspace = true
 
