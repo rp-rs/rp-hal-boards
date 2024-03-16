@@ -88,8 +88,9 @@ fn main() -> ! {
     );
 
     let mut adc = hal::Adc::new(pac.ADC, &mut pac.RESETS);
-    let mut battery_voltage =
-        bsp::BatteryVoltage::new(hal::adc::AdcPin::new(pins.batt_vin.into_floating_input()));
+    let mut battery_voltage = bsp::BatteryVoltage::new(
+        hal::adc::AdcPin::new(pins.batt_vin.into_floating_input()).unwrap(),
+    );
 
     // Print temperature once per second
     loop {
