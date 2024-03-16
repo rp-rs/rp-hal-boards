@@ -19,7 +19,7 @@ use rp_pico::entry;
 use rp_pico::hal::pac::interrupt;
 
 // GPIO traits
-use embedded_hal::digital::v2::OutputPin;
+use embedded_hal::digital::OutputPin;
 
 // Ensure we halt the program on panic (if we don't mention this crate it won't
 // be linked)
@@ -108,9 +108,11 @@ fn main() -> ! {
 
     // Create a USB device with a fake VID and PID
     let usb_dev = UsbDeviceBuilder::new(bus_ref, UsbVidPid(0x16c0, 0x27dd))
-        .manufacturer("Fake company")
-        .product("Serial port")
-        .serial_number("TEST")
+        .strings(&[StringDescriptors::default()
+            .manufacturer("Fake company")
+            .product("Serial port")
+            .serial_number("TEST")])
+        .unwrap()
         .device_class(2) // from: https://www.usb.org/defined-class-codes
         .build();
     unsafe {

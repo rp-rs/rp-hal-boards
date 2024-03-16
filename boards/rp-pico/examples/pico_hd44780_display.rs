@@ -46,7 +46,7 @@ use panic_halt as _;
 use rp_pico::hal::prelude::*;
 
 // GPIO traits
-use embedded_hal::digital::v2::OutputPin;
+use embedded_hal::digital::OutputPin;
 
 // For LCD display
 use hd44780_driver::HD44780;

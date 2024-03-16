@@ -46,7 +46,7 @@ embedded_hal_0_2 = { package = "embedded-hal", version = "0.2.5", features = ["u
 fugit = "0.3.7"
 hd44780-driver = "0.4.0"
 heapless = "0.7.16"
-i2c-pio = "0.7.0"
+i2c-pio = { version = "0.8.0", git = "https://github.com/jannic/i2c-pio-rs/", rev = "969d427" }
 nb = "1.1"
 panic-halt= "0.2.0"
 panic-probe = "0.3.1"
@@ -59,6 +59,6 @@ st7735-lcd = "0.8.1"
 smart-leds = "0.3.0"
 ssd1306 = "0.7.1"
 usb-device = "0.3"
-usbd-hid = "0.5.2"
+usbd-hid = "0.7.0"
 usbd-serial = "0.2.1"
 ws2812-pio = { version = "0.7.0", git = "https://github.com/moosingin3space/ws2812-pio-rs/", rev = "c153eca" }

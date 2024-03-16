@@ -24,6 +24,7 @@ critical-section.workspace = true
 embedded-graphics.workspace = true
 embedded-hal.workspace = true
 embedded-sdmmc.workspace = true
+embedded_hal_0_2.workspace = true
 hd44780-driver.workspace = true
 heapless.workspace = true
 i2c-pio.workspace = true
