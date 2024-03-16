@@ -1,0 +1,5 @@
+.program st7789_parallel
+.side_set 1
+
+out pins, 32 side 0
+nop side 1
