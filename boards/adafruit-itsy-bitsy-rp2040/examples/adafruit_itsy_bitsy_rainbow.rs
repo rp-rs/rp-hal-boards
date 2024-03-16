@@ -53,7 +53,7 @@ fn main() -> ! {
         .into_push_pull_output_in_state(PinState::High);
 
     let timer = Timer::new(pac.TIMER, &mut pac.RESETS, &clocks);
-    let mut delay = timer.clone();
+    let mut delay = timer;
 
     let (mut pio, sm0, _, _, _) = pac.PIO0.split(&mut pac.RESETS);
     let mut ws = Ws2812::new(

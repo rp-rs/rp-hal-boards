@@ -49,7 +49,7 @@ fn main() -> ! {
     let led = pins.neopixel_data.into_function();
 
     let timer = Timer::new(pac.TIMER, &mut pac.RESETS, &clocks);
-    let mut delay = timer.clone();
+    let mut delay = timer;
 
     let (mut pio, sm0, _, _, _) = pac.PIO0.split(&mut pac.RESETS);
     let mut ws = Ws2812::new(
