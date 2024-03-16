@@ -14,7 +14,7 @@
 use rp_pico::entry;
 
 // GPIO traits
-use embedded_hal::PwmPin;
+use embedded_hal::pwm::SetDutyCycle;
 
 // Ensure we halt the program on panic (if we don't mention this crate it won't
 // be linked)
@@ -100,13 +100,13 @@ fn main() -> ! {
         // Ramp brightness up
         for i in (LOW..=HIGH).skip(100) {
             delay.delay_us(8);
-            channel.set_duty(i);
+            let _ = channel.set_duty_cycle(i);
         }
 
         // Ramp brightness down
         for i in (LOW..=HIGH).rev().skip(100) {
             delay.delay_us(8);
-            channel.set_duty(i);
+            let _ = channel.set_duty_cycle(i);
         }
 
         delay.delay_ms(500);

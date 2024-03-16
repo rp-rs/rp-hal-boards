@@ -6,7 +6,7 @@ use panic_halt as _;
 #[rtic::app(device = rp_pico::hal::pac, peripherals = true, dispatchers = [I2C0_IRQ])]
 mod app {
 
-    use embedded_hal::digital::v2::OutputPin;
+    use embedded_hal::digital::OutputPin;
     use fugit::ExtU64;
     use rp_pico::{
         hal::{

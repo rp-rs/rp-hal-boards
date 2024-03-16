@@ -139,7 +139,7 @@ fn main() -> ! {
 
     // Build the pio program and set pin both for set and side set!
     // We are running with the default divider which is 1 (max speed)
-    let (mut sm, _, mut tx) = PIOBuilder::from_program(installed)
+    let (mut sm, _, mut tx) = PIOBuilder::from_installed_program(installed)
         .set_pins(led_pin_id, 1)
         .side_set_pin_base(led_pin_id)
         .build(sm0);

@@ -51,7 +51,7 @@ use rp_pico::entry;
 use fugit::{ExtU32, RateExtU32};
 
 // CountDown timer for the counter on the display:
-use embedded_hal::timer::CountDown;
+use embedded_hal_0_2::timer::CountDown;
 
 // Ensure we halt the program on panic (if we don't mention this crate it won't
 // be linked)
@@ -121,8 +121,8 @@ fn main() -> ! {
     );
 
     // Configure two pins as being I²C, not GPIO
-    let sda_pin = pins.gpio16.into_function::<hal::gpio::FunctionI2C>();
-    let scl_pin = pins.gpio17.into_function::<hal::gpio::FunctionI2C>();
+    let sda_pin: hal::gpio::Pin<_, hal::gpio::FunctionI2C, _> = pins.gpio16.reconfigure();
+    let scl_pin: hal::gpio::Pin<_, hal::gpio::FunctionI2C, _> = pins.gpio17.reconfigure();
 
     // Create the I²C driver, using the two pre-configured pins. This will fail
     // at compile time if the pins are in the wrong mode, or if this I²C
