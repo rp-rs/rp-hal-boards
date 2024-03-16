@@ -17,7 +17,7 @@ use adafruit_metro_rp2040::entry;
 use panic_halt as _;
 
 // Some traits we need
-use embedded_hal::digital::v2::OutputPin;
+use embedded_hal::digital::OutputPin;
 
 use adafruit_metro_rp2040::{
     hal::{
