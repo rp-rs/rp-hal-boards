@@ -18,6 +18,7 @@ rp2040-hal.workspace = true
 [dev-dependencies]
 panic-halt.workspace = true
 embedded-hal.workspace = true
+embedded_hal_0_2.workspace = true
 smart-leds.workspace = true
 nb.workspace = true
 ws2812-pio.workspace = true
