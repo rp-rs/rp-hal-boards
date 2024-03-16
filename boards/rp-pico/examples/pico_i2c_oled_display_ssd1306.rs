@@ -48,10 +48,10 @@ use core::fmt::Write;
 use rp_pico::entry;
 
 // Time handling traits:
-use fugit::{ExtU32, RateExtU32};
+use fugit::RateExtU32;
 
-// CountDown timer for the counter on the display:
-use embedded_hal_0_2::timer::CountDown;
+// Timer for the delay on the display:
+use embedded_hal::delay::DelayNs;
 
 // Ensure we halt the program on panic (if we don't mention this crate it won't
 // be linked)
@@ -150,8 +150,7 @@ fn main() -> ! {
         .text_color(BinaryColor::On)
         .build();
 
-    let timer = hal::Timer::new(pac.TIMER, &mut pac.RESETS, &clocks);
-    let mut delay = timer.count_down();
+    let mut timer = hal::Timer::new(pac.TIMER, &mut pac.RESETS, &clocks);
 
     let mut count = 0;
 
@@ -181,8 +180,7 @@ fn main() -> ! {
         display.flush().unwrap();
 
         // Wait a bit:
-        delay.start(500.millis());
-        let _ = nb::block!(delay.wait());
+        timer.delay_ms(500);
     }
 }
 

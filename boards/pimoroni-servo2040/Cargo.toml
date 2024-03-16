@@ -19,7 +19,6 @@ rp2040-hal.workspace = true
 defmt.workspace = true
 defmt-rtt.workspace = true
 embedded-hal.workspace = true
-embedded_hal_0_2.workspace = true
 fugit.workspace = true
 nb.workspace = true
 panic-halt.workspace = true

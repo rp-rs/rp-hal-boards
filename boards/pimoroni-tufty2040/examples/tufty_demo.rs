@@ -34,14 +34,12 @@ use hal::Timer;
 
 use tufty::DummyPin;
 
-// A few traits required for using the CountDown timer
 use embedded_graphics::draw_target::DrawTarget;
 use embedded_graphics::geometry::Point;
 use embedded_graphics::pixelcolor::{Rgb565, RgbColor};
 use embedded_graphics::primitives::{Circle, Primitive, PrimitiveStyleBuilder};
 use embedded_graphics::Drawable;
-use embedded_hal_0_2::timer::CountDown;
-use fugit::ExtU32;
+use embedded_hal::delay::DelayNs;
 use st7789::ST7789;
 
 #[entry]
@@ -79,9 +77,8 @@ fn main() -> ! {
         &mut pac.RESETS,
     );
 
-    // Configure the timer peripheral to be a CountDown timer for our blinky delay
-    let timer = Timer::new(pac.TIMER, &mut pac.RESETS, &clocks);
-    let mut delay_timer = timer.count_down();
+    // Configure the timer peripheral for our blinky delay
+    let mut timer = Timer::new(pac.TIMER, &mut pac.RESETS, &clocks);
 
     let mut delay = cortex_m::delay::Delay::new(cp.SYST, clocks.system_clock.get_freq().to_Hz());
 
@@ -141,12 +138,10 @@ fn main() -> ! {
     loop {
         // LED on, and wait for 500ms
         led_pin.set_high().unwrap();
-        delay_timer.start(500.millis());
-        let _ = nb::block!(delay_timer.wait());
+        timer.delay_ms(500);
 
         // LED off, and wait for 500ms
         led_pin.set_low().unwrap();
-        delay_timer.start(500.millis());
-        let _ = nb::block!(delay_timer.wait());
+        timer.delay_ms(500);
     }
 }
