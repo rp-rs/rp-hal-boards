@@ -390,7 +390,7 @@ impl BatteryVoltage {
     ///
     /// The current voltage in millivolts
     pub fn read(&mut self, adc: &mut hal::Adc) -> u16 {
-        use embedded_hal::adc::OneShot;
+        use embedded_hal_0_2::adc::OneShot;
 
         let raw_value: u32 = loop {
             match adc.read(&mut self.pin) {

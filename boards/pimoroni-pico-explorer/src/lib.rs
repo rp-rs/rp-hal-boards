@@ -24,7 +24,7 @@ use embedded_graphics::{
     draw_target::DrawTarget,
     pixelcolor::{Rgb565, RgbColor},
 };
-use embedded_hal::{
+use embedded_hal_0_2::{
     adc::{Channel, OneShot},
     blocking::delay::DelayUs,
     digital::v2::{InputPin, OutputPin},

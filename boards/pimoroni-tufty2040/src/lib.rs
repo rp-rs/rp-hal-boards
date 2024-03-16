@@ -5,7 +5,7 @@ pub extern crate rp2040_hal as hal;
 pub use hal::pac;
 
 use display_interface::{DataFormat, DisplayError, WriteOnlyDataCommand};
-use embedded_hal::digital::v2::OutputPin;
+use embedded_hal_0_2::digital::v2::OutputPin;
 use fugit::HertzU32;
 use hal::dma::{single_buffer, Channel, ChannelIndex, WriteTarget};
 use hal::gpio::PinId;
@@ -253,7 +253,7 @@ impl<P: PIOExt, SM: StateMachineIndex, CH: ChannelIndex> PioDataLines<P, SM, CH>
 
         let program = pio_file!("./src/st7789_parallel.pio");
         let program = pio.install(&program.program).unwrap();
-        let (mut sm, _rx, tx) = PIOBuilder::from_program(program)
+        let (mut sm, _rx, tx) = PIOBuilder::from_installed_program(program)
             .out_pins(d0, 8)
             .side_set_pin_base(wr)
             .buffers(Buffers::OnlyTx)
