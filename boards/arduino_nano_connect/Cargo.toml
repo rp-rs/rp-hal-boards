@@ -12,7 +12,7 @@ repository = "https://github.com/rp-rs/rp-hal-boards.git"
 
 [dependencies]
 cortex-m-rt = { workspace = true, optional = true }
-embedded-hal = { workspace = true, features = ["unproven"] }
+embedded-hal = { workspace = true }
 rp2040-boot2 = { workspace = true, optional = true }
 rp2040-hal.workspace = true
 
