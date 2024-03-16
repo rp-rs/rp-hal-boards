@@ -15,6 +15,7 @@ cortex-m-rt = { workspace = true, optional = true }
 display-interface-spi.workspace = true
 embedded-graphics.workspace = true
 embedded-hal = { workspace = true }
+embedded_hal_0_2.workspace = true
 fugit.workspace = true
 rp2040-boot2 = { workspace = true, optional = true }
 rp2040-hal.workspace = true
