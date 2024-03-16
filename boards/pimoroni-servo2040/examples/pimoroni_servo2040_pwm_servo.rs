@@ -7,8 +7,8 @@
 #![no_main]
 
 // GPIO traits
-use embedded_hal::timer::CountDown;
-use embedded_hal::PwmPin;
+use embedded_hal::pwm::SetDutyCycle;
+use embedded_hal_0_2::timer::CountDown;
 
 // Traits for converting integers to amounts of time
 use fugit::ExtU64;
@@ -105,22 +105,22 @@ fn main() -> ! {
     // different manufacturers respond differently.
     loop {
         // move to 0°
-        channel_a.set_duty(us_to_duty(MID_PULSE));
+        let _ = channel_a.set_duty_cycle(us_to_duty(MID_PULSE));
         count_down.start(movement_delay);
         let _ = nb::block!(count_down.wait());
 
         // 0° to 90°
-        channel_a.set_duty(us_to_duty(MAX_PULSE));
+        let _ = channel_a.set_duty_cycle(us_to_duty(MAX_PULSE));
         count_down.start(movement_delay);
         let _ = nb::block!(count_down.wait());
 
         // 90° to 0°
-        channel_a.set_duty(us_to_duty(MID_PULSE));
+        let _ = channel_a.set_duty_cycle(us_to_duty(MID_PULSE));
         count_down.start(movement_delay);
         let _ = nb::block!(count_down.wait());
 
         // 0° to -90°
-        channel_a.set_duty(us_to_duty(MIN_PULSE));
+        let _ = channel_a.set_duty_cycle(us_to_duty(MIN_PULSE));
         count_down.start(movement_delay);
         let _ = nb::block!(count_down.wait());
     }

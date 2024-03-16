@@ -11,7 +11,7 @@ use bsp::hal::{
 };
 use defmt::*;
 use defmt_rtt as _;
-use embedded_hal::timer::CountDown;
+use embedded_hal_0_2::timer::CountDown;
 use fugit::ExtU32;
 use panic_halt as _;
 use pimoroni_servo2040 as bsp;
