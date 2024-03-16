@@ -14,8 +14,8 @@
 use seeeduino_xiao_rp2040::entry;
 
 // GPIO traits
-use embedded_hal::digital::v2::OutputPin;
-use embedded_hal::PwmPin;
+use embedded_hal::digital::OutputPin;
+use embedded_hal::pwm::SetDutyCycle;
 
 // Ensure we halt the program on panic (if we don't mention this crate it won't
 // be linked)
@@ -97,7 +97,7 @@ fn main() -> ! {
     // Output channel B on PWM0 to the red LED pin, initially off
     let channel = &mut pwm.channel_b;
     channel.output_to(pins.led_red);
-    channel.set_duty(u16::MAX);
+    let _ = channel.set_duty_cycle(u16::MAX);
 
     // Set the blue LED to be an output, initially off
     let mut led_blue_pin = pins.led_blue.into_push_pull_output_in_state(PinState::High);
@@ -119,13 +119,13 @@ fn main() -> ! {
         // Ramp red LED brightness up
         for i in (LOW..=HIGH).skip(30) {
             delay.delay_us(100);
-            channel.set_duty(u16::MAX - i);
+            let _ = channel.set_duty_cycle(u16::MAX - i);
         }
 
         // Ramp red LED brightness down
         for i in (LOW..=HIGH).rev().skip(30) {
             delay.delay_us(100);
-            channel.set_duty(u16::MAX - i);
+            let _ = channel.set_duty_cycle(u16::MAX - i);
         }
     }
 }
