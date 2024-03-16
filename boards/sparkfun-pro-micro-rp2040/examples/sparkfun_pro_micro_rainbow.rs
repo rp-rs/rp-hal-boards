@@ -9,7 +9,7 @@
 #![no_main]
 
 use core::iter::once;
-use embedded_hal::timer::CountDown;
+use embedded_hal_0_2::timer::CountDown;
 use fugit::ExtU32;
 use panic_halt as _;
 use sparkfun_pro_micro_rp2040::entry;
