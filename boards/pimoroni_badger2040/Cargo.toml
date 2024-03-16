@@ -18,6 +18,7 @@ rp2040-boot2 = { workspace = true, optional = true }
 rp2040-hal.workspace = true
 
 [dev-dependencies]
+embedded_hal_0_2.workspace = true
 panic-halt.workspace = true
 nb.workspace = true
 

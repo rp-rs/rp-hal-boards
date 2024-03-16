@@ -11,7 +11,7 @@
 use pimoroni_badger2040::entry;
 
 // GPIO traits
-use embedded_hal::digital::v2::OutputPin;
+use embedded_hal::digital::OutputPin;
 
 // Ensure we halt the program on panic (if we don't mention this crate it won't
 // be linked)
@@ -27,7 +27,7 @@ use pimoroni_badger2040::hal::Timer;
 use pimoroni_badger2040::hal;
 
 // A few traits required for using the CountDown timer
-use embedded_hal::timer::CountDown;
+use embedded_hal_0_2::timer::CountDown;
 use fugit::ExtU32;
 
 #[entry]
