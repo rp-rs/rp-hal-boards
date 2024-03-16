@@ -4,7 +4,7 @@
 
 use adafruit_itsy_bitsy_rp2040::entry;
 use core::iter::once;
-use embedded_hal::timer::CountDown;
+use embedded_hal_0_2::timer::CountDown;
 use fugit::ExtU32;
 use panic_halt as _;
 use smart_leds::{brightness, SmartLedsWrite, RGB8};
