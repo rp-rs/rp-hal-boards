@@ -7,11 +7,8 @@
 #![no_main]
 
 // GPIO traits
+use embedded_hal::delay::DelayNs;
 use embedded_hal::pwm::SetDutyCycle;
-use embedded_hal_0_2::timer::CountDown;
-
-// Traits for converting integers to amounts of time
-use fugit::ExtU64;
 
 // Ensure we halt the program on panic (if we don't mention this crate it won't
 // be linked)
@@ -50,8 +47,7 @@ fn main() -> ! {
     .unwrap();
 
     // Configure the Timer peripheral in count-down mode
-    let timer = hal::Timer::new(pac.TIMER, &mut pac.RESETS, &clocks);
-    let mut count_down = timer.count_down();
+    let mut timer = hal::Timer::new(pac.TIMER, &mut pac.RESETS, &clocks);
 
     let pins = pimoroni_servo2040::Pins::new(
         pac.IO_BANK0,
@@ -98,7 +94,7 @@ fn main() -> ! {
     // Output channel A on PWM0 to the GPIO0/servo1 pin
     let mut channel_a = pwm.channel_a;
     let _channel_a_pin = channel_a.output_to(pins.servo1);
-    let movement_delay = 400.millis();
+    let movement_delay_ms = 400;
 
     // Infinite loop, moving micro servo from one position to another.
     // You may need to adjust the pulse width since several servos from
@@ -106,23 +102,19 @@ fn main() -> ! {
     loop {
         // move to 0°
         let _ = channel_a.set_duty_cycle(us_to_duty(MID_PULSE));
-        count_down.start(movement_delay);
-        let _ = nb::block!(count_down.wait());
+        timer.delay_ms(movement_delay_ms);
 
         // 0° to 90°
         let _ = channel_a.set_duty_cycle(us_to_duty(MAX_PULSE));
-        count_down.start(movement_delay);
-        let _ = nb::block!(count_down.wait());
+        timer.delay_ms(movement_delay_ms);
 
         // 90° to 0°
         let _ = channel_a.set_duty_cycle(us_to_duty(MID_PULSE));
-        count_down.start(movement_delay);
-        let _ = nb::block!(count_down.wait());
+        timer.delay_ms(movement_delay_ms);
 
         // 0° to -90°
         let _ = channel_a.set_duty_cycle(us_to_duty(MIN_PULSE));
-        count_down.start(movement_delay);
-        let _ = nb::block!(count_down.wait());
+        timer.delay_ms(movement_delay_ms);
     }
 }
 

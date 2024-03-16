@@ -20,7 +20,6 @@ usb-device.workspace = true
 [dev-dependencies]
 cortex-m.workspace = true
 embedded-hal.workspace = true
-embedded_hal_0_2.workspace = true
 nb.workspace = true
 panic-halt.workspace = true
 pio.workspace = true

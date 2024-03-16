@@ -17,7 +17,6 @@ rp2040-hal.workspace = true
 
 [dev-dependencies]
 cortex-m.workspace = true
-embedded_hal_0_2.workspace = true
 panic-halt.workspace = true
 embedded-hal.workspace = true
 fugit.workspace = true
