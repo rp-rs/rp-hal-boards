@@ -9,7 +9,7 @@ use embedded_graphics::{
     prelude::*,
     text::{Alignment, Text},
 };
-use embedded_hal::digital::v2::OutputPin;
+use embedded_hal::digital::OutputPin;
 use hal::{adc::Adc, clocks::*, watchdog::Watchdog, Sio};
 use panic_halt as _;
 use pimoroni_pico_explorer::entry;
