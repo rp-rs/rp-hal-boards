@@ -62,7 +62,6 @@ fn main() -> ! {
     );
 
     let timer = Timer::new(pac.TIMER, &mut pac.RESETS, &clocks);
-    let mut delay = timer;
 
     // Configure the addressable LED
     let (mut pio, sm0, _, _, _) = pac.PIO0.split(&mut pac.RESETS);
@@ -77,11 +76,12 @@ fn main() -> ! {
     // Infinite colour wheel loop
 
     let mut n: u8 = 128;
+    let mut timer = timer;
     loop {
         ws.write(brightness(once(wheel(n)), 32)).unwrap();
         n = n.wrapping_add(1);
 
-        delay.delay_ms(25);
+        timer.delay_ms(25);
     }
 }
 
