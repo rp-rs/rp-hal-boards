@@ -62,7 +62,7 @@ fn main() -> ! {
     // Infinite color wheel loop
 
     let mut n: u8 = 128;
-    let mut timer = timer;
+    let mut timer = timer; // rebind to force a copy of the timer
     let offset = (256u16 / bsp::NUM_LEDS as u16) as u8;
     loop {
         ws.write(brightness(

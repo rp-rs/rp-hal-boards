@@ -76,7 +76,7 @@ fn main() -> ! {
     // Infinite colour wheel loop
 
     let mut n: u8 = 128;
-    let mut timer = timer;
+    let mut timer = timer; // rebind to force a copy of the timer
     loop {
         ws.write(brightness(once(wheel(n)), 32)).unwrap();
         n = n.wrapping_add(1);
