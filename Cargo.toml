@@ -62,4 +62,4 @@ ssd1306 = "0.7.1"
 usb-device = "0.3"
 usbd-hid = "0.7.0"
 usbd-serial = "0.2.1"
-ws2812-pio = { version = "0.7.0", git = "https://github.com/rp-rs/ws2812-pio-rs/", rev = "a648210" }
+ws2812-pio = "0.8.0"
