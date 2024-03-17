@@ -49,7 +49,6 @@ fn main() -> ! {
     let led = pins.neopixel_data.into_function();
 
     let timer = Timer::new(pac.TIMER, &mut pac.RESETS, &clocks);
-    let mut delay = timer;
 
     let (mut pio, sm0, _, _, _) = pac.PIO0.split(&mut pac.RESETS);
     let mut ws = Ws2812::new(
@@ -61,11 +60,12 @@ fn main() -> ! {
     );
 
     let mut n: u8 = 128;
+    let mut timer = timer;
     loop {
         ws.write(brightness(once(wheel(n)), 32)).unwrap();
         n = n.wrapping_add(1);
 
-        delay.delay_ms(25);
+        timer.delay_ms(25);
     }
 }
 
