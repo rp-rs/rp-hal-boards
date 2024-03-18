@@ -18,15 +18,15 @@ embedded_hal_0_2.workspace = true
 fugit.workspace = true
 rp2040-boot2 = { workspace = true, optional = true }
 rp2040-hal.workspace = true
-st7789.workspace = true
 display-interface.workspace = true
-embedded-graphics.workspace = true
 pio.workspace = true
 pio-proc.workspace = true
 
 [dev-dependencies]
-panic-halt.workspace = true
+embedded-graphics.workspace = true
 nb.workspace = true
+panic-halt.workspace = true
+st7789.workspace = true
 
 [features]
 # This is the set of features we enable by default
