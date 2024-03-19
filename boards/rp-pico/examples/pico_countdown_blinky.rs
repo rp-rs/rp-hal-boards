@@ -16,7 +16,7 @@ use rp_pico::entry;
 use cortex_m::prelude::*;
 
 // GPIO traits
-use embedded_hal::digital::v2::OutputPin;
+use embedded_hal::digital::OutputPin;
 
 // Traits for converting integers to amounts of time
 use fugit::ExtU32;

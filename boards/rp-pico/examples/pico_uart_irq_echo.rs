@@ -17,10 +17,8 @@
 
 // These are the traits we need from Embedded HAL to treat our hardware
 // objects as generic embedded devices.
-use embedded_hal::{
-    digital::v2::OutputPin,
-    serial::{Read, Write},
-};
+use embedded_hal::digital::OutputPin;
+use embedded_hal_nb::serial::{Read, Write};
 
 // We also need this for the 'Delay' object to work.
 use rp2040_hal::Clock;

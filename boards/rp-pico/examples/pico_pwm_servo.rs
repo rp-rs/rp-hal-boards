@@ -12,7 +12,7 @@
 use cortex_m::prelude::*;
 
 // GPIO traits
-use embedded_hal::PwmPin;
+use embedded_hal::pwm::SetDutyCycle;
 
 // Traits for converting integers to amounts of time
 use fugit::ExtU32;
@@ -92,22 +92,22 @@ fn main() -> ! {
     // different manufacturers respond differently.
     loop {
         // move to 0°
-        channel.set_duty(2500);
+        let _ = channel.set_duty_cycle(2500);
         count_down.start(400.millis());
         let _ = nb::block!(count_down.wait());
 
         // 0° to 90°
-        channel.set_duty(3930);
+        let _ = channel.set_duty_cycle(3930);
         count_down.start(400.millis());
         let _ = nb::block!(count_down.wait());
 
         // 90° to 180°
-        channel.set_duty(7860);
+        let _ = channel.set_duty_cycle(7860);
         count_down.start(400.millis());
         let _ = nb::block!(count_down.wait());
 
         // 180° to 90°
-        channel.set_duty(3930);
+        let _ = channel.set_duty_cycle(3930);
         count_down.start(400.millis());
         let _ = nb::block!(count_down.wait());
     }

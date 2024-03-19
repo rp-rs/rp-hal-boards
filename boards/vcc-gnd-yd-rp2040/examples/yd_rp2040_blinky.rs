@@ -4,7 +4,7 @@
 #![no_std]
 #![no_main]
 
-use embedded_hal::digital::v2::OutputPin;
+use embedded_hal::digital::OutputPin;
 use panic_halt as _;
 use vcc_gnd_yd_rp2040::entry;
 use vcc_gnd_yd_rp2040::{

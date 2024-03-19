@@ -5,7 +5,7 @@
 use bsp::entry;
 use defmt::*;
 use defmt_rtt as _;
-use embedded_hal::digital::v2::OutputPin;
+use embedded_hal::digital::OutputPin;
 use panic_halt as _;
 
 use pimoroni_tiny2040 as bsp;

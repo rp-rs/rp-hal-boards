@@ -11,7 +11,7 @@
 use pimoroni_badger2040::entry;
 
 // GPIO traits
-use embedded_hal::digital::v2::OutputPin;
+use embedded_hal::digital::OutputPin;
 
 // Ensure we halt the program on panic (if we don't mention this crate it won't
 // be linked)
@@ -26,9 +26,8 @@ use pimoroni_badger2040::hal::Timer;
 // higher-level drivers.
 use pimoroni_badger2040::hal;
 
-// A few traits required for using the CountDown timer
-use embedded_hal::timer::CountDown;
-use fugit::ExtU32;
+// A few traits required for using the delay with timer
+use embedded_hal::delay::DelayNs;
 
 #[entry]
 fn main() -> ! {
@@ -64,9 +63,8 @@ fn main() -> ! {
         &mut pac.RESETS,
     );
 
-    // Configure the timer peripheral to be a CountDown timer for our blinky delay
-    let timer = Timer::new(pac.TIMER, &mut pac.RESETS, &clocks);
-    let mut delay = timer.count_down();
+    // Configure the timer peripheral for our blinky delay
+    let mut timer = Timer::new(pac.TIMER, &mut pac.RESETS, &clocks);
 
     // Set the LED to be an output
     let mut led_pin = pins.led.into_push_pull_output();
@@ -75,12 +73,10 @@ fn main() -> ! {
     loop {
         // LED on, and wait for 500ms
         led_pin.set_high().unwrap();
-        delay.start(500.millis());
-        let _ = nb::block!(delay.wait());
+        timer.delay_ms(500);
 
         // LED off, and wait for 500ms
         led_pin.set_low().unwrap();
-        delay.start(500.millis());
-        let _ = nb::block!(delay.wait());
+        timer.delay_ms(500);
     }
 }

@@ -6,7 +6,7 @@ use panic_halt as _;
 #[rtic::app(device = rp_pico::hal::pac, peripherals = true)]
 mod app {
 
-    use embedded_hal::digital::v2::OutputPin;
+    use embedded_hal::digital::OutputPin;
     use fugit::MicrosDurationU32;
     use rp_pico::{
         hal::{self, clocks::init_clocks_and_plls, timer::Alarm, watchdog::Watchdog, Sio},

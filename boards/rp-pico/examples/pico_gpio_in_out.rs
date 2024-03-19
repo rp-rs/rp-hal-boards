@@ -16,7 +16,7 @@
 use rp_pico::entry;
 
 // GPIO traits
-use embedded_hal::digital::v2::{InputPin, OutputPin};
+use embedded_hal::digital::{InputPin, OutputPin};
 
 // Ensure we halt the program on panic (if we don't mention this crate it won't
 // be linked)
@@ -60,7 +60,7 @@ fn main() -> ! {
     let mut led_pin = pins.led.into_push_pull_output();
 
     // Our button input
-    let button_pin = pins.gpio15.into_pull_up_input();
+    let mut button_pin = pins.gpio15.into_pull_up_input();
 
     // Run forever, setting the LED according to the button
     loop {

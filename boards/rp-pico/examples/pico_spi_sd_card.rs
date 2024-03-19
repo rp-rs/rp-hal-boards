@@ -59,8 +59,6 @@
 #![no_std]
 #![no_main]
 
-use core::cell::RefCell;
-
 // The macro for our start-up function
 use rp_pico::entry;
 
@@ -100,8 +98,8 @@ use embedded_sdmmc::{SdCard, TimeSource, Timestamp, VolumeIdx, VolumeManager};
 // Get the file open mode enum:
 use embedded_sdmmc::filesystem::Mode;
 
-use embedded_hal::blocking::delay::DelayMs;
-use embedded_hal::blocking::delay::DelayUs;
+use embedded_hal::delay::DelayNs;
+use rp2040_hal::Timer;
 
 /// A dummy timesource, which is mostly important for creating files.
 #[derive(Default)]
@@ -132,8 +130,8 @@ const BLINK_ERR_5_SHORT: [u8; 10] = [1u8, 0u8, 1u8, 0u8, 1u8, 0u8, 1u8, 0u8, 1u8
 const BLINK_ERR_6_SHORT: [u8; 12] = [1u8, 0u8, 1u8, 0u8, 1u8, 0u8, 1u8, 0u8, 1u8, 0u8, 1u8, 0u8];
 
 fn blink_signals(
-    pin: &mut dyn embedded_hal::digital::v2::OutputPin<Error = core::convert::Infallible>,
-    delay: &mut dyn DelayMs<u32>,
+    pin: &mut dyn embedded_hal::digital::OutputPin<Error = core::convert::Infallible>,
+    delay: &mut dyn DelayNs,
     sig: &[u8],
 ) {
     for bit in sig {
@@ -156,8 +154,8 @@ fn blink_signals(
 }
 
 fn blink_signals_loop(
-    pin: &mut dyn embedded_hal::digital::v2::OutputPin<Error = core::convert::Infallible>,
-    delay: &mut dyn DelayMs<u32>,
+    pin: &mut dyn embedded_hal::digital::OutputPin<Error = core::convert::Infallible>,
+    delay: &mut dyn DelayNs,
     sig: &[u8],
 ) -> ! {
     loop {
@@ -172,7 +170,7 @@ fn main() -> ! {
 
     // Grab our singleton objects
     let mut pac = pac::Peripherals::take().unwrap();
-    let core = pac::CorePeripherals::take().unwrap();
+    let _core = pac::CorePeripherals::take().unwrap();
 
     // Set up the watchdog driver - needed by the clock setup code
     let mut watchdog = hal::Watchdog::new(pac.WATCHDOG);
@@ -223,12 +221,7 @@ fn main() -> ! {
         embedded_hal::spi::MODE_0,
     );
 
-    // We need a delay implementation that can be passed to SdCard and still be used
-    // for the blink signals.
-    let mut delay = &SharedDelay::new(cortex_m::delay::Delay::new(
-        core.SYST,
-        clocks.system_clock.freq().to_Hz(),
-    ));
+    let mut delay = Timer::new(pac.TIMER, &mut pac.RESETS, &clocks);
 
     info!("Initialize SPI SD/MMC data structures...");
     let sdcard = SdCard::new(spi, spi_cs, delay);
@@ -344,31 +337,5 @@ fn main() -> ! {
         }
 
         delay.delay_ms(1000);
-    }
-}
-
-// Can be removed once we have https://github.com/rp-rs/rp-hal/pull/614,
-// ie. when we move to rp2040-hal 0.9
-struct SharedDelay {
-    inner: RefCell<cortex_m::delay::Delay>,
-}
-
-impl SharedDelay {
-    fn new(delay: cortex_m::delay::Delay) -> Self {
-        Self {
-            inner: delay.into(),
-        }
-    }
-}
-
-impl DelayMs<u32> for &SharedDelay {
-    fn delay_ms(&mut self, ms: u32) {
-        self.inner.borrow_mut().delay_ms(ms);
-    }
-}
-
-impl DelayUs<u8> for &SharedDelay {
-    fn delay_us(&mut self, us: u8) {
-        self.inner.borrow_mut().delay_us(us as u32);
     }
 }

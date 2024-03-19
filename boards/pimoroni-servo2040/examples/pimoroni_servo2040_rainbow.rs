@@ -11,8 +11,7 @@ use bsp::hal::{
 };
 use defmt::*;
 use defmt_rtt as _;
-use embedded_hal::timer::CountDown;
-use fugit::ExtU32;
+use embedded_hal::delay::DelayNs;
 use panic_halt as _;
 use pimoroni_servo2040 as bsp;
 use rp2040_hal::pio::PIOExt;
@@ -48,7 +47,6 @@ fn main() -> ! {
     );
 
     let timer = Timer::new(pac.TIMER, &mut pac.RESETS, &clocks);
-    let mut delay = timer.count_down();
 
     // Configure the addressable LED
     let (mut pio, sm0, _, _, _) = pac.PIO0.split(&mut pac.RESETS);
@@ -64,6 +62,7 @@ fn main() -> ! {
     // Infinite color wheel loop
 
     let mut n: u8 = 128;
+    let mut timer = timer; // rebind to force a copy of the timer
     let offset = (256u16 / bsp::NUM_LEDS as u16) as u8;
     loop {
         ws.write(brightness(
@@ -80,8 +79,7 @@ fn main() -> ! {
         .unwrap();
         n = n.wrapping_add(1);
 
-        delay.start(25.millis());
-        let _ = nb::block!(delay.wait());
+        timer.delay_ms(25);
     }
 }
 

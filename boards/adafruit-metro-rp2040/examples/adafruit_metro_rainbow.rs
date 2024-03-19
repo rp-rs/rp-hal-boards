@@ -4,8 +4,7 @@
 
 use adafruit_metro_rp2040::entry;
 use core::iter::once;
-use embedded_hal::timer::CountDown;
-use fugit::ExtU32;
+use embedded_hal::delay::DelayNs;
 use panic_halt as _;
 use smart_leds::{brightness, SmartLedsWrite, RGB8};
 use ws2812_pio::Ws2812;
@@ -50,7 +49,6 @@ fn main() -> ! {
     let led = pins.neopixel_data.into_function();
 
     let timer = Timer::new(pac.TIMER, &mut pac.RESETS, &clocks);
-    let mut delay = timer.count_down();
 
     let (mut pio, sm0, _, _, _) = pac.PIO0.split(&mut pac.RESETS);
     let mut ws = Ws2812::new(
@@ -62,12 +60,12 @@ fn main() -> ! {
     );
 
     let mut n: u8 = 128;
+    let mut timer = timer; // rebind to force a copy of the timer
     loop {
         ws.write(brightness(once(wheel(n)), 32)).unwrap();
         n = n.wrapping_add(1);
 
-        delay.start(25.millis());
-        let _ = nb::block!(delay.wait());
+        timer.delay_ms(25);
     }
 }
 

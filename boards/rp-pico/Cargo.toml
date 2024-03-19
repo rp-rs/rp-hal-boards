@@ -23,6 +23,7 @@ cortex-m-rtic.workspace = true
 critical-section.workspace = true
 embedded-graphics.workspace = true
 embedded-hal.workspace = true
+embedded-hal-nb.workspace = true
 embedded-sdmmc.workspace = true
 hd44780-driver.workspace = true
 heapless.workspace = true
