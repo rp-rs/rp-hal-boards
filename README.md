@@ -101,6 +101,18 @@ RP2040 chip according to how it is connected up on the Pico.
 [Raspberry Pi Pico]: https://www.raspberrypi.org/products/raspberry-pi-pico/
 [rp-pico]: https://github.com/rp-rs/rp-hal-boards/tree/main/boards/rp-pico
 
+### [adafruit-canbus-feather-rp2040] - Board Support for the [Adafruit CANBus Feather RP2040]
+
+You should include this crate if you are writing code that you want to run on
+an [Adafruit CANBus Feather RP2040] - a Feather form-factor RP2040 board from Adafruit with
+built in CAN Bus support.
+
+This crate includes the [rp2040-hal], but also configures each pin of the
+RP2040 chip according to how it is connected up on the CANBus Feather RP2040.
+
+[Adafruit CANBus Feather RP2040]: https://www.adafruit.com/product/5724
+[adafruit-canbus-feather-rp2040]: https://github.com/rp-rs/rp-hal-boards/tree/main/boards/adafruit-canbus-feather-rp2040
+
 ### [adafruit-feather-rp2040] - Board Support for the [Adafruit Feather RP2040]
 
 You should include this crate if you are writing code that you want to run on
