@@ -15,7 +15,7 @@ RP2040 chip according to how it is connected up on the Trinkey.
 To use this crate, your `Cargo.toml` file should contain:
 
 ```toml
-adafruit-trinkey-qt2040 = "0.5.0"
+adafruit-trinkey-qt2040 = "0.7.0"
 ```
 
 In your program, you will need to call `adafruit-trinkey-qt2040::Pins::new` to create
