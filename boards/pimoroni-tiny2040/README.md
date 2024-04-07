@@ -16,7 +16,7 @@ RP2040 chip according to how it is connected up on the Tiny2040.
 To use this crate, your `Cargo.toml` file should contain:
 
 ```toml
-pimoroni-tiny2040 = "0.5.0"
+pimoroni-tiny2040 = "0.7.0"
 ```
 
 In your program, you will need to call `pimoroni_tiny2040::Pins::new` to create

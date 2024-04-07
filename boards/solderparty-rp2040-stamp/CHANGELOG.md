@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+## 0.7.0 - 2024-04-07
+
+### Changed
+
+- Update to rp2040-hal 0.10.0
+- Update to embedded-hal 1.0.0
+
 ## 0.6.0 - 2023-09-02
 
 ### Changed
