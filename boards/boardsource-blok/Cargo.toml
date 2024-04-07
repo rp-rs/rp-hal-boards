@@ -1,6 +1,6 @@
 [package]
 name = "boardsource-blok"
-version = "0.2.1"
+version = "0.3.0"
 edition = "2021"
 authors = ["Agent59 <agent59@ripakewitz.net>", "The rp-rs Developers"]
 homepage = "https://github.com/rp-rs/rp-hal-boards/tree/main/boards/boardsource-blok"

@@ -18,7 +18,7 @@ More Information about the pin layout at [Peg].
 To use this crate, your `Cargo.toml` file should contain:
 
 ```toml
-boardsource-blok = "0.1.0"
+boardsource-blok = "0.3.0"
 ```
 
 In your program, you will need to call `blok::Pins::new` to create
