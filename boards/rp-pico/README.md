@@ -58,7 +58,7 @@ then try repeating the `cargo run` command above.
 
 To start a basic project from scratch, create a project using `cargo new project-name`. Within the
 project directory, run `cargo add rp-pico`, `cargo add cortex-m-rt`, and `cargo add panic-halt`. The
-first command will this HAL (Hardware Abstraction Layer), the second is required for the `#[entry]` macro, and _panic-halt_ creates a simple panic function, which just halts.
+first command will add this HAL (Hardware Abstraction Layer), the second is required for the `#[entry]` macro, and _panic-halt_ creates a simple panic function, which just halts.
 
 You'll also need to copy the cargo config file from the [repo](https://github.com/rp-rs/rp-hal-boards/blob/main/.cargo/config). It specifies the target and optimizing flags to the linker. You'll also need to copy [_memory.x_](https://github.com/rp-rs/rp-hal-boards/blob/main/memory.x) to your project root. This file tells the linker the flash and RAM layout, so it won't clobber the bootloader or write to an out of bounds memory address. 
 
