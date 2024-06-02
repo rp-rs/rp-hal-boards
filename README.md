@@ -203,6 +203,17 @@ RP2040 chip according to how it is connected up on the Badger2040.
 [Pimoroni Badger2040]: https://shop.pimoroni.com/products/badger-2040
 [pimoroni_badger2040]: https://github.com/rp-rs/rp-hal-boards/tree/main/boards/pimoroni_badger2040
 
+### [pimoroni-interstate75] - Board Support for the [Pimoroni Interstate 75]
+
+You should include this crate if you are writing code that you want to run on
+a [Pimoroni Interstate 75] - An RGB LED matrix driver board.
+
+This crate includes the [rp2040-hal], but also configures each pin of the
+RP2040 chip according to how it is connected up on the Interstate 75.
+
+[Pimoroni Interstate 75]: https://shop.pimoroni.com/products/interstate-75
+[pimoroni-interstate75]: https://github.com/rp-rs/rp-hal-boards/tree/main/boards/pimoroni_interstate75
+
 ### [pimoroni-pico-explorer] - Board Support for the [Pimoroni Pico Explorer]
 
 You should include this crate if you are writing code that you want to run on
