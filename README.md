@@ -191,6 +191,19 @@ RP2040 chip according to how it is connected up on the Blok.
 [boardsource-blok]: https://github.com/rp-rs/rp-hal-boards/tree/main/boards/boardsource-blok
 [Boardsource]: https://boardsource.xyz/
 
+### [nullbits-bit-c-pro] - Board Support for the [BIT-C PRO]
+
+You should include this crate if you are writing code that you want to run on
+a [BIT-C PRO] - an RP2040 based controller, made by [nullbits],
+built for the keyboard community.
+
+This crate includes the [rp2040-hal], but also configures each pin of the
+RP2040 chip according to how it is connected up on the BIT-C PRO.
+
+[nullbits-bit-c-pro]: https://github.com/rp-rs/rp-hal-boards/tree/main/boards/nullbits-bit-c-pro
+[BIT-C PRO]: https://nullbits.co/bit-c-pro
+[nullbits]: https://nullbits.co/
+
 ### [pimoroni_badger2040] - Board Support for the [Pimoroni Badger2040]
 
 You should include this crate if you are writing code that you want to run on
