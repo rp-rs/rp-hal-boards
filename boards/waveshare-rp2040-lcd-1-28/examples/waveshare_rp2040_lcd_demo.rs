@@ -84,7 +84,7 @@ fn main() -> ! {
 
         let mut _lcd_bl = pins
         .gp25
-        .into_push_pull_output_in_state(hal::gpio::PinState::High);
+        .into_push_pull_output_in_state(hal::gpio::PinState::Low);
     
     let spi = hal::Spi::<_, _, _, 8>::new(pac.SPI1, (lcd_mosi, lcd_clk));
 
@@ -103,7 +103,7 @@ fn main() -> ! {
     let mut display = GC9A01A::new(spi, lcd_dc, lcd_cs, lcd_rst, false, true, LCD_WIDTH, LCD_HEIGHT);
 
     display.init(&mut delay).unwrap();
-    display.set_orientation(&Orientation::Landscape).unwrap();
+    //display.set_orientation(&Orientation::Landscape).unwrap();
 
     //display.set_offset(1, 26);
 
@@ -114,10 +114,18 @@ fn main() -> ! {
         .fill_color(Rgb565::BLUE)
         .build();
 
+    display.clear(Rgb565::BLACK);
+    delay.delay_ms(1000);
+    // Set the backlight pin high
+    _lcd_bl.set_high().unwrap();
+    delay.delay_ms(1000);
+
     Rectangle::with_corners(lcd_zero, lcd_max_corner)
         .into_styled(style)
         .draw(&mut display)
         .unwrap();
+
+        delay.delay_ms(1000);
 
     let style = PrimitiveStyleBuilder::new()
         .fill_color(Rgb565::BLACK)
@@ -131,6 +139,8 @@ fn main() -> ! {
     .draw(&mut display)
     .unwrap();
 
+    delay.delay_ms(1000);
+    
     Line::new(lcd_zero, lcd_max_corner)
         .into_styled(PrimitiveStyle::with_stroke(Rgb565::RED, 1))
         .draw(&mut display)
