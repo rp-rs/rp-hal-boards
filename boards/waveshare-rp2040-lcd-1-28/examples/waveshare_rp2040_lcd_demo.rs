@@ -28,6 +28,7 @@ use waveshare_rp2040_lcd_1_28::{
 };
 
 use embedded_hal::PwmPin;
+use embedded_hal::digital::v2::OutputPin;
 
 use embedded_graphics::{
     pixelcolor::Rgb565,
