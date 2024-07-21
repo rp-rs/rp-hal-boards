@@ -216,6 +216,7 @@ fn main() -> ! {
     let mut angle_index = 0;
 
     loop {
+        let start_time = cortex_m::peripheral::SYST::get_current();
         let points = &arrow_points[angle_index];
 
         // Alternate between buffers
@@ -268,10 +269,18 @@ fn main() -> ! {
         };
         //display.show(current_buffer).unwrap();
         display.show_region_2(current_buffer, bounding_box).unwrap();
-        delay.delay_ms(16);
+
 
         // Toggle the buffer
         use_first_buffer = !use_first_buffer;
+
+        // Calculate the frame time and adjust delay to achieve ~60 FPS
+        let frame_time = cortex_m::peripheral::SYST::get_current().wrapping_sub(start_time);
+        let frame_time_ms = (frame_time as f64) / (sys_freq as f64 / 1_000.0);
+        let target_frame_time_ms = 16.67;
+        if frame_time_ms < target_frame_time_ms {
+            delay.delay_ms((target_frame_time_ms - frame_time_ms) as u32);
+        }
     }
 }
 
