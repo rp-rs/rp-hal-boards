@@ -208,22 +208,29 @@ fn main() -> ! {
     let mut use_first_buffer = true;
     let mut c = Rgb565::RED;
 
+    let compass_center = Point::new(240 / 2, (240 / 10) * 8);
+    let arrow_points = precompute_arrow_points(compass_center, 45, 135);
     let mut angle = 45;
     let mut increasing = true;
     let mut bounding_box : Rectangle; 
+    let mut angle_index = 0;
 
     loop {
+        let points = &arrow_points[angle_index];
+
         // Alternate between buffers
         if use_first_buffer {
             // Reset the frame buffers
             //image.draw(&mut frame_buffer_2).unwrap();
             frame_buffer_2.get_mut_buffer()[..image_data.len()].copy_from_slice(image_data);
-            bounding_box = create_arrow_image_5(&mut frame_buffer_2, angle, arrow_rotate_point_x, arrow_rotate_point_y);
+            //bounding_box = create_arrow_image_5(&mut frame_buffer_2, angle, arrow_rotate_point_x, arrow_rotate_point_y);
+            bounding_box = create_arrow_image_6(&mut frame_buffer_2, points);
             create_button_image_1(&mut frame_buffer_2, arrow_rotate_point_x, arrow_rotate_point_y);
         } else {
             //image.draw(&mut frame_buffer_1).unwrap();
             frame_buffer_1.get_mut_buffer()[..image_data.len()].copy_from_slice(image_data);
-            bounding_box = create_arrow_image_5(&mut frame_buffer_1, angle, arrow_rotate_point_x, arrow_rotate_point_y);
+            //bounding_box = create_arrow_image_5(&mut frame_buffer_1, angle, arrow_rotate_point_x, arrow_rotate_point_y);
+            bounding_box = create_arrow_image_6(&mut frame_buffer_1, points);
             create_button_image_1(&mut frame_buffer_1, arrow_rotate_point_x, arrow_rotate_point_y);
         }
 
@@ -236,6 +243,19 @@ fn main() -> ! {
         } else {
             angle -= 1;
             if angle <= 45 {
+                increasing = true;
+            }
+        }
+
+        // Adjust the angle index for the next iteration
+        if increasing {
+            angle_index += 1;
+            if angle_index >= arrow_points.len() {
+                increasing = false;
+            }
+        } else {
+            angle_index -= 1;
+            if angle_index <= 0 {
                 increasing = true;
             }
         }
@@ -412,4 +432,108 @@ fn calculate_bounding_box(points: &[Point], padding: Option<u32>) -> Rectangle {
         Point::new(min_x - padding, min_y - padding),
         Size::new((max_x - min_x + 2 * padding) as u32, (max_y - min_y + 2 * padding) as u32),
     )
+}
+
+#[derive(Copy, Clone)]
+struct ArrowPoints {
+    north: Point,
+    south: Point,
+    north_left: Point,
+    north_right: Point,
+    south_left: Point,
+    south_right: Point,
+}
+
+fn precompute_arrow_points(
+    compass_center: Point,
+    start_angle: i32,
+    end_angle: i32,
+) -> [ArrowPoints; 91] {
+    let mut points_array = [ArrowPoints {
+        north: Point::zero(),
+        south: Point::zero(),
+        north_left: Point::zero(),
+        north_right: Point::zero(),
+        south_left: Point::zero(),
+        south_right: Point::zero(),
+    }; 91];
+
+    for angle in start_angle..=end_angle {
+        let north_angle = angle - 180;
+        let south_angle = angle;
+        let north_left_angle = north_angle - 2;
+        let north_right_angle = north_angle + 2;
+        let south_left_angle = south_angle + 10;
+        let south_right_angle = south_angle - 10;
+
+        let circle_1 = 128;
+        let circle_2 = 125;
+        let circle_3 = 36;
+        let circle_4 = 32;
+
+        let north = get_coordinates(compass_center, circle_1, north_angle);
+        let south = get_coordinates(compass_center, circle_4, south_angle);
+        let north_left = get_coordinates(compass_center, circle_2, north_left_angle);
+        let north_right = get_coordinates(compass_center, circle_2, north_right_angle);
+        let south_left = get_coordinates(compass_center, circle_3, south_left_angle);
+        let south_right = get_coordinates(compass_center, circle_3, south_right_angle);
+
+        points_array[(angle - start_angle) as usize] = ArrowPoints {
+            north,
+            south,
+            north_left,
+            north_right,
+            south_left,
+            south_right,
+        };
+    }
+
+    points_array
+}
+
+fn create_arrow_image_6(
+    framebuffer: &mut FrameBuffer,
+    points: &ArrowPoints,
+) -> Rectangle {
+    let merged_points = [
+        points.north,
+        points.north_left,
+        points.south_left,
+        points.south,
+        points.south_right,
+        points.north_right,
+    ];
+
+    let left_points = [
+        points.north,
+        points.north_left,
+        points.south_left,
+        points.south,
+        Point::zero(), // unused but needed to keep array size fixed
+        Point::zero(), // unused but needed to keep array size fixed
+    ];
+
+    let right_points = [
+        points.north,
+        points.north_right,
+        points.south_right,
+        points.south,
+        Point::zero(), // unused but needed to keep array size fixed
+        Point::zero(), // unused but needed to keep array size fixed
+    ];
+
+    let red = Rgb565::new(255, 0, 0);
+    let red_9 = Rgb565::new(19, 1, 1);
+
+    let style_red = PrimitiveStyleBuilder::new().fill_color(red).build();
+    let style_red_9 = PrimitiveStyleBuilder::new().fill_color(red_9).build();
+
+    draw_polygon(framebuffer, &merged_points, style_red_9);
+    draw_polygon(framebuffer, &left_points[0..4], style_red);
+    draw_polygon(framebuffer, &right_points[0..4], style_red_9);
+
+    // Calculate the bounding box of the arrow
+    let bounding_box = calculate_bounding_box(&merged_points, Some(5));
+
+    bounding_box
 }
