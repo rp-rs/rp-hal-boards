@@ -7,11 +7,12 @@
 #![no_main]
 
 mod gc9a01a_driver;
+mod frame_buffer;
 
 use cortex_m::delay::Delay;
 use embedded_graphics::primitives::Line;
 use fugit::RateExtU32;
-
+use frame_buffer::FrameBuffer;
 use panic_halt as _;
 
 use waveshare_rp2040_lcd_1_28::entry;
@@ -33,12 +34,19 @@ use embedded_hal::digital::v2::OutputPin;
 use embedded_graphics::{
     pixelcolor::Rgb565,
     prelude::*,
-    primitives::{PrimitiveStyle, PrimitiveStyleBuilder, Rectangle},
+    primitives::{PrimitiveStyle, PrimitiveStyleBuilder, Rectangle, Triangle},
+    image::{ImageRaw, Image},
 };
+use libm::{cos,sin};
 use gc9a01a_driver::{Orientation, GC9A01A};
 
 const LCD_WIDTH: u32 = 240;
 const LCD_HEIGHT: u32 = 240;
+
+// Define static buffers
+static mut FRAME_BUFFER_1: [u8; (LCD_WIDTH * LCD_HEIGHT * 2) as usize] = [0; (LCD_WIDTH * LCD_HEIGHT * 2) as usize];
+static mut FRAME_BUFFER_2: [u8; (LCD_WIDTH * LCD_HEIGHT * 2) as usize] = [0; (LCD_WIDTH * LCD_HEIGHT * 2) as usize];
+
 
 #[entry]
 fn main() -> ! {
@@ -106,6 +114,11 @@ fn main() -> ! {
     display.init(&mut delay).unwrap();
     //display.set_orientation(&Orientation::Landscape).unwrap();
 
+    // Create two frame buffers for double buffering
+    let mut frame_buffer_1 = unsafe { FrameBuffer::new(&mut FRAME_BUFFER_1, LCD_WIDTH, LCD_HEIGHT) };
+    let mut frame_buffer_2 = unsafe { FrameBuffer::new(&mut FRAME_BUFFER_2, LCD_WIDTH, LCD_HEIGHT) };
+
+
     //display.set_offset(1, 26);
 
     let lcd_zero = Point::zero();
@@ -155,19 +168,93 @@ fn main() -> ! {
     .into_styled(PrimitiveStyle::with_stroke(Rgb565::GREEN, 1))
     .draw(&mut display)
     .unwrap();
+// Load image data
+let image_data = include_bytes!("2wd-big-endian.raw");
+    // Copy image data to the frame buffer
+    //frame_buffer_1.get_mut_buffer()[..image_data.len()].copy_from_slice(image_data);
+    //frame_buffer_2.get_mut_buffer()[..image_data.len()].copy_from_slice(image_data);
 
-    // Include your RGB565 data from the file
-    let image_data = include_bytes!("2wd-big-endian.raw");
+
+        // Draw image on the frame buffer
+        let raw_image: ImageRaw<Rgb565> = ImageRaw::new(image_data, LCD_WIDTH);
+        let image = Image::new(&raw_image, Point::zero());
+        image.draw(&mut frame_buffer_1).unwrap();
+        image.draw(&mut frame_buffer_2).unwrap();
+
+        display.show(frame_buffer_1.get_buffer()).unwrap();
+
+        delay.delay_ms(1000);
+
+        let points = [
+            Point::new(120, 100),
+            Point::new(100, 140),
+            Point::new(140, 140),
+        ];
+
+    // Draw a filled triangle on the frame buffers
+    let style = PrimitiveStyleBuilder::new().fill_color(Rgb565::RED).build();
+    Triangle::new(points[0], points[1], points[2])
+        .into_styled(style)
+        .draw(&mut frame_buffer_1)
+        .unwrap();
+    /* 
+    Triangle::new(points[0], points[1], points[2])
+        .into_styled(style)
+        .draw(&mut frame_buffer_2)
+        .unwrap();
+    */
+    // Show the initial buffer
+    display.show(frame_buffer_1.get_buffer()).unwrap();
+    delay.delay_ms(1000);
 
     // Draw the image to the display
-    display.draw_image(image_data).unwrap();
+    //display.draw_image(image_data).unwrap();
 
-    delay.delay_ms(10000);
+    // Draw a filled triangle on the frame buffers
+    let style = PrimitiveStyleBuilder::new().fill_color(Rgb565::GREEN).build();
+    Triangle::new(points[0], points[1], points[2])
+        .into_styled(style)
+        .draw(&mut frame_buffer_2)
+        .unwrap();
+
+        display.show(frame_buffer_2.get_buffer()).unwrap();
+    delay.delay_ms(1000);
+    
+
+    //Reset the frame buffers.
+    image.draw(&mut frame_buffer_1).unwrap();
+    image.draw(&mut frame_buffer_2).unwrap();
+
+        // Calculate the center of the image
+        let arrow_rotate_point_x = 240 / 2;
+        let arrow_rotate_point_y = (240 / 10) * 8;
+    create_arrow_image_5(&mut frame_buffer_1, 45, arrow_rotate_point_x,arrow_rotate_point_y );
+    create_arrow_image_5(&mut frame_buffer_2, 46, arrow_rotate_point_x,arrow_rotate_point_y );
+    //frame_buffer_2.clear(Rgb565::BLACK);
+    //image.draw(&mut frame_buffer_2).unwrap();
+    //frame_buffer_2.get_mut_buffer()[..image_data.len()].copy_from_slice(image_data);
     
     // Infinite colour wheel loop
     let mut l: i32 = 0;
+    let mut use_first_buffer = true;
     let mut c = Rgb565::RED;
     loop {
+        // Alternate between buffers
+        // Alternate between buffers
+        let current_buffer = if use_first_buffer {
+            frame_buffer_1.get_buffer()
+        } else {
+            frame_buffer_2.get_buffer()
+        };
+
+
+                // Clear the current buffer
+                //current_buffer.clear(Rgb565::BLACK);
+        // Call the show function with the buffer to display the image and arrow
+        display.show(current_buffer).unwrap();
+        //delay of 16 for 60Hz or 60 Frames a second.
+        delay.delay_ms(1000);
+        /* 
         Line::new(Point::new(0, l), Point::new((LCD_WIDTH - 1) as i32, l))
             .into_styled(PrimitiveStyle::with_stroke(c, 1))
             .draw(&mut display)
@@ -182,7 +269,101 @@ fn main() -> ! {
                 _ => Rgb565::RED,
             }
         }
-    
+        */
+        // Toggle the buffer
+        use_first_buffer = !use_first_buffer;
     }
 
+}
+
+fn create_arrow_image_5(
+    framebuffer: &mut FrameBuffer<>,
+    angle: i32,
+    compass_center_x: i32,
+    compass_center_y: i32,
+) {
+    let compass_center = Point::new(compass_center_x, compass_center_y);
+    let north_angle = angle - 180;
+    let south_angle = angle;
+    let north_left_angle = north_angle - 2;
+    let north_right_angle = north_angle + 2;
+    let south_left_angle = south_angle + 10;
+    let south_right_angle = south_angle - 10;
+
+    let circle_1 = 128;
+    let circle_2 = 125;
+    let circle_3 = 36;
+    let circle_4 = 32;
+
+    let north = get_coordinates(compass_center, circle_1, north_angle);
+    let south = get_coordinates(compass_center, circle_4, south_angle);
+    let north_left = get_coordinates(compass_center, circle_2, north_left_angle);
+    let north_right = get_coordinates(compass_center, circle_2, north_right_angle);
+    let south_left = get_coordinates(compass_center, circle_3, south_left_angle);
+    let south_right = get_coordinates(compass_center, circle_3, south_right_angle);
+
+    let merged_points = [
+        north,
+        north_left,
+        south_left,
+        south,
+        south_right,
+        north_right,
+    ];
+
+    let left_points = [
+        north,
+        north_left,
+        south_left,
+        south,
+        Point::zero(),  // unused but needed to keep array size fixed
+        Point::zero(),  // unused but needed to keep array size fixed
+    ];
+
+    let right_points = [
+        north,
+        north_right,
+        south_right,
+        south,
+        Point::zero(),  // unused but needed to keep array size fixed
+        Point::zero(),  // unused but needed to keep array size fixed
+    ];
+
+    let red = Rgb565::new(255, 0, 0);
+    let red_9 = Rgb565::new(174, 31, 31);
+
+    let style_red = PrimitiveStyleBuilder::new().fill_color(red).build();
+    let style_red_9 = PrimitiveStyleBuilder::new().fill_color(red_9).build();
+
+    draw_polygon(framebuffer, &merged_points, style_red_9);
+    draw_polygon(framebuffer, &left_points[0..4], style_red);
+    draw_polygon(framebuffer, &right_points[0..4], style_red_9);
+}
+
+
+fn draw_polygon(
+    framebuffer: &mut FrameBuffer<>,
+    points: &[Point],
+    style: PrimitiveStyle<Rgb565>,
+) {
+    if points.len() < 3 {
+        return; // Not enough points to form a polygon
+    }
+
+    // We will use a fan triangulation from the first point
+    let first_point = points[0];
+
+    for i in 1..points.len() - 1 {
+        let triangle = Triangle::new(first_point, points[i], points[i + 1])
+            .into_styled(style);
+        triangle.draw(framebuffer).unwrap();
+    }
+}
+
+// Helper function to calculate the coordinates based on the angle and radius
+fn get_coordinates(center: Point, radius: i32, angle: i32) -> Point {
+    let angle_rad = (angle as f32).to_radians() as f64;
+    let x = center.x + (radius as f32 * cos(angle_rad) as f32) as i32;
+    let y = center.y + (radius as f32 * sin(angle_rad) as f32) as i32;
+    Point::new(x, y)
 }

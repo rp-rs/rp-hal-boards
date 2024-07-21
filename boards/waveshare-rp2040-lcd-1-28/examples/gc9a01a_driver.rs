@@ -344,6 +344,25 @@ where
         
         Ok(())
     }
+
+
+    pub fn show(&mut self, buffer: &[u8]) -> Result<(), ()> {
+        self.write_command(Instruction::CASET as u8, &[])?;
+        self.write_data(&[0x00, 0x00, 0x00, 0xEF])?;
+
+        self.write_command(Instruction::RASET as u8, &[])?;
+        self.write_data(&[0x00, 0x00, 0x00, 0xEF])?;
+
+        self.write_command(Instruction::RAMWR as u8, &[])?;
+
+        self.cs.set_high().map_err(|_| ())?;
+        self.dc.set_high().map_err(|_| ())?;
+        self.cs.set_low().map_err(|_| ())?;
+        self.spi.write(buffer).map_err(|_| ())?;
+        self.cs.set_high().map_err(|_| ())?;
+        
+        Ok(())
+    }
 }
 
 
