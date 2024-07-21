@@ -236,6 +236,7 @@ fn main() -> ! {
         }
 
         // Adjust the angle for the next iteration
+        /* 
         if increasing {
             angle += 1;
             if angle >= 135 {
@@ -247,11 +248,11 @@ fn main() -> ! {
                 increasing = true;
             }
         }
-
+        */
         // Adjust the angle index for the next iteration
         if increasing {
             angle_index += 1;
-            if angle_index >= arrow_points.len() {
+            if angle_index >= arrow_points.len() - 1{
                 increasing = false;
             }
         } else {
