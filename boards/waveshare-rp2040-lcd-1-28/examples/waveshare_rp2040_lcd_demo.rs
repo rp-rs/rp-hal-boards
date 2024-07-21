@@ -115,6 +115,7 @@ fn main() -> ! {
         .fill_color(Rgb565::BLUE)
         .build();
 
+    //Please note that you must clear the screen before you turn on the backlight or else the screen will display static.
     display.clear(Rgb565::BLACK);
     delay.delay_ms(1000);
     // Set the backlight pin high
@@ -141,7 +142,7 @@ fn main() -> ! {
     .unwrap();
 
     delay.delay_ms(1000);
-    
+
     Line::new(lcd_zero, lcd_max_corner)
         .into_styled(PrimitiveStyle::with_stroke(Rgb565::RED, 1))
         .draw(&mut display)
@@ -155,6 +156,14 @@ fn main() -> ! {
     .draw(&mut display)
     .unwrap();
 
+    // Include your RGB565 data from the file
+    let image_data = include_bytes!("2wd-big-endian.raw");
+
+    // Draw the image to the display
+    display.draw_image(image_data).unwrap();
+
+    delay.delay_ms(10000);
+    
     // Infinite colour wheel loop
     let mut l: i32 = 0;
     let mut c = Rgb565::RED;
@@ -173,5 +182,7 @@ fn main() -> ! {
                 _ => Rgb565::RED,
             }
         }
+    
     }
+
 }

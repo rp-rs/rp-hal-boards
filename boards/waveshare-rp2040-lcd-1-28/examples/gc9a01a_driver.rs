@@ -327,6 +327,23 @@ where
         self.set_address_window(sx, sy, ex, ey)?;
         self.write_pixels_buffered(colors)
     }
+
+    /// Draws an image from a slice of RGB565 data
+    pub fn draw_image(&mut self, image_data: &[u8]) -> Result<(), ()> {
+        // Assuming the image dimensions match the display dimensions
+        let width = self.width as u16;
+        let height = self.height as u16;
+
+        self.set_address_window(0, 0, width - 1, height - 1)?;
+        self.write_command(Instruction::RAMWR as u8, &[])?;
+        self.start_data()?;
+        
+        for chunk in image_data.chunks(32) {
+            self.write_data(chunk)?;
+        }
+        
+        Ok(())
+    }
 }
 
 
@@ -408,6 +425,8 @@ where
                 .take((self.width * self.height) as usize),
         )
     }
+
+
 }
 
 
