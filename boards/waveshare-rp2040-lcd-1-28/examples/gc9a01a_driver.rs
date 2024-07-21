@@ -363,6 +363,54 @@ where
         
         Ok(())
     }
+
+    /// Updates only the specified region of the display with the provided buffer.
+    pub fn show_region(&mut self, buffer: &[u8], region: Rectangle) -> Result<(), ()> {
+        let Rectangle { top_left, size } = region;
+        let sx = top_left.x as u16;
+        let sy = top_left.y as u16;
+        let ex = (top_left.x + size.width as i32 - 1) as u16;
+        let ey = (top_left.y + size.height as i32 - 1) as u16;
+
+        self.set_address_window(sx, sy, ex, ey)?;
+        self.write_command(Instruction::RAMWR as u8, &[])?;
+        self.start_data()?;
+        
+        for chunk in buffer.chunks(32) {
+            self.write_data(chunk)?;
+        }
+        
+        Ok(())
+    }
+    // Updates only the specified region of the display with the provided buffer.
+// Updates only the specified region of the display with the provided buffer.
+pub fn show_region_2(&mut self, buffer: &[u8], region: Rectangle) -> Result<(), ()> {
+    let Rectangle { top_left, size } = region;
+    let sx = top_left.x as u16;
+    let sy = top_left.y as u16;
+    let ex = (top_left.x + size.width as i32 - 1) as u16;
+    let ey = (top_left.y + size.height as i32 - 1) as u16;
+
+    // Calculate the buffer offset for the region
+    let buffer_width = self.width as usize;
+    let bytes_per_pixel = 2; // For RGB565
+
+    self.set_address_window(sx, sy, ex, ey)?;
+    self.write_command(Instruction::RAMWR as u8, &[])?;
+    self.start_data()?;
+
+    for y in sy..=ey {
+        let start_index = ((y as usize) * buffer_width + (sx as usize)) * bytes_per_pixel;
+        let end_index = start_index + (size.width as usize) * bytes_per_pixel;
+
+        for chunk in buffer[start_index..end_index].chunks(32) {
+            self.write_data(chunk)?;
+        }
+    }
+
+    Ok(())
+}
+
 }
 
 

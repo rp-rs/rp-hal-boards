@@ -34,7 +34,7 @@ use embedded_hal::digital::v2::OutputPin;
 use embedded_graphics::{
     pixelcolor::Rgb565,
     prelude::*,
-    primitives::{PrimitiveStyle, PrimitiveStyleBuilder, Rectangle, Triangle},
+    primitives::{PrimitiveStyle, PrimitiveStyleBuilder, Rectangle, Triangle, Circle},
     image::{ImageRaw, Image},
 };
 use libm::{cos,sin};
@@ -158,7 +158,9 @@ fn main() -> ! {
     .unwrap();
 
     // Load image data
-    let image_data = include_bytes!("2wd-big-endian.raw");
+    //let image_data = include_bytes!("2wd-big-endian.raw");
+    let image_data = include_bytes!("fuel-big-endian.raw");
+    
     let raw_image: ImageRaw<Rgb565> = ImageRaw::new(image_data, LCD_WIDTH);
     let image = Image::new(&raw_image, Point::zero());
 
@@ -205,36 +207,49 @@ fn main() -> ! {
     let mut l: i32 = 0;
     let mut use_first_buffer = true;
     let mut c = Rgb565::RED;
+
+    let mut angle = 45;
+    let mut increasing = true;
+    let mut bounding_box : Rectangle; 
+
     loop {
         // Alternate between buffers
+        if use_first_buffer {
+            // Reset the frame buffers
+            //image.draw(&mut frame_buffer_2).unwrap();
+            frame_buffer_2.get_mut_buffer()[..image_data.len()].copy_from_slice(image_data);
+            bounding_box = create_arrow_image_5(&mut frame_buffer_2, angle, arrow_rotate_point_x, arrow_rotate_point_y);
+            create_button_image_1(&mut frame_buffer_2, arrow_rotate_point_x, arrow_rotate_point_y);
+        } else {
+            //image.draw(&mut frame_buffer_1).unwrap();
+            frame_buffer_1.get_mut_buffer()[..image_data.len()].copy_from_slice(image_data);
+            bounding_box = create_arrow_image_5(&mut frame_buffer_1, angle, arrow_rotate_point_x, arrow_rotate_point_y);
+            create_button_image_1(&mut frame_buffer_1, arrow_rotate_point_x, arrow_rotate_point_y);
+        }
+
+        // Adjust the angle for the next iteration
+        if increasing {
+            angle += 1;
+            if angle >= 135 {
+                increasing = false;
+            }
+        } else {
+            angle -= 1;
+            if angle <= 45 {
+                increasing = true;
+            }
+        }
+
+        // Display the current buffer
         let current_buffer = if use_first_buffer {
             frame_buffer_1.get_buffer()
         } else {
             frame_buffer_2.get_buffer()
         };
+        //display.show(current_buffer).unwrap();
+        display.show_region_2(current_buffer, bounding_box).unwrap();
+        delay.delay_ms(16);
 
-        // Display the current buffer
-        display.show(current_buffer).unwrap();
-        //delay of 16 for 60Hz or 60 Frames a second.
-        //delay.delay_ms(1000);
-        //delay of 1 second for demo.
-        delay.delay_ms(1000);
-        /* 
-        Line::new(Point::new(0, l), Point::new((LCD_WIDTH - 1) as i32, l))
-            .into_styled(PrimitiveStyle::with_stroke(c, 1))
-            .draw(&mut display)
-            .unwrap();
-        delay.delay_ms(10);
-        l += 1;
-        if l == LCD_HEIGHT as i32 {
-            l = 0;
-            c = match c {
-                Rgb565::RED => Rgb565::GREEN,
-                Rgb565::GREEN => Rgb565::BLUE,
-                _ => Rgb565::RED,
-            }
-        }
-        */
         // Toggle the buffer
         use_first_buffer = !use_first_buffer;
     }
@@ -245,7 +260,7 @@ fn create_arrow_image_5(
     angle: i32,
     compass_center_x: i32,
     compass_center_y: i32,
-) {
+) -> Rectangle{
     let compass_center = Point::new(compass_center_x, compass_center_y);
     let north_angle = angle - 180;
     let south_angle = angle;
@@ -302,6 +317,11 @@ fn create_arrow_image_5(
     draw_polygon(framebuffer, &merged_points, style_red_9);
     draw_polygon(framebuffer, &left_points[0..4], style_red);
     draw_polygon(framebuffer, &right_points[0..4], style_red_9);
+
+        // Calculate the bounding box of the arrow
+        let bounding_box = calculate_bounding_box(&merged_points, Some(5));
+
+        bounding_box
 }
 
 fn draw_polygon(
@@ -328,4 +348,68 @@ fn get_coordinates(center: Point, radius: i32, angle: i32) -> Point {
     let x = center.x + (radius as f32 * cos(angle_rad) as f32) as i32;
     let y = center.y + (radius as f32 * sin(angle_rad) as f32) as i32;
     Point::new(x, y)
+}
+/// Converts RGB888 color to RGB565 format.
+fn convert_rgb888_to_color565(r: u8, g: u8, b: u8, big_endian: bool) -> Rgb565 {
+    let val16 = ((r & 0xf8) as u16) << 8 | ((g & 0xfc) as u16) << 3 | (b >> 3) as u16;
+    let value = if big_endian {
+        val16.swap_bytes()
+    } else {
+        val16
+    };
+
+    Rgb565::new((value >> 11) as u8 & 0x1f, (value >> 5) as u8 & 0x3f, (value & 0x1f) as u8)
+}
+
+/// Draws a circle on the frame buffer.
+fn draw_circle(framebuffer: &mut FrameBuffer, color: Rgb565, center: Point, radius: i32) {
+    let style = PrimitiveStyleBuilder::new()
+        .fill_color(color)
+        .build();
+        // Calculate the top-left corner of the circle based on the center point and radius
+    let top_left = Point::new(center.x - radius, center.y - radius);
+    let diameter = (radius * 2) as u32;
+
+    Circle::new(top_left, diameter as u32)
+        .into_styled(style)
+        .draw(framebuffer)
+        .unwrap();
+}
+/// Creates a button image on the frame buffer.
+fn create_button_image_1(framebuffer: &mut FrameBuffer, center_x: i32, center_y: i32) {
+    let button_color_top = Rgb565::new(8, 16, 8);
+    let button_color_shadow = Rgb565::new(12, 23, 12);
+
+    let circle_radius = 14;
+    draw_circle(framebuffer, button_color_shadow, Point::new(center_x - 1, center_y - 1), circle_radius);
+    draw_circle(framebuffer, button_color_top, Point::new(center_x, center_y), circle_radius);
+}
+
+/// Helper function to calculate the bounding box of a set of points with an optional padding.
+fn calculate_bounding_box(points: &[Point], padding: Option<u32>) -> Rectangle {
+    let mut min_x = points[0].x;
+    let mut max_x = points[0].x;
+    let mut min_y = points[0].y;
+    let mut max_y = points[0].y;
+
+    for point in points.iter().skip(1) {
+        if point.x < min_x {
+            min_x = point.x;
+        }
+        if point.x > max_x {
+            max_x = point.x;
+        }
+        if point.y < min_y {
+            min_y = point.y;
+        }
+        if point.y > max_y {
+            max_y = point.y;
+        }
+    }
+
+    let padding = padding.unwrap_or(0) as i32;
+    Rectangle::new(
+        Point::new(min_x - padding, min_y - padding),
+        Size::new((max_x - min_x + 2 * padding) as u32, (max_y - min_y + 2 * padding) as u32),
+    )
 }
