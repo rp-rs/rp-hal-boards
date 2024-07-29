@@ -261,7 +261,7 @@ fn main() -> ! {
         let frame_time_ms = (frame_time as f64) / (sys_freq as f64 / 1_000.0);
         let target_frame_time_ms = 16.67;
         if frame_time_ms < target_frame_time_ms {
-            //delay.delay_ms((target_frame_time_ms - frame_time_ms) as u32);
+            delay.delay_ms((target_frame_time_ms - frame_time_ms) as u32);
         }
     }
 }
