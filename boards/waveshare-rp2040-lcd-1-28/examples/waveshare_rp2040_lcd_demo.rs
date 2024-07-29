@@ -202,7 +202,7 @@ fn main() -> ! {
     let mut bounding_box: Rectangle;
     let mut previous_bounding_box = Rectangle::new(Point::new(0, 0), Size::new(0, 0));
     // Define a rectangle at (0, 0) with width 0 and height 0
-    let mut angle: f32 = 0.0;
+    let mut angle: f32 = 90.0;
 
     // Create a background buffer with frame_buffer_1
     frame_buffer_1.get_mut_buffer()[..image_data.len()].copy_from_slice(image_data);
@@ -231,7 +231,7 @@ fn main() -> ! {
         create_button(&mut frame_buffer_2, image_center.x, image_center.y);
 
         // Increment the angle
-        angle += 0.1;
+        angle += 6.0;
         if angle >= 360.0 {
             angle = 0.0;
         }
@@ -241,8 +241,8 @@ fn main() -> ! {
         display.show_region(frame_buffer_2.get_buffer(), bounding_box).unwrap();
         previous_bounding_box = bounding_box;
 
-        // Delay to achieve ~30 FPS
-        delay.delay_ms(33);
+        // Delay to achieve 1 Hz
+        delay.delay_ms(1000);
     }
 }
 
@@ -311,7 +311,7 @@ fn create_arrow(
     draw_polygon(framebuffer, &right_points[0..4], style_red_9);
 
     // Calculate the bounding box of the arrow
-    let bounding_box = calculate_bounding_box(&merged_points, Some(5));
+    let bounding_box = calculate_bounding_box(&merged_points, Some(10));
 
     bounding_box
 }
@@ -392,4 +392,3 @@ fn calculate_bounding_box(points: &[Point], padding: Option<u32>) -> Rectangle {
         Size::new((max_x - min_x + 2 * padding) as u32, (max_y - min_y + 2 * padding) as u32),
     )
 }
-

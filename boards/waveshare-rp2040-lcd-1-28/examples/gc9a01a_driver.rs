@@ -1,11 +1,5 @@
 #![no_std]
 
-//! This crate provides a ST7735 driver to connect to TFT displays.
-
-//mod instruction;
-
-//use crate::instruction::Instruction;
-
 use embedded_hal::blocking::delay::DelayMs;
 use embedded_hal::blocking::spi;
 use embedded_hal::digital::v2::OutputPin;
@@ -50,7 +44,6 @@ pub enum Instruction {
     GMCTRN1 = 0xE1,
 }
 
-/// ST7735 driver to connect to TFT displays.
 pub struct GC9A01A<SPI, DC, CS, RST>
 where
     SPI: spi::Write<u8>,
