@@ -47,6 +47,7 @@ const LCD_HEIGHT: u32 = 240;
 static mut FRAME_BUFFER_1: [u8; (LCD_WIDTH * LCD_HEIGHT * 2) as usize] = [0; (LCD_WIDTH * LCD_HEIGHT * 2) as usize];
 static mut FRAME_BUFFER_2: [u8; (LCD_WIDTH * LCD_HEIGHT * 2) as usize] = [0; (LCD_WIDTH * LCD_HEIGHT * 2) as usize];
 
+/// Main entry point for the application
 #[entry]
 fn main() -> ! {
     // Take ownership of peripheral instances
@@ -211,19 +212,19 @@ fn main() -> ! {
         // Define a rectangle at (0, 0) with width 0 and height 0
     let mut angle_index: usize = 0;
 
-    //Create a background buffer with frame_buffer_1
+    // Create a background buffer with frame_buffer_1
     frame_buffer_1.get_mut_buffer()[..image_data.len()].copy_from_slice(image_data);
-    //Create a drawing to lcd buffer with frame_buffer_2
+    // Create a drawing to lcd buffer with frame_buffer_2
     frame_buffer_2.get_mut_buffer()[..image_data.len()].copy_from_slice(image_data);
-    //Show the display to present the initial image.
+    // Show the display to present the initial image.
     display.show(frame_buffer_2.get_buffer()).unwrap();
 
     loop {
         let start_time = cortex_m::peripheral::SYST::get_current();
         let points = &arrow_points[angle_index];
 
-        //Copy the previous bounding box from the background buffer (frame_buffer_1) into the lcd buffer (frame_buffer_2)
-        //This prevents the whole reload of the image_data.
+        // Copy the previous bounding box from the background buffer (frame_buffer_1) into the lcd buffer (frame_buffer_2)
+        // This prevents the whole reload of the image_data.
         let previous_bounding_box_buffer = &frame_buffer_1.get_buffer()[(previous_bounding_box.top_left.y as usize * LCD_WIDTH as usize * 2) + (previous_bounding_box.top_left.x as usize * 2)..];
         let destination_buffer = &mut frame_buffer_2.get_mut_buffer()[(previous_bounding_box.top_left.y as usize * LCD_WIDTH as usize * 2) + (previous_bounding_box.top_left.x as usize * 2)..];
 
@@ -233,9 +234,9 @@ fn main() -> ! {
             destination_buffer[source_row_start..source_row_end].copy_from_slice(&previous_bounding_box_buffer[source_row_start..source_row_end]);
         }
 
-        //Draw the arrow and return the new bounding box
+        // Draw the arrow and return the new bounding box
         bounding_box = create_arrow_image_6(&mut frame_buffer_2, points);
-        //Draw the center button
+        // Draw the center button
         create_button_image_1(&mut frame_buffer_2, arrow_rotate_point_x, arrow_rotate_point_y);
 
         // Adjust the angle index for the next iteration
@@ -251,8 +252,8 @@ fn main() -> ! {
             }
         }
 
-        //the bounding box has a pixel padding of 5 pixels around the arrow to prevent the need to draw the background buffer before the next arrow is drawn.  
-        //This improves performance as only one draw operation occurs instead of 2.
+        // The bounding box has a pixel padding of 5 pixels around the arrow to prevent the need to draw the background buffer before the next arrow is drawn.  
+        // This improves performance as only one draw operation occurs instead of 2.
         display.show_region_2(frame_buffer_2.get_buffer(), bounding_box).unwrap();
         previous_bounding_box = bounding_box;
 
@@ -266,6 +267,7 @@ fn main() -> ! {
     }
 }
 
+/// Create an arrow image at a specified angle and position
 fn create_arrow_image_5(
     framebuffer: &mut FrameBuffer,
     angle: i32,
@@ -335,6 +337,7 @@ fn create_arrow_image_5(
         bounding_box
 }
 
+/// Draw a polygon on the frame buffer
 fn draw_polygon(
     framebuffer: &mut FrameBuffer,
     points: &[Point],
@@ -360,6 +363,7 @@ fn get_coordinates(center: Point, radius: i32, angle: i32) -> Point {
     let y = center.y + (radius as f32 * sin(angle_rad) as f32) as i32;
     Point::new(x, y)
 }
+
 /// Converts RGB888 color to RGB565 format.
 fn convert_rgb888_to_color565(r: u8, g: u8, b: u8, big_endian: bool) -> Rgb565 {
     let val16 = ((r & 0xf8) as u16) << 8 | ((g & 0xfc) as u16) << 3 | (b >> 3) as u16;
@@ -386,6 +390,7 @@ fn draw_circle(framebuffer: &mut FrameBuffer, color: Rgb565, center: Point, radi
         .draw(framebuffer)
         .unwrap();
 }
+
 /// Creates a button image on the frame buffer.
 fn create_button_image_1(framebuffer: &mut FrameBuffer, center_x: i32, center_y: i32) {
     let button_color_top = Rgb565::new(8, 16, 8);
@@ -435,6 +440,7 @@ struct ArrowPoints {
     south_right: Point,
 }
 
+/// Precompute arrow points for animation
 fn precompute_arrow_points(
     compass_center: Point,
     start_angle: i32,
@@ -482,6 +488,7 @@ fn precompute_arrow_points(
     points_array
 }
 
+/// Create an arrow image on the frame buffer
 fn create_arrow_image_6(
     framebuffer: &mut FrameBuffer,
     points: &ArrowPoints,
