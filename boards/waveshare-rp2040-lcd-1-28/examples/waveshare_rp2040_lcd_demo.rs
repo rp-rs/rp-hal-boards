@@ -203,52 +203,41 @@ fn main() -> ! {
     create_arrow_image_5(&mut frame_buffer_1, 45, arrow_rotate_point_x, arrow_rotate_point_y);
     create_arrow_image_5(&mut frame_buffer_2, 46, arrow_rotate_point_x, arrow_rotate_point_y);
 
-    // Infinite colour wheel loop
-    let mut l: i32 = 0;
-    let mut use_first_buffer = true;
-    let mut c = Rgb565::RED;
-
     let compass_center = Point::new(240 / 2, (240 / 10) * 8);
     let arrow_points = precompute_arrow_points(compass_center, 45, 135);
-    let mut angle = 45;
     let mut increasing = true;
     let mut bounding_box : Rectangle; 
-    let mut angle_index = 0;
+    let mut previous_bounding_box = Rectangle::new(Point::new(0, 0), Size::new(0, 0));
+        // Define a rectangle at (0, 0) with width 0 and height 0
+    let mut angle_index: usize = 0;
+
+    //Create a background buffer with frame_buffer_1
+    frame_buffer_1.get_mut_buffer()[..image_data.len()].copy_from_slice(image_data);
+    //Create a drawing to lcd buffer with frame_buffer_2
+    frame_buffer_2.get_mut_buffer()[..image_data.len()].copy_from_slice(image_data);
+    //Show the display to present the initial image.
+    display.show(frame_buffer_2.get_buffer()).unwrap();
 
     loop {
         let start_time = cortex_m::peripheral::SYST::get_current();
         let points = &arrow_points[angle_index];
 
-        // Alternate between buffers
-        if use_first_buffer {
-            // Reset the frame buffers
-            //image.draw(&mut frame_buffer_2).unwrap();
-            frame_buffer_2.get_mut_buffer()[..image_data.len()].copy_from_slice(image_data);
-            //bounding_box = create_arrow_image_5(&mut frame_buffer_2, angle, arrow_rotate_point_x, arrow_rotate_point_y);
-            bounding_box = create_arrow_image_6(&mut frame_buffer_2, points);
-            create_button_image_1(&mut frame_buffer_2, arrow_rotate_point_x, arrow_rotate_point_y);
-        } else {
-            //image.draw(&mut frame_buffer_1).unwrap();
-            frame_buffer_1.get_mut_buffer()[..image_data.len()].copy_from_slice(image_data);
-            //bounding_box = create_arrow_image_5(&mut frame_buffer_1, angle, arrow_rotate_point_x, arrow_rotate_point_y);
-            bounding_box = create_arrow_image_6(&mut frame_buffer_1, points);
-            create_button_image_1(&mut frame_buffer_1, arrow_rotate_point_x, arrow_rotate_point_y);
+        //Copy the previous bounding box from the background buffer (frame_buffer_1) into the lcd buffer (frame_buffer_2)
+        //This prevents the whole reload of the image_data.
+        let previous_bounding_box_buffer = &frame_buffer_1.get_buffer()[(previous_bounding_box.top_left.y as usize * LCD_WIDTH as usize * 2) + (previous_bounding_box.top_left.x as usize * 2)..];
+        let destination_buffer = &mut frame_buffer_2.get_mut_buffer()[(previous_bounding_box.top_left.y as usize * LCD_WIDTH as usize * 2) + (previous_bounding_box.top_left.x as usize * 2)..];
+
+        for row in 0..previous_bounding_box.size.height as usize {
+            let source_row_start = row * LCD_WIDTH as usize * 2;
+            let source_row_end = source_row_start + previous_bounding_box.size.width as usize * 2;
+            destination_buffer[source_row_start..source_row_end].copy_from_slice(&previous_bounding_box_buffer[source_row_start..source_row_end]);
         }
 
-        // Adjust the angle for the next iteration
-        /* 
-        if increasing {
-            angle += 1;
-            if angle >= 135 {
-                increasing = false;
-            }
-        } else {
-            angle -= 1;
-            if angle <= 45 {
-                increasing = true;
-            }
-        }
-        */
+        //Draw the arrow and return the new bounding box
+        bounding_box = create_arrow_image_6(&mut frame_buffer_2, points);
+        //Draw the center button
+        create_button_image_1(&mut frame_buffer_2, arrow_rotate_point_x, arrow_rotate_point_y);
+
         // Adjust the angle index for the next iteration
         if increasing {
             angle_index += 1;
@@ -262,25 +251,17 @@ fn main() -> ! {
             }
         }
 
-        // Display the current buffer
-        let current_buffer = if use_first_buffer {
-            frame_buffer_1.get_buffer()
-        } else {
-            frame_buffer_2.get_buffer()
-        };
-        //display.show(current_buffer).unwrap();
-        display.show_region_2(current_buffer, bounding_box).unwrap();
-
-
-        // Toggle the buffer
-        use_first_buffer = !use_first_buffer;
+        //the bounding box has a pixel padding of 5 pixels around the arrow to prevent the need to draw the background buffer before the next arrow is drawn.  
+        //This improves performance as only one draw operation occurs instead of 2.
+        display.show_region_2(frame_buffer_2.get_buffer(), bounding_box).unwrap();
+        previous_bounding_box = bounding_box;
 
         // Calculate the frame time and adjust delay to achieve ~60 FPS
         let frame_time = cortex_m::peripheral::SYST::get_current().wrapping_sub(start_time);
         let frame_time_ms = (frame_time as f64) / (sys_freq as f64 / 1_000.0);
         let target_frame_time_ms = 16.67;
         if frame_time_ms < target_frame_time_ms {
-            delay.delay_ms((target_frame_time_ms - frame_time_ms) as u32);
+            //delay.delay_ms((target_frame_time_ms - frame_time_ms) as u32);
         }
     }
 }
