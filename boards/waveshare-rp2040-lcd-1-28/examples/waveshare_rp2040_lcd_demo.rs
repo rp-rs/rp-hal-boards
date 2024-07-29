@@ -37,7 +37,7 @@ use embedded_graphics::{
     primitives::{PrimitiveStyle, PrimitiveStyleBuilder, Rectangle, Triangle, Circle},
     image::{ImageRaw, Image},
 };
-use libm::{cos,sin};
+use libm::{cos, sin};
 use gc9a01a_driver::{Orientation, GC9A01A};
 
 const LCD_WIDTH: u32 = 240;
@@ -92,7 +92,7 @@ fn main() -> ! {
     let lcd_mosi = pins.gp11.into_function::<hal::gpio::FunctionSpi>();
     let lcd_rst = pins.gp12.into_push_pull_output_in_state(hal::gpio::PinState::High);
     let mut _lcd_bl = pins.gp25.into_push_pull_output_in_state(hal::gpio::PinState::Low);
-    
+
     // Initialize SPI
     let spi = hal::Spi::<_, _, _, 8>::new(pac.SPI1, (lcd_mosi, lcd_clk));
     let spi = spi.init(
@@ -155,13 +155,12 @@ fn main() -> ! {
         Point::new((LCD_WIDTH - 1) as i32, 0),
     )
     .into_styled(PrimitiveStyle::with_stroke(Rgb565::GREEN, 1))
-    .draw(&mut display)
-    .unwrap();
+        .draw(&mut display)
+        .unwrap();
 
     // Load image data
-    //let image_data = include_bytes!("2wd-big-endian.raw");
-    let image_data = include_bytes!("fuel-big-endian.raw");
-    
+    let image_data = include_bytes!("rust-logo-240x240.raw");
+
     let raw_image: ImageRaw<Rgb565> = ImageRaw::new(image_data, LCD_WIDTH);
     let image = Image::new(&raw_image, Point::zero());
 
@@ -193,24 +192,17 @@ fn main() -> ! {
         .unwrap();
     display.show(frame_buffer_2.get_buffer()).unwrap();
     delay.delay_ms(1000);
-    
+
     // Reset the frame buffers
     image.draw(&mut frame_buffer_1).unwrap();
     image.draw(&mut frame_buffer_2).unwrap();
 
     // Calculate the center of the image
-    let arrow_rotate_point_x = 240 / 2;
-    let arrow_rotate_point_y = (240 / 10) * 8;
-    create_arrow_image_5(&mut frame_buffer_1, 45, arrow_rotate_point_x, arrow_rotate_point_y);
-    create_arrow_image_5(&mut frame_buffer_2, 46, arrow_rotate_point_x, arrow_rotate_point_y);
-
-    let compass_center = Point::new(240 / 2, (240 / 10) * 8);
-    let arrow_points = precompute_arrow_points(compass_center, 45, 135);
-    let mut increasing = true;
-    let mut bounding_box : Rectangle; 
+    let image_center = Point::new(240 / 2, 240 / 2);
+    let mut bounding_box: Rectangle;
     let mut previous_bounding_box = Rectangle::new(Point::new(0, 0), Size::new(0, 0));
-        // Define a rectangle at (0, 0) with width 0 and height 0
-    let mut angle_index: usize = 0;
+    // Define a rectangle at (0, 0) with width 0 and height 0
+    let mut angle: f32 = 0.0;
 
     // Create a background buffer with frame_buffer_1
     frame_buffer_1.get_mut_buffer()[..image_data.len()].copy_from_slice(image_data);
@@ -221,7 +213,6 @@ fn main() -> ! {
 
     loop {
         let start_time = cortex_m::peripheral::SYST::get_current();
-        let points = &arrow_points[angle_index];
 
         // Copy the previous bounding box from the background buffer (frame_buffer_1) into the lcd buffer (frame_buffer_2)
         // This prevents the whole reload of the image_data.
@@ -235,45 +226,33 @@ fn main() -> ! {
         }
 
         // Draw the arrow and return the new bounding box
-        bounding_box = create_arrow_image_6(&mut frame_buffer_2, points);
+        bounding_box = create_arrow(&mut frame_buffer_2, angle as i32, image_center.x, image_center.y);
         // Draw the center button
-        create_button_image_1(&mut frame_buffer_2, arrow_rotate_point_x, arrow_rotate_point_y);
+        create_button(&mut frame_buffer_2, image_center.x, image_center.y);
 
-        // Adjust the angle index for the next iteration
-        if increasing {
-            angle_index += 1;
-            if angle_index >= arrow_points.len() - 1{
-                increasing = false;
-            }
-        } else {
-            angle_index -= 1;
-            if angle_index <= 0 {
-                increasing = true;
-            }
+        // Increment the angle
+        angle += 0.1;
+        if angle >= 360.0 {
+            angle = 0.0;
         }
 
-        // The bounding box has a pixel padding of 5 pixels around the arrow to prevent the need to draw the background buffer before the next arrow is drawn.  
+        // The bounding box has a pixel padding of 5 pixels around the arrow to prevent the need to draw the background buffer before the next arrow is drawn.
         // This improves performance as only one draw operation occurs instead of 2.
-        display.show_region_2(frame_buffer_2.get_buffer(), bounding_box).unwrap();
+        display.show_region(frame_buffer_2.get_buffer(), bounding_box).unwrap();
         previous_bounding_box = bounding_box;
 
-        // Calculate the frame time and adjust delay to achieve ~60 FPS
-        let frame_time = cortex_m::peripheral::SYST::get_current().wrapping_sub(start_time);
-        let frame_time_ms = (frame_time as f64) / (sys_freq as f64 / 1_000.0);
-        let target_frame_time_ms = 16.67;
-        if frame_time_ms < target_frame_time_ms {
-            delay.delay_ms((target_frame_time_ms - frame_time_ms) as u32);
-        }
+        // Delay to achieve ~30 FPS
+        delay.delay_ms(33);
     }
 }
 
 /// Create an arrow image at a specified angle and position
-fn create_arrow_image_5(
+fn create_arrow(
     framebuffer: &mut FrameBuffer,
     angle: i32,
     compass_center_x: i32,
     compass_center_y: i32,
-) -> Rectangle{
+) -> Rectangle {
     let compass_center = Point::new(compass_center_x, compass_center_y);
     let north_angle = angle - 180;
     let south_angle = angle;
@@ -282,8 +261,8 @@ fn create_arrow_image_5(
     let south_left_angle = south_angle + 10;
     let south_right_angle = south_angle - 10;
 
-    let circle_1 = 128;
-    let circle_2 = 125;
+    let circle_1 = 88;
+    let circle_2 = 85;
     let circle_3 = 36;
     let circle_4 = 32;
 
@@ -322,7 +301,7 @@ fn create_arrow_image_5(
     ];
 
     let red = Rgb565::new(255, 0, 0);
-    let red_9 = Rgb565::new(19,1,1);
+    let red_9 = Rgb565::new(19, 1, 1);
 
     let style_red = PrimitiveStyleBuilder::new().fill_color(red).build();
     let style_red_9 = PrimitiveStyleBuilder::new().fill_color(red_9).build();
@@ -331,10 +310,10 @@ fn create_arrow_image_5(
     draw_polygon(framebuffer, &left_points[0..4], style_red);
     draw_polygon(framebuffer, &right_points[0..4], style_red_9);
 
-        // Calculate the bounding box of the arrow
-        let bounding_box = calculate_bounding_box(&merged_points, Some(5));
+    // Calculate the bounding box of the arrow
+    let bounding_box = calculate_bounding_box(&merged_points, Some(5));
 
-        bounding_box
+    bounding_box
 }
 
 /// Draw a polygon on the frame buffer
@@ -364,24 +343,12 @@ fn get_coordinates(center: Point, radius: i32, angle: i32) -> Point {
     Point::new(x, y)
 }
 
-/// Converts RGB888 color to RGB565 format.
-fn convert_rgb888_to_color565(r: u8, g: u8, b: u8, big_endian: bool) -> Rgb565 {
-    let val16 = ((r & 0xf8) as u16) << 8 | ((g & 0xfc) as u16) << 3 | (b >> 3) as u16;
-    let value = if big_endian {
-        val16.swap_bytes()
-    } else {
-        val16
-    };
-
-    Rgb565::new((value >> 11) as u8 & 0x1f, (value >> 5) as u8 & 0x3f, (value & 0x1f) as u8)
-}
-
 /// Draws a circle on the frame buffer.
 fn draw_circle(framebuffer: &mut FrameBuffer, color: Rgb565, center: Point, radius: i32) {
     let style = PrimitiveStyleBuilder::new()
         .fill_color(color)
         .build();
-        // Calculate the top-left corner of the circle based on the center point and radius
+    // Calculate the top-left corner of the circle based on the center point and radius
     let top_left = Point::new(center.x - radius, center.y - radius);
     let diameter = (radius * 2) as u32;
 
@@ -392,13 +359,9 @@ fn draw_circle(framebuffer: &mut FrameBuffer, color: Rgb565, center: Point, radi
 }
 
 /// Creates a button image on the frame buffer.
-fn create_button_image_1(framebuffer: &mut FrameBuffer, center_x: i32, center_y: i32) {
-    let button_color_top = Rgb565::new(8, 16, 8);
-    let button_color_shadow = Rgb565::new(12, 23, 12);
-
+fn create_button(framebuffer: &mut FrameBuffer, center_x: i32, center_y: i32) {
     let circle_radius = 14;
-    draw_circle(framebuffer, button_color_shadow, Point::new(center_x - 1, center_y - 1), circle_radius);
-    draw_circle(framebuffer, button_color_top, Point::new(center_x, center_y), circle_radius);
+    draw_circle(framebuffer, Rgb565::BLACK, Point::new(center_x, center_y), circle_radius);
 }
 
 /// Helper function to calculate the bounding box of a set of points with an optional padding.
@@ -430,108 +393,3 @@ fn calculate_bounding_box(points: &[Point], padding: Option<u32>) -> Rectangle {
     )
 }
 
-#[derive(Copy, Clone)]
-struct ArrowPoints {
-    north: Point,
-    south: Point,
-    north_left: Point,
-    north_right: Point,
-    south_left: Point,
-    south_right: Point,
-}
-
-/// Precompute arrow points for animation
-fn precompute_arrow_points(
-    compass_center: Point,
-    start_angle: i32,
-    end_angle: i32,
-) -> [ArrowPoints; 91] {
-    let mut points_array = [ArrowPoints {
-        north: Point::zero(),
-        south: Point::zero(),
-        north_left: Point::zero(),
-        north_right: Point::zero(),
-        south_left: Point::zero(),
-        south_right: Point::zero(),
-    }; 91];
-
-    for angle in start_angle..=end_angle {
-        let north_angle = angle - 180;
-        let south_angle = angle;
-        let north_left_angle = north_angle - 2;
-        let north_right_angle = north_angle + 2;
-        let south_left_angle = south_angle + 10;
-        let south_right_angle = south_angle - 10;
-
-        let circle_1 = 128;
-        let circle_2 = 125;
-        let circle_3 = 36;
-        let circle_4 = 32;
-
-        let north = get_coordinates(compass_center, circle_1, north_angle);
-        let south = get_coordinates(compass_center, circle_4, south_angle);
-        let north_left = get_coordinates(compass_center, circle_2, north_left_angle);
-        let north_right = get_coordinates(compass_center, circle_2, north_right_angle);
-        let south_left = get_coordinates(compass_center, circle_3, south_left_angle);
-        let south_right = get_coordinates(compass_center, circle_3, south_right_angle);
-
-        points_array[(angle - start_angle) as usize] = ArrowPoints {
-            north,
-            south,
-            north_left,
-            north_right,
-            south_left,
-            south_right,
-        };
-    }
-
-    points_array
-}
-
-/// Create an arrow image on the frame buffer
-fn create_arrow_image_6(
-    framebuffer: &mut FrameBuffer,
-    points: &ArrowPoints,
-) -> Rectangle {
-    let merged_points = [
-        points.north,
-        points.north_left,
-        points.south_left,
-        points.south,
-        points.south_right,
-        points.north_right,
-    ];
-
-    let left_points = [
-        points.north,
-        points.north_left,
-        points.south_left,
-        points.south,
-        Point::zero(), // unused but needed to keep array size fixed
-        Point::zero(), // unused but needed to keep array size fixed
-    ];
-
-    let right_points = [
-        points.north,
-        points.north_right,
-        points.south_right,
-        points.south,
-        Point::zero(), // unused but needed to keep array size fixed
-        Point::zero(), // unused but needed to keep array size fixed
-    ];
-
-    let red = Rgb565::new(255, 0, 0);
-    let red_9 = Rgb565::new(19, 1, 1);
-
-    let style_red = PrimitiveStyleBuilder::new().fill_color(red).build();
-    let style_red_9 = PrimitiveStyleBuilder::new().fill_color(red_9).build();
-
-    draw_polygon(framebuffer, &merged_points, style_red_9);
-    draw_polygon(framebuffer, &left_points[0..4], style_red);
-    draw_polygon(framebuffer, &right_points[0..4], style_red_9);
-
-    // Calculate the bounding box of the arrow
-    let bounding_box = calculate_bounding_box(&merged_points, Some(5));
-
-    bounding_box
-}

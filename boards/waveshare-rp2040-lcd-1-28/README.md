@@ -1,14 +1,14 @@
-# [waveshare-rp2040-lcd-0-96] - Board Support for the [Waveshare RP2040 LCD 0.96]
+# [waveshare-rp2040-lcd-1-28] - Board Support for the [Waveshare RP2040 LCD 1.28]
 
 You should include this crate if you are writing code that you want to run on
-an [Waveshare RP2040 LCD 0.96] - a very small RP2040 breakout board with USB-C, 
-a 65K IPS LCD 160x80, 16MBit Flash and 1A battery charger from Waveshare.
+an [Waveshare RP2040 LCD 1.28] - a very small RP2040 breakout board with USB-C, 
+a 65K IPS LCD 240x240, 16MBit Flash and 1A battery charger from Waveshare.
 
 This crate includes the [rp2040-hal], but also configures each pin of the
 RP2040 chip according to how it is connected up on the Feather.
 
-[Waveshare RP2040 LCD 0.96]: https://www.waveshare.com/wiki/RP2040-LCD-0.96
-[waveshare-rp2040-lcd-0-96]: https://github.com/rp-rs/rp-hal-boards/tree/main/boards/waveshare-rp2040-lcd-0-96
+[Waveshare RP2040 LCD 1.28]: https://www.waveshare.com/wiki/RP2040-LCD-1.28
+[waveshare-rp2040-lcd-1-28]: https://github.com/rp-rs/rp-hal-boards/tree/main/boards/waveshare-rp2040-lcd-1-28
 [rp2040-hal]: https://github.com/rp-rs/rp-hal/tree/main/rp2040-hal
 [Raspberry Silicon RP2040]: https://www.raspberrypi.org/products/rp2040/
 
@@ -17,10 +17,10 @@ RP2040 chip according to how it is connected up on the Feather.
 To use this crate, your `Cargo.toml` file should contain:
 
 ```toml
-waveshare_rp2040_lcd_0_96 = "0.8.0"
+waveshare_rp2040_lcd_1_28 = "0.8.0"
 ```
 
-In your program, you will need to call `waveshare_rp2040_lcd_0_96::Pins::new` to create
+In your program, you will need to call `waveshare_rp2040_lcd_1_28::Pins::new` to create
 a new `Pins` structure. This will set up all the GPIOs for any on-board
 devices. See the [examples](./examples) folder for more details.
 
@@ -31,7 +31,7 @@ devices. See the [examples](./examples) folder for more details.
 To compile an example, clone the _rp-hal-boards_ repository and run:
 
 ```console
-rp-hal-boards/boards/waveshare-rp2040-lcd-0-96 $ cargo build --release --example <name>
+rp-hal-boards/boards/waveshare-rp2040-lcd-1-28 $ cargo build --release --example <name>
 ```
 
 You will get an ELF file called
@@ -45,7 +45,7 @@ USB drive exported by the RP2040 bootloader, simply boot your board into
 bootloader mode and run:
 
 ```console
-rp-hal-boards/boards/waveshare-rp2040-lcd-0-96 $ cargo run --release --example <name>
+rp-hal-boards/boards/waveshare-rp2040-lcd-1-28 $ cargo run --release --example <name>
 ```
 
 If you get an error about not being able to find `elf2uf2-rs`, try:
