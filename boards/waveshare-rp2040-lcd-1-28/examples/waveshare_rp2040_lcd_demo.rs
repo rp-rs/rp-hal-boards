@@ -1,4 +1,4 @@
-//! Example of graphics on the LCD of the Waveshare RP2040-LCD-0.96
+//! Example of graphics on the LCD of the Waveshare RP2040-LCD-1.28
 //!
 //! Draws a red and green line with a blue rectangle.
 //! After that it fills the screen line for line, at the end it starts over with
