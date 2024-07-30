@@ -8,7 +8,7 @@
 
 mod frame_buffer;
 
-use gc9a01a_driver::{GC9A01A,Orientation};
+use gc9a01a_driver::GC9A01A;
 use cortex_m::delay::Delay;
 use embedded_graphics::primitives::Line;
 use fugit::RateExtU32;
@@ -28,7 +28,6 @@ use waveshare_rp2040_lcd_1_28::{
     Pins, XOSC_CRYSTAL_FREQ,
 };
 
-use embedded_hal::PwmPin;
 use embedded_hal::digital::v2::OutputPin;
 
 use embedded_graphics::{
