@@ -1,4 +1,5 @@
 #![no_std]
+#![no_main]
 
 use embedded_graphics::{pixelcolor::Rgb565, prelude::*,};
 use core::convert::Infallible;

@@ -16,6 +16,7 @@ rp2040-boot2 = { workspace = true, optional = true }
 rp2040-hal.workspace = true
 embedded-hal = { version = "0.2" }
 libm = "0.2"
+gc9a01a_driver = { version = "0.1.1" }
 
 [dev-dependencies]
 cortex-m.workspace = true
@@ -23,7 +24,6 @@ panic-halt.workspace = true
 fugit.workspace = true
 nb.workspace = true
 embedded-graphics.workspace = true
-st7735-lcd = { workspace = true, features = ["graphics"] }
 
 [features]
 # This is the set of features we enable by default

@@ -6,9 +6,9 @@
 #![no_std]
 #![no_main]
 
-mod gc9a01a_driver;
 mod frame_buffer;
 
+use gc9a01a_driver::{GC9A01A,Orientation};
 use cortex_m::delay::Delay;
 use embedded_graphics::primitives::Line;
 use fugit::RateExtU32;
@@ -38,7 +38,6 @@ use embedded_graphics::{
     image::{ImageRaw, Image},
 };
 use libm::{cos, sin};
-use gc9a01a_driver::{Orientation, GC9A01A};
 
 const LCD_WIDTH: u32 = 240;
 const LCD_HEIGHT: u32 = 240;
@@ -103,7 +102,7 @@ fn main() -> ! {
     );
 
     // Initialize the display
-    let mut display = GC9A01A::new(spi, lcd_dc, lcd_cs, lcd_rst, false, true, LCD_WIDTH, LCD_HEIGHT);
+    let mut display = GC9A01A::new(spi, lcd_dc, lcd_cs, lcd_rst, false, LCD_WIDTH, LCD_HEIGHT);
     display.init(&mut delay).unwrap();
 
     // Create two frame buffers for double buffering
@@ -120,7 +119,8 @@ fn main() -> ! {
         .build();
 
     // Clear the screen before turning on the backlight
-    display.clear(Rgb565::BLACK);
+    frame_buffer_1.clear(Rgb565::BLACK);
+    display.show(frame_buffer_1.get_buffer()).unwrap();
     delay.delay_ms(1000);
     _lcd_bl.set_high().unwrap();
     delay.delay_ms(1000);
@@ -128,8 +128,9 @@ fn main() -> ! {
     // Draw a blue rectangle
     Rectangle::with_corners(lcd_zero, lcd_max_corner)
         .into_styled(style)
-        .draw(&mut display)
+        .draw(&mut frame_buffer_1)
         .unwrap();
+    display.show(frame_buffer_1.get_buffer()).unwrap();
     delay.delay_ms(1000);
 
     // Draw a black rectangle inside the blue rectangle
@@ -141,22 +142,25 @@ fn main() -> ! {
         Point::new((LCD_WIDTH - 2) as i32, (LCD_HEIGHT - 2) as i32),
     )
     .into_styled(style)
-    .draw(&mut display)
+    .draw(&mut frame_buffer_1)
     .unwrap();
+    display.show(frame_buffer_1.get_buffer()).unwrap();
     delay.delay_ms(1000);
 
     // Draw red and green lines
     Line::new(lcd_zero, lcd_max_corner)
         .into_styled(PrimitiveStyle::with_stroke(Rgb565::RED, 1))
-        .draw(&mut display)
+        .draw(&mut frame_buffer_1)
         .unwrap();
     Line::new(
         Point::new(0, (LCD_HEIGHT - 1) as i32),
         Point::new((LCD_WIDTH - 1) as i32, 0),
     )
     .into_styled(PrimitiveStyle::with_stroke(Rgb565::GREEN, 1))
-        .draw(&mut display)
+        .draw(&mut frame_buffer_1)
         .unwrap();
+    display.show(frame_buffer_1.get_buffer()).unwrap();
+    delay.delay_ms(1000);
 
     // Load image data
     let image_data = include_bytes!("rust-logo-240x240.raw");
@@ -192,6 +196,9 @@ fn main() -> ! {
         .unwrap();
     display.show(frame_buffer_2.get_buffer()).unwrap();
     delay.delay_ms(1000);
+
+    frame_buffer_1.clear(Rgb565::BLACK);
+    display.show(frame_buffer_1.get_buffer()).unwrap();
 
     // Reset the frame buffers
     image.draw(&mut frame_buffer_1).unwrap();
@@ -238,7 +245,7 @@ fn main() -> ! {
 
         // The bounding box has a pixel padding of 5 pixels around the arrow to prevent the need to draw the background buffer before the next arrow is drawn.
         // This improves performance as only one draw operation occurs instead of 2.
-        display.show_region(frame_buffer_2.get_buffer(), bounding_box).unwrap();
+        display.show_region(frame_buffer_2.get_buffer(), bounding_box.top_left.x as u16, bounding_box.top_left.y as u16, bounding_box.size.width as u16, bounding_box.size.height as u16).unwrap();
         previous_bounding_box = bounding_box;
 
         // Delay to achieve 1 Hz
