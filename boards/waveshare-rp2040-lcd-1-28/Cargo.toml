@@ -15,7 +15,6 @@ cortex-m-rt = { workspace = true, optional = true }
 rp2040-boot2 = { workspace = true, optional = true }
 rp2040-hal.workspace = true
 embedded-hal = { version = "0.2" }
-libm = "0.2"
 gc9a01a_driver = { version = "0.1.3" }
 
 [dev-dependencies]
