@@ -24,8 +24,6 @@ use waveshare_rp2040_lcd_1_28::{
     Pins, XOSC_CRYSTAL_FREQ,
 };
 
-use embedded_hal::digital::v2::OutputPin;
-
 use embedded_graphics::{
     pixelcolor::Rgb565,
     prelude::*,
@@ -102,7 +100,7 @@ fn main() -> ! {
 
     // Clear the screen before turning on the backlight
     display.clear(Rgb565::BLACK).unwrap();
-    _lcd_bl.set_high().unwrap();
+    _lcd_bl.into_push_pull_output_in_state(hal::gpio::PinState::High);
     delay.delay_ms(1000);
 
     let lcd_zero = Point::zero();
