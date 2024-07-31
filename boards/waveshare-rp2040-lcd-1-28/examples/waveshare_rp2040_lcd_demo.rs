@@ -6,10 +6,9 @@
 #![no_std]
 #![no_main]
 
-
-use gc9a01a_driver::{Orientation,GC9A01A};
 use cortex_m::delay::Delay;
 use fugit::RateExtU32;
+use gc9a01a_driver::{Orientation, GC9A01A};
 use panic_halt as _;
 
 use waveshare_rp2040_lcd_1_28::entry;
@@ -30,7 +29,7 @@ use embedded_hal::digital::v2::OutputPin;
 use embedded_graphics::{
     pixelcolor::Rgb565,
     prelude::*,
-    primitives::{Rectangle,PrimitiveStyleBuilder, Line, PrimitiveStyle},
+    primitives::{Line, PrimitiveStyle, PrimitiveStyleBuilder, Rectangle},
 };
 
 const LCD_WIDTH: u32 = 240;
@@ -80,8 +79,12 @@ fn main() -> ! {
     let lcd_cs = pins.gp9.into_push_pull_output();
     let lcd_clk = pins.gp10.into_function::<hal::gpio::FunctionSpi>();
     let lcd_mosi = pins.gp11.into_function::<hal::gpio::FunctionSpi>();
-    let lcd_rst = pins.gp12.into_push_pull_output_in_state(hal::gpio::PinState::High);
-    let mut _lcd_bl = pins.gp25.into_push_pull_output_in_state(hal::gpio::PinState::Low);
+    let lcd_rst = pins
+        .gp12
+        .into_push_pull_output_in_state(hal::gpio::PinState::High);
+    let mut _lcd_bl = pins
+        .gp25
+        .into_push_pull_output_in_state(hal::gpio::PinState::Low);
 
     // Initialize SPI
     let spi = hal::Spi::<_, _, _, 8>::new(pac.SPI1, (lcd_mosi, lcd_clk));
@@ -96,7 +99,7 @@ fn main() -> ! {
     let mut display = GC9A01A::new(spi, lcd_dc, lcd_cs, lcd_rst, false, LCD_WIDTH, LCD_HEIGHT);
     display.init(&mut delay).unwrap();
     display.set_orientation(&Orientation::Landscape).unwrap();
-    
+
     // Clear the screen before turning on the backlight
     display.clear(Rgb565::BLACK).unwrap();
     _lcd_bl.set_high().unwrap();
