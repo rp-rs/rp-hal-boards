@@ -137,6 +137,17 @@ impl PimoroniDisplayPack {
     ) -> Self {
         let pins = Pins::new(io, pads, sio, resets);
 
+        // Set up buttons
+        let a = pins.sw_a.into_pull_up_input();
+        let b = pins.sw_b.into_pull_up_input();
+        let x = pins.sw_x.into_pull_up_input();
+        let y = pins.sw_y.into_pull_up_input();
+
+        // Set up rgb led light
+        let led_r = pins.led_r.into_push_pull_output();
+        let led_g = pins.led_g.into_push_pull_output();
+        let led_b = pins.led_b.into_push_pull_output();
+
         // Set up LCD screen through SPI interface
         let dc: Pin<Gpio16, FunctionSioOutput, PullNone> = pins.lcd_dc.reconfigure();
         let cs: Pin<Gpio17, FunctionSioOutput, PullNone> = pins.lcd_cs.reconfigure();
@@ -157,17 +168,6 @@ impl PimoroniDisplayPack {
             .set_orientation(st7789::Orientation::Portrait)
             .unwrap();
         screen.clear(Rgb565::BLACK).unwrap();
-
-        // Set up buttons
-        let a = pins.sw_a.into_pull_up_input();
-        let b = pins.sw_b.into_pull_up_input();
-        let x = pins.sw_x.into_pull_up_input();
-        let y = pins.sw_y.into_pull_up_input();
-
-        // Set up rgb led light
-        let led_r = pins.led_r.into_push_pull_output();
-        let led_g = pins.led_g.into_push_pull_output();
-        let led_b = pins.led_b.into_push_pull_output();
 
         PimoroniDisplayPack {
             buttons: Buttons { a, b, x, y },
