@@ -11,7 +11,7 @@ members = [
     "boards/arduino_nano_connect",
     "boards/boardsource-blok",
     "boards/pimoroni_badger2040",
-    "boards/pimoroni-display-pack",
+    "boards/pimoroni-pico-display-pack",
     "boards/pimoroni-pico-explorer",
     "boards/pimoroni-pico-lipo-16mb",
     "boards/pimoroni-plasma-2040",
