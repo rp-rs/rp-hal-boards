@@ -20,6 +20,8 @@ st7789.workspace = true
 [dev-dependencies]
 panic-halt.workspace = true
 cortex-m.workspace = true
+arrayvec.workspace = true
+sgp30 = "0.3.2"
 
 [features]
 # This is the set of features we enable by default

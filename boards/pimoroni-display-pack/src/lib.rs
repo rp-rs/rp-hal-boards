@@ -17,9 +17,10 @@ use hal::{
     gpio::{
         bank0::{
             Gpio12, Gpio13, Gpio14, Gpio15, Gpio16, Gpio17, Gpio18, Gpio19, Gpio26, Gpio27, Gpio28,
+            Gpio4, Gpio5,
         },
-        FunctionSioInput, FunctionSioOutput, FunctionSpi, Pin, PinState, PullDown, PullNone,
-        PullUp,
+        FunctionI2C, FunctionSioInput, FunctionSioOutput, FunctionSpi, Pin, PinState, PullDown,
+        PullNone, PullUp,
     },
     pac::{RESETS, SPI0},
     sio::SioGpioBank0,
@@ -40,6 +41,12 @@ use st7789::ST7789;
 pub static BOOT2_FIRMWARE: [u8; 256] = rp2040_boot2::BOOT_LOADER_W25Q080;
 
 hal::bsp_pins! {
+    Gpio4 {
+        name: i2c_sda
+    },
+    Gpio5 {
+        name: i2c_scl
+    },
     Gpio12 {
         name: sw_a
     },
@@ -118,10 +125,16 @@ pub struct RgbLed {
     pub b: Pin<Gpio28, FunctionSioOutput, PullDown>,
 }
 
+// i2c ports exposed through the qw/st connector
+pub struct QwI2c {
+    pub sda: Pin<Gpio4, FunctionI2C, PullUp>,
+    pub scl: Pin<Gpio5, FunctionI2C, PullUp>,
+}
+
 pub struct PimoroniDisplayPack {
-    // TODO: the qw/st output
     pub buttons: Buttons,
     pub led: RgbLed,
+    pub qwst: QwI2c,
     pub screen: Screen,
 }
 
@@ -147,6 +160,10 @@ impl PimoroniDisplayPack {
         let led_r = pins.led_r.into_push_pull_output();
         let led_g = pins.led_g.into_push_pull_output();
         let led_b = pins.led_b.into_push_pull_output();
+
+        // QW/ST port for i2c
+        let i2c_sda = pins.i2c_sda.reconfigure();
+        let i2c_scl = pins.i2c_scl.reconfigure();
 
         // Set up LCD screen through SPI interface
         let dc: Pin<Gpio16, FunctionSioOutput, PullNone> = pins.lcd_dc.reconfigure();
@@ -175,6 +192,10 @@ impl PimoroniDisplayPack {
                 r: led_r,
                 g: led_g,
                 b: led_b,
+            },
+            qwst: QwI2c {
+                sda: i2c_sda,
+                scl: i2c_scl,
             },
             screen,
         }
