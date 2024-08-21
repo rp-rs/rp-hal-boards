@@ -139,7 +139,6 @@ pub struct PicoDisplayPack {
 }
 
 impl PicoDisplayPack {
-    /// TODO: document usage
     pub fn new(
         io: pac::IO_BANK0,
         pads: pac::PADS_BANK0,
