@@ -16,7 +16,7 @@ use embedded_hal_0_2::digital::v2::OutputPin;
 
 use fugit::RateExtU32;
 use hal::{clocks::ClockSource, pac::resets::reset, Timer, Watchdog, I2C};
-use pimoroni_display_pack::{entry, hal, pac, Buttons, RgbLed};
+use pimoroni_pico_display_pack::{entry, hal, pac, Buttons, RgbLed};
 
 use panic_halt as _;
 
@@ -27,7 +27,7 @@ fn main() -> ! {
     let mut watchdog = Watchdog::new(pac.WATCHDOG);
 
     let clocks = hal::clocks::init_clocks_and_plls(
-        pimoroni_display_pack::XOSC_CRYSTAL_FREQ,
+        pimoroni_pico_display_pack::XOSC_CRYSTAL_FREQ,
         pac.XOSC,
         pac.CLOCKS,
         pac.PLL_SYS,
@@ -41,7 +41,7 @@ fn main() -> ! {
     let sio = hal::Sio::new(pac.SIO);
     let sys_clock_freq = clocks.system_clock.get_freq().to_Hz();
     let mut delay = cortex_m::delay::Delay::new(cp.SYST, sys_clock_freq);
-    let display_pack = pimoroni_display_pack::PimoroniDisplayPack::new(
+    let display_pack = pimoroni_pico_display_pack::PimoroniDisplayPack::new(
         pac.IO_BANK0,
         pac.PADS_BANK0,
         sio.gpio_bank0,

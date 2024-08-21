@@ -1,5 +1,5 @@
 [package]
-name = "pimoroni-display-pack"
+name = "pimoroni-pico-display-pack"
 version = "0.1.0"
 edition = "2018"
 description = "Board Support Package for the Pico Display Pack 2.8"

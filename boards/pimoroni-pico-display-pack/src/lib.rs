@@ -131,14 +131,14 @@ pub struct QwI2c {
     pub scl: Pin<Gpio5, FunctionI2C, PullUp>,
 }
 
-pub struct PimoroniDisplayPack {
+pub struct PicoDisplayPack {
     pub buttons: Buttons,
     pub led: RgbLed,
     pub qwst: QwI2c,
     pub screen: Screen,
 }
 
-impl PimoroniDisplayPack {
+impl PicoDisplayPack {
     /// TODO: document usage
     pub fn new(
         io: pac::IO_BANK0,
@@ -186,7 +186,7 @@ impl PimoroniDisplayPack {
             .unwrap();
         screen.clear(Rgb565::BLACK).unwrap();
 
-        PimoroniDisplayPack {
+        PicoDisplayPack {
             buttons: Buttons { a, b, x, y },
             led: RgbLed {
                 r: led_r,

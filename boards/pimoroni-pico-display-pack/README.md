@@ -7,7 +7,7 @@ This crate includes the [rp2040-hal], but also configures each pin of the
 RP2040 chip according to how it is connected up on the Pico Display Pack.
 
 [Pimoroni Pico Display Pack]: https://shop.pimoroni.com/products/pico-display-pack-2-8
-[pimoroni_display_pack]: https://github.com/rp-rs/rp-hal-boards/tree/main/boards/pimoroni_pico_display_pack
+[pimoroni_display_pack]: https://github.com/rp-rs/rp-hal-boards/tree/main/boards/pimoroni_pico-display-pack
 [rp2040-hal]: https://github.com/rp-rs/rp-hal/tree/main/rp2040-hal
 [Raspberry Silicon RP2040]: https://www.raspberrypi.org/products/rp2040/
 
@@ -16,11 +16,11 @@ RP2040 chip according to how it is connected up on the Pico Display Pack.
 To use this crate, your `Cargo.toml` file should contain:
 
 ```toml
-pimoroni_pico_display_pack = "0.1.0"
+pimoroni-pico-display-pack = "0.1.0"
 ```
 
 In your program, you will need to call `pimoroni_pico_display_pack::PicoDisplayPack::new` to create
-a new `Boards` structure. This will set up all the GPIOs for any on-board
+a new `PicoDisplayPack` structure. This will set up all the GPIOs for any on-board
 devices and configure common clocks. See the [examples](./examples) folder for more details.
 
 ## Examples
