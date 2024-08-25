@@ -181,7 +181,7 @@ impl PicoDisplayPack {
         let mut screen = ST7789::new(spi_interface, DummyPin, 320, 240);
         screen.init(delay).unwrap();
         screen
-            .set_orientation(st7789::Orientation::Portrait)
+            .set_orientation(st7789::Orientation::Landscape)
             .unwrap();
         screen.clear(Rgb565::BLACK).unwrap();
 
