@@ -405,7 +405,7 @@ More details can be found in the [Project Template](https://github.com/rp-rs/rp2
 $ cargo install elf2uf2-rs --locked
 ```
 
-*Step 2* - Make sure your .cargo/config contains the following (it should by
+*Step 2* - Make sure your .cargo/config.toml contains the following (it should by
 default if you are working in this repository):
 
 ```toml
@@ -442,7 +442,7 @@ $ cargo install --locked probe-rs-tools
 
 Alternatively, follow the installation instructions on https://probe.rs/.
 
-*Step 2* - Make sure your .cargo/config contains the following:
+*Step 2* - Make sure your .cargo/config.toml contains the following:
 
 ```toml
 [target.thumbv6m-none-eabi]
