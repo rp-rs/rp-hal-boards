@@ -27,6 +27,7 @@ members = [
     "boards/waveshare-rp2040-zero",
     "boards/waveshare-rp2040-lcd-0-96",
 	"boards/waveshare-rp2040-lcd-1-28",
+    "boards/waveshare-rp2040-plus-lcd-1-28",
 ]
 
 [workspace.dependencies]
