@@ -87,6 +87,13 @@ Flashes the keyboard's capslock LED on and off.
 
 Only works on keyboards, not the numpad or macropad.
 
+### [white_backlight](./examples/white_backlight.rs)
+
+Pulses the backlight on and off.
+
+Only works on white backlight keyboard or numpad.
+Not on RGB keyboards or the macropad.
+
 ## Contributing
 
 Contributions are what make the open source community such an amazing place to
