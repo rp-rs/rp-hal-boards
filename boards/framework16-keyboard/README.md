@@ -81,6 +81,12 @@ You can use `cargo run` to compile and install it.
 **Note**: You won't see any activity since this program does nothing. You can use the examples provided
 to add more functionality. 
 
+### [capslock](./examples/capslock.rs)
+
+Flashes the keyboard's capslock LED on and off.
+
+Only works on keyboards, not the numpad or macropad.
+
 ## Contributing
 
 Contributions are what make the open source community such an amazing place to
