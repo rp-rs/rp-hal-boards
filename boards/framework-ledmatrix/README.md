@@ -81,6 +81,12 @@ You can use `cargo run` to compile and install it.
 **Note**: You won't see any activity since this program does nothing. You can use the examples provided
 to add more functionality. 
 
+### [ledtest](./examples/ledtest.rs)
+
+Lights up every single LED one after another. It goes back into bootloader mode
+when the system goes to sleep. This makes it easy for you to reflash it to
+other firmware.
+
 ## Contributing
 
 Contributions are what make the open source community such an amazing place to

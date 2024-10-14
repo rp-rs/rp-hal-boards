@@ -25,6 +25,7 @@ heapless.workspace = true
 nb.workspace = true
 panic-halt.workspace = true
 rp2040-hal = { workspace = true, features = [ "defmt" ] }
+is31fl3741 = { version = "0.4.0", features = [ "framework_ledmatrix" ] }
 
 defmt.workspace = true
 defmt-rtt.workspace = true
