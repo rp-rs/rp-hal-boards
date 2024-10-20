@@ -92,7 +92,7 @@ fn main() -> ! {
         hal::adc::AdcPin::new(pins.batt_vin.into_floating_input()).unwrap(),
     );
 
-    // Print temperature once per second
+    // Print battery voltage once per second
     loop {
         println!("Battery: {} mV", battery_voltage.read(&mut adc));
         delay.delay_ms(1000);
