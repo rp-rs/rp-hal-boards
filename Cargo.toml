@@ -10,6 +10,8 @@ members = [
     "boards/adafruit-trinkey-qt2040",
     "boards/arduino_nano_connect",
     "boards/boardsource-blok",
+    "boards/framework-ledmatrix",
+    "boards/framework16-keyboard",
     "boards/pimoroni_badger2040",
     "boards/pimoroni-pico-explorer",
     "boards/pimoroni-pico-lipo-16mb",
