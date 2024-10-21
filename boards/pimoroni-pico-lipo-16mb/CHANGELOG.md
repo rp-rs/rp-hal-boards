@@ -7,6 +7,29 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+## 0.8.1 - 2024-10-05
+
+### Added
+
+- Ported PWM blink example from rp-pico
+- Ported USB serial example from rp-pico
+- Ported countdown blinky example from rp-pico
+- Ported OLED display SSD1306 example from rp-pico (not tested with display)
+- Ported PIO PWM example from rp-pico
+- Ported interpolator example from rp-pico
+- Ported GPIO in/out example from rp-pico
+- Ported USB serial interrupt example from rp-pico
+- Ported UART IRQ Buffer example from rp-pico
+- Ported UART IRQ Echo example from rp-pico
+- Ported USB twitchy mouse example from rp-pico
+- Ported ws2812led example from rp-pico (not tested with actual LEDs)
+- Ported SPI SD Card example from rp-pico (not tested, Failed to build : rust-lld: error: undefined symbol: _defmt_timestamp)
+- Ported HD44780 diplay example from rp-pico (not tested with display)
+- Ported I2C PIO example from rp-pico (not tested with sensor)
+- Ported PWM servo example from rp-pico (not tested with servo)
+- Ported rtic example from rp-pico
+- Ported rtic monotonic example from rp-pico
+
 ## 0.8.0 - 2024-04-07
 
 ### Changed
