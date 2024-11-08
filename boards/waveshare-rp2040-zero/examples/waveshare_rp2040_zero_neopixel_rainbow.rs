@@ -8,6 +8,9 @@
 
 use core::iter::once;
 use embedded_hal::delay::DelayNs;
+use palette::rgb::Rgb;
+use palette::{FromColor, Hsl};
+// use palette::Hsl;
 use panic_halt as _;
 use smart_leds::{brightness, SmartLedsWrite, RGB8};
 use waveshare_rp2040_zero::entry;
@@ -71,31 +74,26 @@ fn main() -> ! {
     );
 
     // Infinite colour wheel loop
-    let mut n: u8 = 128;
+    let mut hue: f64 = 0.0;
     let mut timer = timer; // rebind to force a copy of the timer
     loop {
-        ws.write(brightness(once(wheel(n)), 32)).unwrap();
-        n = n.wrapping_add(1);
-
-        timer.delay_ms(25);
-    }
-}
-
-/// Convert a number from `0..=255` to an RGB color triplet.
-///
-/// The colours are a transition from red, to green, to blue and back to red.
-fn wheel(mut wheel_pos: u8) -> RGB8 {
-    wheel_pos = 255 - wheel_pos;
-    if wheel_pos < 85 {
-        // No green in this sector - red and blue only
-        (255 - (wheel_pos * 3), 0, wheel_pos * 3).into()
-    } else if wheel_pos < 170 {
-        // No red in this sector - green and blue only
-        wheel_pos -= 85;
-        (0, wheel_pos * 3, 255 - (wheel_pos * 3)).into()
-    } else {
-        // No blue in this sector - red and green only
-        wheel_pos -= 170;
-        (wheel_pos * 3, 255 - (wheel_pos * 3), 0).into()
+        ws.write(brightness(
+            once({
+                let hsl = Hsl::<Rgb, _>::new(hue as f64, 1.0, 0.5);
+                let rgb = Rgb::from_color(hsl).into_format();
+                RGB8::new(rgb.red, rgb.green, rgb.blue)
+            }),
+            {
+                // 0 is off and 1 is max brightness
+                let brightness = 0.05 as f64;
+                (brightness * u8::MAX as f64) as u8
+            },
+        ))
+        .unwrap();
+        hue += 360.0 / 6.0 / u8::MAX as f64;
+        if hue >= 360.0 {
+            hue -= 360.0;
+        }
+        timer.delay_ms(1)
     }
 }
