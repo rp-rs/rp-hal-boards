@@ -10,6 +10,7 @@ members = [
     "boards/adafruit-trinkey-qt2040",
     "boards/arduino_nano_connect",
     "boards/boardsource-blok",
+    "boards/nullbits-bit-c-pro",
     "boards/pimoroni_badger2040",
     "boards/pimoroni-pico-explorer",
     "boards/pimoroni-pico-lipo-16mb",
@@ -49,7 +50,7 @@ hd44780-driver = "0.4.0"
 heapless = "0.7.16"
 i2c-pio = "0.8.0"
 nb = "1.1"
-panic-halt= "0.2.0"
+panic-halt = "0.2.0"
 panic-probe = "0.3.1"
 pio = "0.2.1"
 pio-proc = "0.2.2"
