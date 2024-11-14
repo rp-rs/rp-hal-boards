@@ -115,14 +115,17 @@ RP2040 chip according to how it is connected up on the Feather RP2040.
 ### [adafruit-canbus-feather-rp2040] - Board Support for the [Adafruit CANBus Feather RP2040]
 
 You should include this crate if you are writing code that you want to run on
-an [Adafruit CANBus Feather RP2040] - a Feather form-factor RP2040 board from Adafruit with
-built in CAN Bus support.
+an [Adafruit CANBus Feather RP2040] - a Feather form-factor RP2040 board from
+Adafruit with built in CAN Bus support using an [MCP25625] CAN controller which
+includes an integrated transceiver.
 
-This crate includes the [rp2040-hal], but also configures each pin of the
-RP2040 chip according to how it is connected up on the CANBus Feather RP2040.
+This crate includes the [rp2040-hal], but also configures each pin of the RP2040
+chip according to how it is connected on the Feather.
 
 [Adafruit CANBus Feather RP2040]: https://www.adafruit.com/product/5724
 [adafruit-canbus-feather-rp2040]: https://github.com/rp-rs/rp-hal-boards/tree/main/boards/adafruit-canbus-feather-rp2040
+[MCP25625]: https://ww1.microchip.com/downloads/aemDocuments/documents/OTH/ProductDocuments/DataSheets/MCP25625-CAN-Controller-Data-Sheet-20005282C.pdf
+[rp2040-hal]: https://github.com/rp-rs/rp-hal/tree/main/rp2040-hal
 
 ### [adafruit-itsy-bitsy-rp2040] - Board Support for the [Adafruit ItsyBitsy RP2040]
 

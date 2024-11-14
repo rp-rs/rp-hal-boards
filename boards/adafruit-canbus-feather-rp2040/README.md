@@ -15,7 +15,6 @@ the examples for a simple send/receive on 500k CAN.
 [Adafruit CANBus Feather RP2040]: https://www.adafruit.com/product/5724
 [adafruit-canbus-feather-rp2040]: https://github.com/rp-rs/rp-hal-boards/tree/main/boards/adafruit-canbus-feather-rp2040
 [rp2040-hal]: https://github.com/rp-rs/rp-hal/tree/main/rp2040-hal
-[Raspberry Silicon RP2040]: https://www.raspberrypi.org/products/rp2040/
 [MCP25625]: https://ww1.microchip.com/downloads/aemDocuments/documents/OTH/ProductDocuments/DataSheets/MCP25625-CAN-Controller-Data-Sheet-20005282C.pdf
 [Adafruit docs]: https://learn.adafruit.com/adafruit-rp2040-can-bus-feather/pinouts
 
