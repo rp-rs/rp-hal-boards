@@ -58,19 +58,30 @@ fn main() -> ! {
     let spi_miso: gpio::Pin<_, gpio::FunctionSpi, gpio::PullNone> = pins.miso.reconfigure();
     let spi_cs = pins.can_cs.into_push_pull_output();
 
+    /* The following CAN-related pins are also available. See lib.rs for more.
+     * pins.can_standby
+     * pins.can_tx0_rtx
+     * pins.can_reset
+     * pins.can_rx0_bf
+     */
+
     let spi = spi::Spi::<_, _, _, 8>::new(pac.SPI1, (spi_mosi, spi_miso, spi_sclk));
     let spi = spi.init(
         &mut pac.RESETS,
         clocks.peripheral_clock.freq(),
-        400.kHz(),
+        10.MHz(),
         embedded_hal::spi::MODE_0,
     );
 
-    // pins.can_standby
-    // pins.can_tx0_rtx
-    // pins.can_reset
-    // pins.can_rx0_bf
-
+    /* "spi" now addresses an rp2040_hal::Spi which implements
+     * embedded_hal::spi::SpiBus, but the mcp25xx crate we're using to interact
+     * with the board's MCP25265 chip expects an embedded_hal::spi::SpiDevice.
+     * That's because mcp25xx is designed to work with embedded_hal directly,
+     * not the RP2040 HAL abstraction. Luckily, the embedded-hal-bus crate
+     * contains an ExclusiveDevice which implements SpiDevice, and we can use it
+     * to wrap our SpiBus. See the docs in embedded_hal::spi for more
+     * information.
+     */
     let spi_wrapper = ExclusiveDevice::new(spi, spi_cs, NoDelay).unwrap();
     let mut mcp25xx = MCP25xx { spi: spi_wrapper };
 

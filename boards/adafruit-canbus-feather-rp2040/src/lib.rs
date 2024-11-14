@@ -1,7 +1,3 @@
-//! MCP25625 Data Sheet:
-//!
-//! https://ww1.microchip.com/downloads/aemDocuments/documents/OTH/ProductDocuments/DataSheets/MCP25625-CAN-Controller-Data-Sheet-20005282C.pdf
-//!
 #![no_std]
 
 pub extern crate rp2040_hal as hal;
