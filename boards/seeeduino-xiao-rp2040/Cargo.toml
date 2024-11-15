@@ -21,6 +21,8 @@ embedded-hal.workspace = true
 fugit.workspace = true
 nb.workspace = true
 panic-halt.workspace = true
+smart-leds.workspace = true
+ws2812-pio.workspace = true
 
 [features]
 # This is the set of features we enable by default
