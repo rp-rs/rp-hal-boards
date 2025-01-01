@@ -203,6 +203,18 @@ RP2040 chip according to how it is connected up on the Badger2040.
 [Pimoroni Badger2040]: https://shop.pimoroni.com/products/badger-2040
 [pimoroni_badger2040]: https://github.com/rp-rs/rp-hal-boards/tree/main/boards/pimoroni_badger2040
 
+### [pimoroni_pico_display_pack] - Board Support for the [Pimoroni Pico Display Pack] 2.8"
+
+You should include this crate if you are writing code that you want to run on 
+a [Pimoroni Pico Display Pack] - a IPS display add-on with buttons and other connectivity. It requires a board that is pin compatible with the Raspberry Pi Pico.
+
+This crate includes the [rp2040-hal], but also configures each pin of the
+RP2040 chip according to how it is connected up on the Pico Explorer.
+
+[Pimoroni Pico Display Pack]: https://shop.pimoroni.com/products/pico-display-pack-2-8
+[pimoroni_display_pack]: https://github.com/rp-rs/rp-hal-boards/tree/main/boards/pimoroni_pico-display-pack
+
+
 ### [pimoroni-pico-explorer] - Board Support for the [Pimoroni Pico Explorer]
 
 You should include this crate if you are writing code that you want to run on
