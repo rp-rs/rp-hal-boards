@@ -54,7 +54,6 @@ extern crate cortex_m_rt;
 ///   loop {}
 /// }
 /// ```
-
 #[cfg(feature = "rt")]
 pub use hal::entry;
 
