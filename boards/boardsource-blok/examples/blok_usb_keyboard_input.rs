@@ -13,6 +13,7 @@
 
 #![no_std]
 #![no_main]
+#![allow(static_mut_refs)]
 
 use boardsource_blok::{entry, hal};
 use boardsource_blok::{
