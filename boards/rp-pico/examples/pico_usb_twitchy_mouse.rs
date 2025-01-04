@@ -13,6 +13,7 @@
 
 #![no_std]
 #![no_main]
+#![allow(static_mut_refs)]
 
 // The macro for our start-up function
 use rp_pico::entry;

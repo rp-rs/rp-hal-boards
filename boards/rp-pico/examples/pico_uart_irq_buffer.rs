@@ -16,6 +16,7 @@
 
 #![no_std]
 #![no_main]
+#![allow(static_mut_refs)]
 
 // These are the traits we need from Embedded HAL to treat our hardware
 // objects as generic embedded devices.
