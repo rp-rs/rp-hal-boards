@@ -81,11 +81,13 @@ hal::bsp_pins!(
     },
     Gpio20 { name: inky_dc },
     Gpio21 { name: inky_res },
+    /// GPIO 22 is connected to activity LED of the badger2040W.
+    #[cfg(feature = "wifi")] Gpio22 { name: led },
     Gpio23 { name: user_sw },
     /// GPIO 24 is connected to vbus_detect of the badger2040.
     Gpio24 { name: vbus_detect },
     /// GPIO 25 is connected to activity LED of the badger2040.
-    Gpio25 { name: led },
+    #[cfg(not(feature = "wifi"))] Gpio25 { name: led },
     Gpio26 { name: inky_busy },
     Gpio27 { name: vref_power },
     Gpio28 { name: vref_1v24 },
