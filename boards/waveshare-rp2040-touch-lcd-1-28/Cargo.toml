@@ -29,6 +29,7 @@ fugit.workspace = true
 nb.workspace = true
 embedded-graphics.workspace = true
 gc9a01a_driver = { workspace = true }
+heapless = "0.8.0"
 
 [features]
 # This is the set of features we enable by default
