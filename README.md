@@ -191,6 +191,17 @@ RP2040 chip according to how it is connected up on the Blok.
 [boardsource-blok]: https://github.com/rp-rs/rp-hal-boards/tree/main/boards/boardsource-blok
 [Boardsource]: https://boardsource.xyz/
 
+### [picoboy-color] - Board Support for the [Picoboy Color]
+
+You should include this crate if you are writing code that you want to run on
+a [Picoboy Color] - the original launch PCB for the RP2040 chip.
+
+This crate includes the [rp2040-hal], but also configures each pin of the
+RP2040 chip according to how it is connected up on the Picoboy Color.
+
+[Picoboy Color]: https://picoboy.de/der-picoboy-color/
+[picoboy-color]: https://github.com/rp-rs/rp-hal-boards/tree/main/boards/rp-pico
+
 ### [pimoroni_badger2040] - Board Support for the [Pimoroni Badger2040]
 
 You should include this crate if you are writing code that you want to run on

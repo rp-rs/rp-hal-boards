@@ -12,6 +12,7 @@ members = [
     "boards/boardsource-blok",
     "boards/framework-ledmatrix",
     "boards/framework16-keyboard",
+    "boards/picoboy-color",
     "boards/pimoroni_badger2040",
     "boards/pimoroni-pico-explorer",
     "boards/pimoroni-pico-lipo-16mb",
