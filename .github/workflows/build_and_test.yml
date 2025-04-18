@@ -3,7 +3,7 @@ name: Build and Test check
 jobs:
   builds:
     name: Build checks
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-24.04
     strategy:
       matrix:
         features: ["--features rp2040-hal/rtic-monotonic", "--features rp2040-e5"]
@@ -27,7 +27,7 @@ jobs:
         run: cargo clean
   udeps:
     name: Check rp2040-hal for unused dependencies
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v3
       - uses: dtolnay/rust-toolchain@master
