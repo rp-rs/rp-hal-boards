@@ -57,7 +57,7 @@ then try repeating the `cargo run` command above.
 
 ### [badger_blinky](./examples/badger_blinky.rs)
 
-Flashes the Badger2040's activity LED on and off.
+Flashes the Badger2040's activity LED on and off. Use `--features=wifi` to run the Badger2040W version.
 
 ## Contributing
 
