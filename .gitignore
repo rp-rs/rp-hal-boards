@@ -4,3 +4,4 @@ Cargo.lock
 .vscode
 *.orig
 *.raw
+.DS_Store

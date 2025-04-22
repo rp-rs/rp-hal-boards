@@ -29,6 +29,7 @@ members = [
     "boards/waveshare-rp2040-zero",
     "boards/waveshare-rp2040-lcd-0-96",
 	"boards/waveshare-rp2040-lcd-1-28",
+    "boards/waveshare-rp2040-lcd-1-69",
 ]
 
 [workspace.dependencies]
@@ -66,3 +67,4 @@ usbd-hid = "0.7.0"
 usbd-serial = "0.2.1"
 ws2812-pio = "0.8.0"
 gc9a01a_driver = "0.1.3"
+st7789v2_driver = "0.1.0"
