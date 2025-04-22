@@ -13,6 +13,7 @@ members = [
     "boards/framework-ledmatrix",
     "boards/framework16-keyboard",
     "boards/pimoroni_badger2040",
+    "boards/pimoroni-pico-display-pack",
     "boards/pimoroni-pico-explorer",
     "boards/pimoroni-pico-lipo-16mb",
     "boards/pimoroni-plasma-2040",
