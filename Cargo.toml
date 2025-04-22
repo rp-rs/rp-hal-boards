@@ -1,6 +1,7 @@
 [workspace]
 resolver = "2"
 members = [
+    "boards/adafruit-canbus-feather-rp2040",
     "boards/adafruit-feather-rp2040",
     "boards/adafruit-itsy-bitsy-rp2040",
     "boards/adafruit-kb2040",
