@@ -367,6 +367,15 @@ RP2040 chip according to how it is connected up on the board.
 [Waveshare RP2040 LCD 0.96"]: https://www.waveshare.com/wiki/RP2040-LCD-0.96
 [waveshare-rp2040-lcd-0_96]: https://github.com/rp-rs/rp-hal-boards/tree/main/boards/waveshare-rp2040-lcd-0-96
 
+### [waveshare-rp2040-lcd-1_28] - Board Support for the [Waveshare RP2040 LCD 1.28"]
+
+You should include this crate if you are writing code that you want to run on a [Waveshare RP2040 LCD 1.28"] - a compact RP2040 breakout board featuring USB-C, a 65K IPS LCD with a resolution of 240x240, 16MBit Flash, and a 1A battery charger from Waveshare.
+
+This crate includes the [rp2040-hal], but also configures each pin of the RP2040 chip according to how it is connected on the board.
+
+[Waveshare RP2040 LCD 1.28"]: https://www.waveshare.com/wiki/RP2040-LCD-1.28  
+[waveshare-rp2040-lcd-1_28]: https://github.com/rp-rs/rp-hal-boards/tree/main/boards/waveshare-rp2040-lcd-1-28
+
 <!-- PROGRAMMING -->
 ## Programming
 
